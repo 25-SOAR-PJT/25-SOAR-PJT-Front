@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Heading -->
+    <style name="Font_Heading100_Bold">
+        <item name="android:fontFamily">@font/pretendard_bold</item>
+        <item name="android:textSize">26sp</item>
+        <item name="android:lineHeight">32sp</item>
+        <item name="android:letterSpacing">0</item>
+    </style>
+
+    <style name="Font_Heading100_Semibold">
+        <item name="android:fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textSize">26sp</item>
+        <item name="android:lineHeight">32sp</item>
+        <item name="android:letterSpacing">0</item>
+    </style>
+
+    <style name="Font_Heading200_Bold">
+        <item name="android:fontFamily">@font/pretendard_bold</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:lineHeight">28sp</item>
+        <item name="android:letterSpacing">0</item>
+    </style>
+
+    <style name="Font_Heading200_Semibold">
+        <item name="android:fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:lineHeight">28sp</item>
+        <item name="android:letterSpacing">0</item>
+    </style>
+
+    <style name="Font_Heading300_Semibold">
+        <item name="android:fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:lineHeight">26sp</item>
+        <item name="android:letterSpacing">0</item>
+    </style>
+
+    <!-- Title -->
+    <style name="Font_Title_Bold">
+        <item name="android:fontFamily">@font/pretendard_bold</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:lineHeight">24sp</item>
+        <item name="android:letterSpacing">0</item>
+    </style>
+
+    <style name="Font_Title_Semibold">
+        <item name="android:fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:lineHeight">24sp</item>
+        <item name="android:letterSpacing">0</item>
+    </style>
+
+    <style name="Font_Title_Medium">
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:lineHeight">24sp</item>
+        <item name="android:letterSpacing">0</item>
+    </style>
+
+    <!-- Body -->
+    <style name="Font_Body_Bold">
+        <item name="android:fontFamily">@font/pretendard_bold</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:lineHeight">20sp</item>
+        <item name="android:letterSpacing">0</item>
+    </style>
+
+    <style name="Font_Body_Semibold">
+        <item name="android:fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:lineHeight">20sp</item>
+        <item name="android:letterSpacing">0</item>
+    </style>
+
+    <style name="Font_Body_Medium">
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:lineHeight">20sp</item>
+        <item name="android:letterSpacing">0</item>
+    </style>
+
+    <style name="Font_Body_Regular">
+        <item name="android:fontFamily">@font/pretendard_regular</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:lineHeight">20sp</item>
+        <item name="android:letterSpacing">0</item>
+    </style>
+
+    <!-- Label -->
+    <style name="Font_Label_Bold">
+        <item name="android:fontFamily">@font/pretendard_bold</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:lineHeight">16sp</item>
+        <item name="android:letterSpacing">0</item>
+    </style>
+
+    <style name="Font_Label_Semibold">
+        <item name="android:fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:lineHeight">16sp</item>
+        <item name="android:letterSpacing">0</item>
+    </style>
+
+    <style name="Font_Label_Medium">
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:lineHeight">16sp</item>
+        <item name="android:letterSpacing">0</item>
+    </style>
+
+    <style name="Font_Label_Regular">
+        <item name="android:fontFamily">@font/pretendard_regular</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:lineHeight">16sp</item>
+        <item name="android:letterSpacing">0</item>
+    </style>
+
+    <!-- Caption -->
+    <style name="Font_Caption_Bold">
+        <item name="android:fontFamily">@font/pretendard_bold</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:lineHeight">14sp</item>
+        <item name="android:letterSpacing">0</item>
+    </style>
+
+    <style name="Font_Caption_Semibold">
+        <item name="android:fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:lineHeight">14sp</item>
+        <item name="android:letterSpacing">0</item>
+    </style>
+
+    <style name="Font_Caption_Regular">
+        <item name="android:fontFamily">@font/pretendard_regular</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:lineHeight">14sp</item>
+        <item name="android:letterSpacing">0</item>
+    </style>
+
+</resources>
+
