@@ -1,9 +1,20 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.SOAR" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    <style name="Base.Theme.SOAR" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+
+        <item name="android:textColorPrimary">@color/ref_coolgray_700</item>
     </style>
 
     <style name="Theme.SOAR" parent="Base.Theme.SOAR" />
+
+    <style name="detail_button" parent="Widget.AppCompat.Button">
+        <item name="android:layout_width">328dp</item>
+        <item name="android:layout_height">44dp</item>
+        <item name="android:background">@drawable/round_background</item>
+        <item name="android:elevation">0dp</item>
+    </style>
 </resources>

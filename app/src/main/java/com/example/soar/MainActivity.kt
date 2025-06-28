@@ -3,6 +3,7 @@ package com.example.soar
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.soar.DetailPage.DetailPageActivity
 import com.example.soar.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

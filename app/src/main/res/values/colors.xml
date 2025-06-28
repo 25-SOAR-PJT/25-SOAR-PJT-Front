@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Black & White -->
+    <color name="transparency">#00FFFFFF</color>
     <color name="ref_white">#FFFFFF</color>
     <color name="ref_black">#1B1C1C</color>
 

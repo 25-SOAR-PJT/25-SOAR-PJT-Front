@@ -1,3 +1,43 @@
 <resources>
     <string name="app_name">SOAR</string>
+    <string name="sample">샘플 텍스트</string>
+    <string name="sample_long">
+        샘플 텍스트 \n
+        샘플 텍스트 \n
+        샘플 텍스트 \n
+        샘플 텍스트 \n
+        샘플 텍스트 \n
+        샘플 텍스트 \n
+        샘플 텍스트 \n
+        샘플 텍스트 \n
+        샘플 텍스트 \n
+        샘플 텍스트 \n
+        샘플 텍스트 \n
+        샘플 텍스트 \n
+        샘플 텍스트 \n
+        샘플 텍스트 \n
+        샘플 텍스트 \n
+        샘플 텍스트 \n
+    </string>
+    <string name="num">000</string>
+
+    <!--상세 페이지-->
+    <string name="detailPage_title" translatable="true">지원 사업 정보</string>
+    <string name="deadline" translatable="true">마감</string>
+    <string name="dday" translatable="true">D-</string>
+    <string name="support_target" translatable="true">지원대상</string>
+    <string name="support_benefit" translatable="true">지원혜택</string>
+    <string name="application_period" translatable="true">신청기간</string>
+    <string name="telephone_inquiry" translatable="true">전화문의</string>
+    <string name="bookmark" translatable="true">저장</string>
+    <string name="support_content" translatable="true">지원내용</string>
+    <string name="required_documents" translatable="true">필요서류</string>
+    <string name="detail_information" translatable="true">상세정보</string>
+    <string name="review" translatable="true">리뷰</string>
+    <string name="detail_more">상세정보 더보기</string>
+    <string name="fold">접기</string>
+    <string name="comment">댓글</string>
+    <string name="enter_comment">댓글을 입력해주세요</string>
+    <string name="see_more">더보기</string>
+
 </resources>
