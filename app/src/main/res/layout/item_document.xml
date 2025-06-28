@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="160dp"
+    android:layout_height="120dp"
+    android:background="@drawable/round_background"
+    android:padding="16dp"
+    android:orientation="vertical">
+    <ImageView
+        android:id="@+id/doc_img"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginBottom="8dp"
+        android:src="@drawable/ic_launcher_background"/>
+    <TextView
+        android:id="@+id/doc_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:breakStrategy="simple"
+        style="@style/Font_Body_Semibold"
+        android:text="@string/sample"/>
+    <TextView
+        android:id="@+id/doc_place"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:breakStrategy="simple"
+        style="@style/Font_Label_Medium"
+        android:text="@string/sample"
+        android:textColor="@color/ref_gray_600"/>
+</LinearLayout>

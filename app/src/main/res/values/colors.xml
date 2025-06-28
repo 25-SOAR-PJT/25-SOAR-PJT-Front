@@ -1,5 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <!-- Black & White -->
+    <color name="transparency">#00FFFFFF</color>
+    <color name="ref_white">#FFFFFF</color>
+    <color name="ref_black">#1B1C1C</color>
+
+    <!-- Red Scale -->
+    <color name="ref_red_100">#FFDAD6</color>
+    <color name="ref_red_200">#FFB4AB</color>
+    <color name="ref_red_300">#FF897D</color>
+    <color name="ref_red_400">#FF5449</color>
+    <color name="ref_red_500">#F0342C</color>
+    <color name="ref_red_600">#BA1A1A</color>
+    <color name="ref_red_700">#93000A</color>
+    <color name="ref_red_800">#690005</color>
+
+    <!-- Coolgray -->
+    <color name="ref_coolgray_100">#EFF0FA</color>
+    <color name="ref_coolgray_200">#E0E2EC</color>
+    <color name="ref_coolgray_300">#A9ABB4</color>
+    <color name="ref_coolgray_400">#74777F</color>
+    <color name="ref_coolgray_500">#5B5E66</color>
+    <color name="ref_coolgray_600">#44474E</color>
+    <color name="ref_coolgray_700">#46464A</color>
+    <color name="ref_coolgray_800">#1A1B1F</color>
+
+    <!-- Blue Scale -->
+    <color name="ref_blue_100">#ECF0FF</color>
+    <color name="ref_blue_200">#D7E2FF</color>
+    <color name="ref_blue_300">#ABCEFF</color>
+    <color name="ref_blue_400">#7CAEFF</color>
+    <color name="ref_blue_500">#2485FF</color>
+    <color name="ref_blue_600">#005CBB</color>
+    <color name="ref_blue_700">#002F66</color>
+    <color name="ref_blue_800">#001B3F</color>
+
+    <!-- Gray Scale -->
+    <color name="ref_gray_100">#F3F3F3</color>
+    <color name="ref_gray_200">#F2F0F0</color>
+    <color name="ref_gray_300">#E4E2E2</color>
+    <color name="ref_gray_400">#ACABAB</color>
+    <color name="ref_gray_500">#919090</color>
+    <color name="ref_gray_600">#777777</color>
+    <color name="ref_gray_700">#5E5E5E</color>
+    <color name="ref_gray_800">#464747</color>
 </resources>
