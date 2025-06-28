@@ -76,7 +76,12 @@ class DetailPageActivity : AppCompatActivity() {
             flexWrap = FlexWrap.WRAP
             justifyContent = JustifyContent.FLEX_START
         }
+        val spaceDp = 4f // 원하는 여백 (dp)
+        val spacingPx = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP, spaceDp, resources.displayMetrics
+        ).toInt()
         keywordRecyclerview.layoutManager = keywordlayoutManager
+        keywordRecyclerview.addItemDecoration(SpacesItemDecoration(spacingPx))
         keywordRecyclerview.adapter = KeywordAdapter(keywordItems)
 
 
@@ -109,10 +114,6 @@ class DetailPageActivity : AppCompatActivity() {
         // 문서
         val documentRecyclerview = binding.documentRecyclerview
         val documentLayoutManager = GridLayoutManager(this, 2) // 2개의 열
-        val spaceDp = 4f // 원하는 여백 (dp)
-        val spacingPx = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP, spaceDp, resources.displayMetrics
-        ).toInt()
         documentRecyclerview.layoutManager  = documentLayoutManager
         documentRecyclerview.addItemDecoration(SpacesItemDecoration(spacingPx))
         documentRecyclerview.adapter = DocumentAdapter(documentItems)
