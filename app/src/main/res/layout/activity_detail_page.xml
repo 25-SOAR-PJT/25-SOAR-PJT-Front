@@ -126,13 +126,7 @@
                                 android:textColor="@color/ref_gray_700"
                                 style="@style/Font_Label_Semibold"
                                 android:text="@string/application_period"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:singleLine="true"
-                                android:textColor="@color/ref_gray_800"
-                                style="@style/Font_Label_Semibold"
-                                android:text="@string/sample"/>
+
                         </LinearLayout>
                     </LinearLayout>
 
@@ -343,6 +337,15 @@
                     android:text="@string/required_documents"
                     style="@style/Font_Title_Semibold"
                     android:layout_marginBottom="20dp"/>
+
+                <TextView
+                    style="@style/Font_Label_Semibold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:text="@string/sample"
+                    android:textColor="@color/ref_gray_800" />
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/document_recyclerview"
                     android:layout_width="match_parent"
