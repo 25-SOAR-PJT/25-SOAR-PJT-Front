@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.soar.DetailPage.DetailPageActivity
 import com.example.soar.EntryPage.Onboarding.OnBoardingActivity
+import com.example.soar.EntryPage.SignIn.LoginActivity
 import com.example.soar.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -23,6 +24,11 @@ class MainActivity : AppCompatActivity() {
 
         binding.btn2.setOnClickListener {
             val intent = Intent(this, OnBoardingActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.btn3.setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
 

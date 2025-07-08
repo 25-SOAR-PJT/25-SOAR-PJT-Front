@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.soar.R   // ← app 패키지명에 따라 변경하세요
+import com.example.soar.R
 
 class OnBoardAdapter(
     private val items: List<OnBoard>

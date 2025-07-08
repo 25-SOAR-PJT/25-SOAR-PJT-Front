@@ -9,12 +9,12 @@ import androidx.core.content.edit
 import androidx.viewpager2.widget.ViewPager2
 import com.example.soar.MainActivity
 import com.example.soar.R
-import com.example.soar.databinding.ActivityOnboardingBinding  // 🔹 자동 생성된 바인딩 클래스
+import com.example.soar.databinding.ActivityOnboardingPageBinding  // 🔹 자동 생성된 바인딩 클래스
 
 
 class OnBoardingActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityOnboardingBinding
+    private lateinit var binding: ActivityOnboardingPageBinding
     private lateinit var prefs: SharedPreferences
     private lateinit var viewPager: ViewPager2
     private lateinit var adapter: OnBoardAdapter
@@ -29,7 +29,7 @@ class OnBoardingActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityOnboardingBinding.inflate(layoutInflater)
+        binding = ActivityOnboardingPageBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         prefs = getSharedPreferences("pref_onboarding", MODE_PRIVATE)

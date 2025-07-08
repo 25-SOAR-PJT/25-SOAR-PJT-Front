@@ -18,4 +18,10 @@
         android:layout_height="wrap_content"
         android:text="온보딩으로 이동"/>
 
+    <Button
+        android:id="@+id/btn3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="로그인으로 이동"/>
+
 </LinearLayout>

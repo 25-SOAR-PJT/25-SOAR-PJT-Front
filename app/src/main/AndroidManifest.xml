@@ -32,6 +32,9 @@
         <!-- 온보딩 페이지 -->
         <activity android:name=".EntryPage.Onboarding.OnBoardingActivity" />
 
+        <!-- 로그인 페이지 -->
+        <activity android:name=".EntryPage.SignIn.LoginActivity" />
+
     </application>
 
 </manifest>

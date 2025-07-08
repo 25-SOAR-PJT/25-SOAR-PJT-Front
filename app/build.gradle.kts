@@ -10,12 +10,12 @@ plugins {
 
 android {
     namespace = "com.example.soar"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.soar"
         minSdk = 28
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -52,6 +52,8 @@ dependencies {
     implementation("com.google.android.flexbox:flexbox:3.0.0")
 
     implementation("com.tbuonomo:dotsindicator:5.1.0")
+    implementation("com.google.firebase:firebase-inappmessaging:21.0.2")
+    implementation("androidx.navigation:navigation-fragment:2.9.1")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
