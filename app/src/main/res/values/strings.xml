@@ -44,4 +44,21 @@
     <!--스플래시-->
     <string name="soar_logo">SOAR 로고</string>
 
+    <!--온보딩-->
+    <string name="onboarding_next">다음</string>
+    <string name="onboarding_skip">건너뛰기</string>
+    <string name="onboarding_start">시작하기</string>
+
+    <!-- 온보딩 텍스트 -->
+    <string name="ob_title1">내가 찾던 지원사업이 여기에!</string>
+    <string name="ob_sub1">나의 정보를 입력하고\n맞춤 지원 사업을 추천받아보세요</string>
+
+    <string name="ob_title2">한눈에 알아보는 자격 요건</string>
+    <string name="ob_sub2">직관적인 신청 과정으로\n간편하게 신청해요</string>
+
+    <string name="ob_title3">정보가 너무 많아 힘들다면?</string>
+    <string name="ob_sub3">궁금한 부분은\nSOAR AI에게 바로 물어봐요</string>
+
+
+
 </resources>

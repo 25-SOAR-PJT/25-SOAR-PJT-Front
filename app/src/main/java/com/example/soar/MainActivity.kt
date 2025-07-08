@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.soar.DetailPage.DetailPageActivity
-import com.example.soar.EntryPage.Splash.SplashPageActivity
+import com.example.soar.EntryPage.Onboarding.OnBoardingActivity
 import com.example.soar.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -17,11 +17,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.btn1.setOnClickListener {
-            // Splash 를 경유해 Detail 로
-            val intent = Intent(this, SplashPageActivity::class.java).apply {
-                putExtra("NEXT_CLASS", DetailPageActivity::class.java.name)
-            }
+            val intent = Intent(this, DetailPageActivity::class.java)
             startActivity(intent)
         }
+
+        binding.btn2.setOnClickListener {
+            val intent = Intent(this, OnBoardingActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 }

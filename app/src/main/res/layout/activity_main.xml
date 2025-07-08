@@ -12,4 +12,10 @@
         android:layout_height="wrap_content"
         android:text="상세페이지로 이동"/>
 
+    <Button
+        android:id="@+id/btn2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="온보딩으로 이동"/>
+
 </LinearLayout>

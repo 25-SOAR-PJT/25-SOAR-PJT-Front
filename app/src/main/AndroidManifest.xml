@@ -12,19 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SOAR"
         tools:targetApi="31">
-        <!--
-        <activity
-            android:name=".DetailPage.DetailPageActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity> -->
 
         <!-- 앱 첫 실행용 스플래시 -->
         <activity
@@ -39,8 +26,11 @@
         <!-- 메인 -->
         <activity android:name=".MainActivity" />
 
-        <!-- 상세 페이지 (예시) -->
+        <!-- 상세 페이지 -->
         <activity android:name=".DetailPage.DetailPageActivity" />
+
+        <!-- 온보딩 페이지 -->
+        <activity android:name=".EntryPage.Onboarding.OnBoardingActivity" />
 
     </application>
 
