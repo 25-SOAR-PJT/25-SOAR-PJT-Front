@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@color/ref_gray_800">
+            android:background="@color/ref_gray_100">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -409,22 +409,25 @@
                         style="@style/Font_Title_Semibold"
                         android:layout_marginEnd="8dp"/>
                     <TextView
+                        android:id="@+id/text_review_count"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="@string/num"
                         style="@style/Font_Title_Semibold"
                         android:layout_marginEnd="8dp"/>
                 </LinearLayout>
-                <EditText
+                <TextView
+                    android:id="@+id/textInput"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="38dp"
                     android:background="@drawable/round_background"
                     android:backgroundTint="@color/ref_gray_100"
-                    android:hint="@string/enter_comment"
+                    android:text="@string/enter_comment"
                     android:textColor="@color/ref_gray_500"
-                    android:padding="16dp"
+                    android:padding="10dp"
                     style="@style/Font_Body_Regular"
-                    android:layout_marginBottom="24dp"/>
+                    android:layout_marginBottom="24dp"
+                    android:clickable="true"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/review_recyclerview"
