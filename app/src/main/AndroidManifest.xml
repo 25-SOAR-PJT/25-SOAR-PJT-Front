@@ -13,6 +13,10 @@
         android:theme="@style/Theme.SOAR"
         tools:targetApi="31">
         <activity
+            android:name=".DetailPage.ReviewDetailActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
             android:name=".DetailPage.DetailPageActivity"
             android:exported="false" />
         <activity
