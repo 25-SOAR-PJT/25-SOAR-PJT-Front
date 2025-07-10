@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- layout/activity_sign_up.xml -->
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- 상단 진행바 -->
+    <View
+        android:id="@+id/progressBg"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:background="@color/ref_gray_200"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <View
+        android:id="@+id/progressActive"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:background="@color/ref_blue_500"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/progressBg"
+        app:layout_constraintBottom_toBottomOf="@id/progressBg" />
+
+    <!-- 단계별 화면을 넣을 NavHost -->
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/nav_host"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        app:navGraph="@navigation/nav_signup"
+        app:defaultNavHost="true"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/progressBg"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout="@layout/activity_policy_page" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
