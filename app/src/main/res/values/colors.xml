@@ -5,6 +5,14 @@
     <color name="ref_white">#FFFFFF</color>
     <color name="ref_black">#1B1C1C</color>
 
+    <!-- opacity -->
+    <color name="ref_opacityWhite_150">#26FFFFFF</color>
+    <color name="ref_opacityBlack_100">#1A000000</color>
+    <color name="ref_opacityBlack_500">#80191919</color>
+
+     <!-- Point -->
+    <color name="ref_orange">#FF8B0E</color>
+
     <!-- Red Scale -->
     <color name="ref_red_100">#FFDAD6</color>
     <color name="ref_red_200">#FFB4AB</color>
@@ -44,5 +52,57 @@
     <color name="ref_gray_600">#777777</color>
     <color name="ref_gray_700">#5E5E5E</color>
     <color name="ref_gray_800">#464747</color>
+
+    <!-- text -->
+    <color name="semantic_text_strongest">@color/ref_black</color>
+    <color name="semantic_text_primary">@color/ref_coolgray_800</color>
+    <color name="semantic_text_secondary">@color/ref_gray_600</color>
+    <color name="semantic_text_strong">@color/ref_coolgray_700</color>
+    <color name="semantic_text_alternative">@color/ref_coolgray_400</color>
+    <color name="semantic_text_alternative_disabled">@color/ref_opacityBlack_500</color>
+    <color name="semantic_text_tertiary">@color/ref_gray_400</color>
+    <color name="semantic_text_assistive">@color/ref_gray_500</color>
+    <color name="semantic_text_inverse">@color/ref_white</color>
+
+    <!-- surface -->
+    <color name="semantic_surface_normal_based">@color/ref_coolgray_100</color>
+    <color name="semantic_surface_normal_light">@color/ref_white</color>
+    <color name="semantic_surface_normal_inverse">@color/ref_gray_600</color>
+
+    <color name="semantic_surface_assistive_strong">@color/ref_gray_200</color>
+    <color name="semantic_surface_assistive_based">@color/ref_coolgray_200</color>
+
+    <color name="semantic_surface_primary_strongest">@color/ref_blue_700</color>
+    <color name="semantic_surface_primary_strong">@color/ref_blue_600</color>
+    <color name="semantic_surface_primary_based">@color/ref_blue_500</color>
+    <color name="semantic_surface_primary_light">@color/ref_blue_200</color>
+    <color name="semantic_surface_primary_lightest">@color/ref_blue_100</color>
+
+    <color name="semantic_surface_primary_disabled">@color/ref_coolgray_300</color>
+
+    <!-- line -->
+    <color name="semantic_line_normal_based">@color/ref_gray_300</color>
+    <color name="semantic_line_normal_light">@color/ref_gray_200</color>
+    <color name="semantic_line_primary_based">@color/ref_blue_500</color>
+    <color name="semantic_line_primary_light">@color/ref_blue_200</color>
+    <color name="semantic_line_secondary_based">@color/ref_coolgray_200</color>
+
+    <!-- Information -->
+    <color name="semantic_information_normal_strongest">@color/ref_coolgray_800</color>
+    <color name="semantic_information_normal_strong">@color/ref_coolgray_600</color>
+    <color name="semantic_information_normal_based">@color/ref_coolgray_400</color>
+    <color name="semantic_information_normal_disabled">@color/ref_coolgray_300</color>
+    <color name="semantic_information_primary_based">@color/ref_blue_500</color>
+    <color name="semantic_information_primary_light">@color/ref_blue_400</color>
+    <color name="semantic_information_error">@color/ref_red_500</color>
+
+    <!-- Accent -->
+    <color name="semantic_accent_primary_strong">@color/ref_blue_600</color>
+    <color name="semantic_accent_primary_based">@color/ref_blue_500</color>
+    <color name="semantic_accent_primary_light">@color/ref_blue_200</color>
+    <color name="semantic_accent_deadline_strong">@color/ref_red_600</color>
+    <color name="semantic_accent_deadline_based">@color/ref_red_500</color>
+    <color name="semantic_accent_deadline_light">@color/ref_red_300</color>
+    <color name="semantic_accent_orange">@color/ref_orange</color>
 
 </resources>

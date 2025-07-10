@@ -36,7 +36,19 @@
         <item name="android:lineHeight">26sp</item>
         <item name="android:letterSpacing">0</item>
     </style>
+    <style name="Font_Heading400_Bold">
+        <item name="android:fontFamily">@font/pretendard_bold</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:lineHeight">32sp</item>
+        <item name="android:letterSpacing">0</item>
+    </style>
     <style name="Font_Heading400_Semibold">
+        <item name="android:fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:lineHeight">32sp</item>
+        <item name="android:letterSpacing">0</item>
+    </style>
+    <style name="Font_Heading500_Semibold">
         <item name="android:fontFamily">@font/pretendard_semibold</item>
         <item name="android:textSize">18sp</item>
         <item name="android:lineHeight">32sp</item>

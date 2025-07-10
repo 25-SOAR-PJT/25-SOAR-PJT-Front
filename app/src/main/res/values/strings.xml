@@ -21,6 +21,22 @@
     </string>
     <string name="num">000</string>
 
+    <!--nav-->
+    <string name="home">홈</string>
+    <string name="explore">둘러보기</string>
+    <string name="archiving">아카이빙</string>
+    <string name="calendar">캘린더</string>
+    <string name="mypage">마이페이지</string>
+
+    <!-- 홈 -->
+    <string name="home_login1">와 함께</string>
+    <string name="home_login2">적합한 지원 사업을 찾아볼까요?</string>
+    <string name="to_login">로그인하기</string>
+
+    <string name="home_swipe">2025년 청년정책이 새로워졌어요</string>
+    <string name="home_swipe_link">지금 확인하기</string>
+
+
     <string name="toast_add_review" translatable="true">댓글이 등록되었습니다.</string>
     <string name="toast_delete_review" translatable="true">댓글이 삭제되었습니다.</string>
     <string name="toast_edit_review" translatable="true">댓글이 수정되었습니다.</string>
@@ -74,7 +90,7 @@
     <string name="find_email_password">이메일·비밀번호 찾기</string>
     <string name="or">또는</string>
     <string name="login_kakao">카카오 로그인</string>
-    <string name="close">로그인에서 홈화면 가는 아이콘</string>
+    <string name="close2">로그인에서 홈화면 가는 아이콘</string>
     <string name="login_title">SOAR 에\n오신 것을 환영해요!</string>
     <string name="error_email">이메일을 다시 확인해주세요</string>
     <string name="error_password">비밀번호를 다시 확인해주세요</string>
