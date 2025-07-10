@@ -1,27 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/ref_white">
-    <Button
-        android:id="@+id/btn1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="상세페이지로 이동"/>
+    android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/btn2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="온보딩으로 이동"/>
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="horizontal" />
 
-    <Button
-        android:id="@+id/btn3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="로그인으로 이동"/>
+    <LinearLayout
+        android:contentDescription="버튼 부분"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:gravity="center"
+        android:background="@color/ref_white"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <LinearLayout
+            android:id="@+id/nav_home"
+            android:layout_width="72dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingTop="12dp"
+            android:paddingHorizontal="12dp"
+            android:paddingBottom="16dp">
+            <ImageView
+                android:id="@+id/img_home"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/icon_home"
+                app:tint="@color/ref_gray_600"
+                android:layout_marginBottom="4dp"/>
+            <TextView
+                android:id="@+id/text_home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/home"
+                android:textColor="@color/ref_gray_600"
+                style="@style/Font_Caption_Semibold"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/nav_explore"
+            android:layout_width="72dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingTop="12dp"
+            android:paddingHorizontal="12dp"
+            android:paddingBottom="16dp">
+            <ImageView
+                android:id="@+id/img_explore"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/icon_explore"
+                android:layout_marginBottom="4dp"/>
+            <TextView
+                android:id="@+id/text_explore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/explore"
+                android:textColor="@color/ref_gray_500"
+                style="@style/Font_Caption_Semibold"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/nav_archiving"
+            android:layout_width="72dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingTop="12dp"
+            android:paddingHorizontal="12dp"
+            android:paddingBottom="16dp">
+            <ImageView
+                android:id="@+id/img_archiving"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/icon_archiving"
+                android:layout_marginBottom="4dp"/>
+            <TextView
+                android:id="@+id/text_archiving"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/archiving"
+                android:textColor="@color/ref_gray_500"
+                style="@style/Font_Caption_Semibold"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/nav_calendar"
+            android:layout_width="72dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingTop="12dp"
+            android:paddingHorizontal="12dp"
+            android:paddingBottom="16dp">
+            <ImageView
+                android:id="@+id/img_calendar"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/icon_calendar"
+                android:layout_marginBottom="4dp"/>
+            <TextView
+                android:id="@+id/text_calendar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/calendar"
+                android:textColor="@color/ref_gray_500"
+                style="@style/Font_Caption_Semibold"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/nav_mypage"
+            android:layout_width="72dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingTop="12dp"
+            android:paddingHorizontal="12dp"
+            android:paddingBottom="16dp">
+            <ImageView
+                android:id="@+id/img_mypage"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/icon_mypage"
+                android:layout_marginBottom="4dp"/>
+            <TextView
+                android:id="@+id/text_mypage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/mypage"
+                android:textColor="@color/ref_gray_500"
+                style="@style/Font_Caption_Semibold"/>
+        </LinearLayout>
 
-</LinearLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
