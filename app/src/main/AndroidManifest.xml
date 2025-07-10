@@ -16,12 +16,15 @@
         <!-- 앱 첫 실행용 스플래시 -->
         <activity
             android:name=".EntryPage.Splash.SplashPageActivity"
-            android:name=".DetailPage.ReviewDetailActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize"/>
+
         <activity
             android:name=".DetailPage.DetailPageActivity"
             android:exported="false" />
+
+        <activity android:name=".DetailPage.ReviewDetailActivity" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -31,11 +34,6 @@
             </intent-filter>
         </activity>
 
-        <!-- 메인 -->
-        <activity android:name=".MainActivity" />
-
-        <!-- 상세 페이지 -->
-        <activity android:name=".DetailPage.DetailPageActivity" />
 
         <!-- 온보딩 페이지 -->
         <activity android:name=".EntryPage.Onboarding.OnBoardingActivity" />
