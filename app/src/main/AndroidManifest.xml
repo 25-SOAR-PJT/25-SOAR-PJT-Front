@@ -16,6 +16,14 @@
         <!-- 앱 첫 실행용 스플래시 -->
         <activity
             android:name=".EntryPage.Splash.SplashPageActivity"
+            android:name=".DetailPage.ReviewDetailActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name=".DetailPage.DetailPageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
