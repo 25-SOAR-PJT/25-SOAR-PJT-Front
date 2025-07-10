@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/clRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ref_white">
+
+    <!-- ① 스와이프 가능한 ViewPager2 -->
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/vpOnBoarding"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/dotsIndicator" />
+
+
+    <!-- ② 페이지 인디케이터 (WormDotsIndicator 라이브러리 사용 예) -->
+    <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+        android:id="@+id/dotsIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:dotsColor="@color/ref_gray_300"
+        app:selectedDotColor="@color/ref_gray_800"
+        app:dotsSize="6dp"
+        app:dotsCornerRadius="3dp"
+        app:dotsSpacing="4dp"
+        app:dotsWidthFactor="3.5"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintTop_toBottomOf="@id/vpOnBoarding"
+        app:layout_constraintBottom_toTopOf="@id/btnNext"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+
+
+    <!-- ③ 하단 고정 버튼 영역 -->
+    <Button
+        android:id="@+id/btnNext"
+        style="@style/Font_Label_Semibold"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/bg_primary_button"
+        android:text="@string/onboarding_next"
+        android:textColor="@color/ref_white"
+        app:layout_constraintBottom_toTopOf="@id/tvSkip"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- ④ ‘건너뛰기’ 텍스트 -->
+    <TextView
+        android:id="@+id/tvSkip"
+        style="@style/Font_Label_Regular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:text="@string/onboarding_skip"
+        android:textColor="@color/ref_gray_500"
+        app:layout_constraintBottom_toTopOf="@id/guidelineBottom"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+    <!-- 하단 마진용 가이드라인 -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineBottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="108dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

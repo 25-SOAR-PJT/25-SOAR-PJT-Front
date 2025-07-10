@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <!--  스플래시 영상 재현 (1.8 s)  -->
+    <Transition
+        motion:constraintSetStart="@id/start"
+        motion:constraintSetEnd="@id/end"
+        motion:duration="1800"
+        motion:autoTransition="animateToEnd"
+        motion:motionInterpolator="easeInOut">
+
+        <KeyFrameSet>
+            <!-- LOGO 페이드-인 ↓ 오버슛 (원본 그대로) -->
+            <KeyAttribute motion:motionTarget="@id/imgLogo" motion:attributeName="alpha" motion:framePosition="0"  android:alpha="0"/>
+            <KeyAttribute motion:motionTarget="@id/imgLogo" motion:attributeName="alpha" motion:framePosition="45" android:alpha="1"/>
+            <KeyAttribute motion:motionTarget="@id/imgLogo" motion:attributeName="translationY" motion:framePosition="55" android:translationY="6dp"/>
+
+            <!-- PLANE : S 글자 옆에서 ↗  곡선 → 로고 위 착지  -->
+            <!-- alpha 0→1 -->
+            <KeyAttribute motion:motionTarget="@id/imgPlane" motion:attributeName="alpha"  motion:framePosition="30" android:alpha="0"/>
+            <KeyAttribute motion:motionTarget="@id/imgPlane" motion:attributeName="alpha"  motion:framePosition="40" android:alpha="1"/>
+
+            <!-- translationX / Y 로 곡선 경로(4-point) 만들기  -->
+            <KeyAttribute motion:motionTarget="@id/imgPlane" motion:attributeName="translationX" motion:framePosition="0"   android:translationX="-90dp"/>
+            <KeyAttribute motion:motionTarget="@id/imgPlane" motion:attributeName="translationY" motion:framePosition="0"   android:translationY="60dp"/>
+
+            <KeyAttribute motion:motionTarget="@id/imgPlane" motion:attributeName="translationX" motion:framePosition="55"  android:translationX="-30dp"/>
+            <KeyAttribute motion:motionTarget="@id/imgPlane" motion:attributeName="translationY" motion:framePosition="55"  android:translationY="20dp"/>
+
+            <KeyAttribute motion:motionTarget="@id/imgPlane" motion:attributeName="translationX" motion:framePosition="80"  android:translationX="-4dp"/>
+            <KeyAttribute motion:motionTarget="@id/imgPlane" motion:attributeName="translationY" motion:framePosition="80"  android:translationY="-12dp"/>
+
+            <KeyAttribute motion:motionTarget="@id/imgPlane" motion:attributeName="translationX" motion:framePosition="100" android:translationX="0dp"/>
+            <KeyAttribute motion:motionTarget="@id/imgPlane" motion:attributeName="translationY" motion:framePosition="100" android:translationY="-24dp"/>
+
+            <!-- 회전 흔들림 -->
+            <KeyAttribute motion:motionTarget="@id/imgPlane" motion:attributeName="rotation" motion:framePosition="40" android:value="-12"/>
+            <KeyAttribute motion:motionTarget="@id/imgPlane" motion:attributeName="rotation" motion:framePosition="60" android:value="8"/>
+            <KeyAttribute motion:motionTarget="@id/imgPlane" motion:attributeName="rotation" motion:framePosition="80" android:value="-4"/>
+            <KeyAttribute motion:motionTarget="@id/imgPlane" motion:attributeName="rotation" motion:framePosition="100" android:value="0"/>
+        </KeyFrameSet>
+    </Transition>
+
+    <!--────────── START ──────────-->
+    <ConstraintSet android:id="@+id/start">
+        <Constraint android:id="@id/imgBg"/>
+
+        <!-- LOGO 시작: 위쪽 밖에서 투명 (원본 그대로) -->
+        <Constraint android:id="@id/imgLogo">
+            <Transform android:translationY="-100dp" android:alpha="0"/>
+            <Layout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                motion:layout_constraintStart_toStartOf="parent"
+                motion:layout_constraintEnd_toEndOf="parent"
+                motion:layout_constraintTop_toTopOf="parent"/>
+        </Constraint>
+
+        <!-- PLANE 시작: 로고 왼쪽 아래 (translationX/Y 지정) → 알파 0 -->
+        <Constraint android:id="@id/imgPlane">
+            <Transform android:alpha="0" android:translationX="-90dp" android:translationY="60dp"/>
+            <Layout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                motion:layout_constraintStart_toStartOf="parent"
+                motion:layout_constraintTop_toTopOf="parent"/>
+        </Constraint>
+    </ConstraintSet>
+
+    <!--────────── END ──────────-->
+    <ConstraintSet android:id="@+id/end">
+        <Constraint android:id="@id/imgBg"/>
+
+        <Constraint android:id="@id/imgLogo">
+            <Transform android:translationY="0dp" android:alpha="1"/>
+        </Constraint>
+
+        <!-- PLANE 최종 위치: 로고 위 가운데 (alpha 1) -->
+        <Constraint android:id="@id/imgPlane">
+            <Transform android:alpha="1" android:translationX="0dp" android:translationY="-24dp"/>
+        </Constraint>
+    </ConstraintSet>
+</MotionScene>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- res/navigation/nav_signup.xml -->
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_signup"
+    app:startDestination="@id/step1Fragment">
+
+    <fragment
+        android:id="@+id/step1Fragment"
+        android:name="com.example.soar.EntryPage.SignUp.Step1Fragment">
+
+        <action
+            android:id="@+id/action_step1_to_step2"
+            app:destination="@id/step2Fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/step2Fragment"
+        android:name="com.example.soar.EntryPage.SignUp.Step2Fragment">
+        <action
+            android:id="@+id/action_step2_to_step3"
+            app:destination="@id/step3Fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/step3Fragment"
+        android:name="com.example.soar.EntryPage.SignUp.Step3Fragment" />
+</navigation>
