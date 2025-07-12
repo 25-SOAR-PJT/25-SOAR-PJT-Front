@@ -44,7 +44,7 @@
 
     <!--────────── START ──────────-->
     <ConstraintSet android:id="@+id/start">
-        <Constraint android:id="@id/imgBg"/>
+
 
         <!-- LOGO 시작: 위쪽 밖에서 투명 (원본 그대로) -->
         <Constraint android:id="@id/imgLogo">
@@ -66,7 +66,7 @@
 
     <!--────────── END ──────────-->
     <ConstraintSet android:id="@+id/end">
-        <Constraint android:id="@id/imgBg"/>
+
 
         <Constraint android:id="@id/imgLogo">
             <Transform android:translationY="0dp" android:alpha="1"/>

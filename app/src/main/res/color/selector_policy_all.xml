@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 체크된 상태 → 진한 회색 -->
+    <item android:color="@color/ref_blue_500"
+        android:state_selected="true"/>
+    <!-- 기본(미선택) -->
+    <item android:color="@color/ref_gray_600"/>
+</selector>

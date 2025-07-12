@@ -6,6 +6,7 @@ repositories {
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+
 }
 
 android {
@@ -54,6 +55,18 @@ dependencies {
     implementation("com.tbuonomo:dotsindicator:5.1.0")
     implementation("com.google.firebase:firebase-inappmessaging:21.0.2")
     implementation("androidx.navigation:navigation-fragment:2.9.1")
+
+    // module-level build.gradle
+    implementation("com.google.code.gson:gson:2.12.1")
+    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.1")
+
+    //OkHttp
+    implementation ("com.squareup.okhttp3:okhttp:4.9.3")
+    implementation ("com.squareup.okhttp3:logging-interceptor:4.9.3")
+    implementation("androidx.benchmark:benchmark-common:1.3.4")
+
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
