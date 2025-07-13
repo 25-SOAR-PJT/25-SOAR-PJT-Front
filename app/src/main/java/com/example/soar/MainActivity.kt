@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun updateNavSelection(selected: View) {
+    fun updateNavSelection(selected: View) {
         val navItems = listOf(
             Triple(binding.navHome, binding.imgHome, binding.textHome),
             Triple(binding.navExplore, binding.imgExplore, binding.textExplore),
@@ -77,5 +77,16 @@ class MainActivity : AppCompatActivity() {
             textView.setTextColor(ContextCompat.getColor(this, colorRes))
         }
     }
+
+    fun updateNavByTag(tag: String) {
+        when (tag) {
+            "home" -> updateNavSelection(binding.navHome)
+            "explore" -> updateNavSelection(binding.navExplore)
+            "archiving" -> updateNavSelection(binding.navArchiving)
+            "calendar" -> updateNavSelection(binding.navCalendar)
+            "mypage" -> updateNavSelection(binding.navMypage)
+        }
+    }
+
 
 }
