@@ -111,7 +111,7 @@
             android:layout_marginTop="40dp"
             android:layout_marginBottom="32dp"
             android:enabled="false"
-            android:backgroundTint="@color/btn_login_bg"
+            android:backgroundTint="@color/selector_end_icon_tint"
             android:text="@string/next"
             android:textColor="@color/ref_white"
             android:textAllCaps="false"

@@ -9,6 +9,7 @@ import com.example.soar.CalendarPage.CalendarFragment
 import com.example.soar.ExplorePage.ExploreFragment
 import com.example.soar.HomePage.HomeFragment
 import com.example.soar.MyPage.MypageFragment
+import com.example.soar.Network.TokenManager
 import com.example.soar.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -19,6 +20,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        TokenManager.init(this) // 토큰 초기화. 스플래시에 있으니 나중에 스플래시 적용 후 이 코드 제거
 
 
         supportFragmentManager.beginTransaction()

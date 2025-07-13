@@ -8,10 +8,13 @@
     <fragment
         android:id="@+id/step1Fragment"
         android:name="com.example.soar.EntryPage.SignUp.Step1Fragment">
-
         <action
             android:id="@+id/action_step1_to_step2"
-            app:destination="@id/step2Fragment" />
+            app:destination="@id/step2Fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment
@@ -19,10 +22,26 @@
         android:name="com.example.soar.EntryPage.SignUp.Step2Fragment">
         <action
             android:id="@+id/action_step2_to_step3"
-            app:destination="@id/step3Fragment" />
+            app:destination="@id/step3Fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment
         android:id="@+id/step3Fragment"
-        android:name="com.example.soar.EntryPage.SignUp.Step3Fragment" />
+        android:name="com.example.soar.EntryPage.SignUp.Step3Fragment">
+        <action
+            android:id="@+id/action_step3_to_step4"
+            app:destination="@id/step4Fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/step4Fragment"
+        android:name="com.example.soar.EntryPage.SignUp.Step4Fragment" />
 </navigation>

@@ -3,21 +3,20 @@ package com.example.soar.EntryPage.SignUp
 import android.animation.ValueAnimator
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.NavController
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import com.example.soar.R
 import com.example.soar.databinding.ActivitySignUpBinding
+
+import androidx.core.view.doOnLayout      // ← 추가
 
 class SignUpActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySignUpBinding
-    private lateinit var navController: NavController
-
-    // 단계 ID 배열 – 순서는 진행 순서
     private val steps = listOf(
         R.id.step1Fragment,
         R.id.step2Fragment,
-        R.id.step3Fragment
+        R.id.step3Fragment,
+        R.id.step4Fragment
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,33 +24,56 @@ class SignUpActivity : AppCompatActivity() {
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        navController = findNavController(R.id.nav_host)
+        // ── 색상 ───────────────────────────────
+        binding.progressBg.setBackgroundColor(getColor(R.color.ref_coolgray_200))
+        binding.progressActive.setBackgroundColor(getColor(R.color.ref_coolgray_500))
 
-        // Fragment 전환될 때마다 호출
+        // ── NavController ─────────────────────
+        val navHost = supportFragmentManager
+            .findFragmentById(R.id.nav_host) as NavHostFragment
+        val navController = navHost.navController
+
+        binding.appbar.btnBack.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
+
+        // ── (1) 레이아웃 완료 후 초기화 ─────────
+        binding.progressBg.doOnLayout {
+            // progressActive 너비 0으로
+            binding.progressActive.layoutParams =
+                binding.progressActive.layoutParams.apply { width = 0 }
+            binding.progressActive.requestLayout()
+
+            // 현재 목적지에 맞춰 한 번 이동(= 25 %)
+            val idx = steps.indexOf(navController.currentDestination?.id).coerceAtLeast(0)
+            moveProgress(idx)
+        }
+
+        // ── (2) 단계가 바뀔 때마다 애니메이션 ──
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            val index = steps.indexOf(destination.id).coerceAtLeast(0)
-            animateProgress(index)
+            val idx = steps.indexOf(destination.id).coerceAtLeast(0)
+            moveProgress(idx)
         }
     }
 
-    private fun animateProgress(stepIndex: Int) {
-        // 0-based index라서 +1
-        val targetPercent = (stepIndex + 1f) / steps.size
-        val bgWidth = binding.progressBg.width
-
-        // 계산된 px 로 애니메이션
-        val targetPx = (bgWidth * targetPercent).toInt()
+    private fun moveProgress(stepIndex: Int) {
+        val ratio = (stepIndex + 1f) / steps.size          // 0.25, 0.5, 0.75, 1.0
+        val bgWidth = binding.progressBg.width             // 이제 0 아님!
+        val endPx = (bgWidth * ratio).toInt()
         val startPx = binding.progressActive.layoutParams.width
 
-        ValueAnimator.ofInt(startPx, targetPx).apply {
-            duration = 300           // 원하는 속도
-            addUpdateListener { animator ->
+        ValueAnimator.ofInt(startPx, endPx).apply {
+            duration = 250
+            addUpdateListener {
                 binding.progressActive.layoutParams =
-                    binding.progressActive.layoutParams.apply {
-                        width = animator.animatedValue as Int
-                    }
+                    binding.progressActive.layoutParams.apply { width = it.animatedValue as Int }
             }
             start()
         }
+    }
+
+    fun completeSignUp() {
+        setResult(RESULT_OK)
+        finish()
     }
 }

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- res/color/selector_input_field_bg.xml -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 활성 입력(포커스) — activated 상태로 표시 -->
+    <item android:state_activated="true"  android:color="@color/ref_blue_500"/>
+    <!-- 프레스(선택 사항) -->
+    <item android:state_pressed="true"    android:color="@color/ref_blue_500"/>
+    <!-- 에러 — selected 상태로 표시 -->
+    <item android:state_selected="true"   android:color="@color/ref_red_500"/>
+    <!-- 입력 가능 & 정상 -->
+    <item android:state_enabled="true"    android:color="@color/ref_gray_500"/>
+    <!-- 비활성 -->
+    <item                                      android:color="@color/ref_gray_300"/>
+</selector>

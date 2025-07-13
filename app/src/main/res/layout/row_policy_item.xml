@@ -9,9 +9,10 @@
     android:paddingEnd="12dp">
 
     <ImageView
-        android:id="@+id/cb"
+        android:id="@+id/ivCheck"
         android:layout_width="24dp"
         android:layout_height="24dp"
+        android:contentDescription="@null"
         android:src="@drawable/ic_checkbox_inactive"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -19,11 +20,12 @@
 
     <TextView
         android:id="@+id/tvLabel"
-        style="@style/Font_Body_Regular"
+        style="@style/Font_Label_Medium"
+        android:textColor="@color/selector_policy_label"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textColor="@color/ref_black"
-        app:layout_constraintStart_toEndOf="@id/cb"
+        android:layout_marginLeft="16dp"
+        app:layout_constraintStart_toEndOf="@id/ivCheck"
         app:layout_constraintEnd_toStartOf="@id/ivArrow"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
@@ -32,9 +34,10 @@
         android:id="@+id/ivArrow"
         android:layout_width="24dp"
         android:layout_height="24dp"
+        android:contentDescription="@null"
         android:src="@drawable/icon_arrow_large"
         android:scaleX="-1"
-        app:tint="@color/ref_gray_500"
+        app:tint="@color/ref_gray_600"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />

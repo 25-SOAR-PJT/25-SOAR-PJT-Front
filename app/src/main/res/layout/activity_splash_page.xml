@@ -4,18 +4,10 @@
     android:id="@+id/motionSplash"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/ref_blue_500"
     app:layoutDescription="@xml/splash_motion_scene">
 
-    <!-- ① 파란 배경 (최종 화면 그대로) -->
-    <ImageView
-        android:id="@+id/imgBg"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:contentDescription="@null"
-        android:scaleType="fitXY"
-        android:src="@drawable/splash_background" />
-
-    <!-- ② SOAR 로고 -->
+    <!-- ① SOAR 로고 -->
     <ImageView
         android:id="@+id/imgLogo"
         android:layout_width="match_parent"
