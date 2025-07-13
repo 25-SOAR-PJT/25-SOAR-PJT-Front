@@ -32,9 +32,20 @@
     <string name="home_login1">와 함께</string>
     <string name="home_login2">적합한 지원 사업을 찾아볼까요?</string>
     <string name="to_login">로그인하기</string>
-
     <string name="home_swipe">2025년 청년정책이 새로워졌어요</string>
     <string name="home_swipe_link">지금 확인하기</string>
+    <string name="home_popular_biz">실시간 인기 지원 사업</string>
+    <string name="home_category">어떤 지원 사업을 찾고 있나요?</string>
+    <string name="home_category1_title">일하는 꿈을 가진\n청년을 위한</string>
+    <string name="home_category2_title">나만의 공간을 찾는\n청년을 위한</string>
+    <string name="home_category3_title">돌봄과 쉼이 필요한\n청년을 위한</string>
+    <string name="home_category4_title">배움을 멈추지 않는\n청년을 위한</string>
+    <string name="home_ad1_label">창업에 성공하고 싶다</string>
+    <string name="home_ad1_title">K-스타트업 포털에서 \n창업 정보를 받아보세요</string>
+    <string name="home_ad2_label">해외 취업을 꿈꾸고 있다면?</string>
+    <string name="home_ad2_title">월드잡플러스에서\n해외 취업 정보를 받아보세요</string>
+    <string name="home_ad3_label">청년의 꿈을 응원하는 청년 DB</string>
+    <string name="home_ad3_title">청년DB에서\n정책 담당자를 만나보세요</string>
 
 
     <string name="toast_add_review" translatable="true">댓글이 등록되었습니다.</string>

@@ -6,7 +6,7 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
 
-        <item name="android:textColorPrimary">@color/ref_black</item>
+        <item name="android:textColorPrimary">@color/semantic_text_primary</item>
     </style>
 
     <style name="Theme.SOAR" parent="Base.Theme.SOAR" />
