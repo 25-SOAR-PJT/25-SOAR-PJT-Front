@@ -35,6 +35,7 @@
 
     <!-- Blue Scale -->
     <color name="ref_blue_100">#ECF0FF</color>
+    <color name="ref_blue_150">#E7F2FF</color>
     <color name="ref_blue_200">#D7E2FF</color>
     <color name="ref_blue_300">#ABCEFF</color>
     <color name="ref_blue_400">#7CAEFF</color>

@@ -41,7 +41,8 @@
                             android:singleLine="true"
                             android:text="@string/sample"
                             style="@style/Font_Title_Semibold"
-                            android:layout_marginBottom="4dp"/>
+                            android:layout_marginBottom="4dp"
+                            android:textColor="@color/semantic_text_strongest"/>
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -129,11 +130,30 @@
 
                         </LinearLayout>
                     </LinearLayout>
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/keyword_recyclerview"
+                    <com.google.android.flexbox.FlexboxLayout
+                        android:id="@+id/flex_layout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        app:flexWrap="wrap"
+                        app:flexDirection="row"
+                        app:justifyContent="flex_start">
+<!--                        <TextView-->
+<!--                            android:id="@+id/text_keyword"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="36dp"-->
+<!--                            android:paddingHorizontal="16dp"-->
+<!--                            android:background="@drawable/round_background2"-->
+<!--                            android:backgroundTint="@color/ref_blue_150"-->
+<!--                            android:text="@string/sample"-->
+<!--                            style="@style/Font_Label_Semibold"-->
+<!--                            android:textColor="@color/ref_blue_600"-->
+<!--                            android:gravity="center_vertical"-->
+<!--                            android:layout_marginEnd="6dp"/>-->
+<!--                        <androidx.recyclerview.widget.RecyclerView-->
+<!--                            android:id="@+id/keyword_recyclerview"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"/>-->
+                    </com.google.android.flexbox.FlexboxLayout>
                 </LinearLayout>
 
                 <LinearLayout
@@ -156,6 +176,7 @@
                             android:src="@drawable/icon_comment"
                             android:layout_marginBottom="4dp"/>
                         <TextView
+                            android:id="@+id/text_review_count2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:singleLine="true"
@@ -313,7 +334,7 @@
                     android:text="@string/process"
                     style="@style/Font_Title_Semibold"
                     android:layout_marginBottom="20dp"
-                    android:textColor="@color/ref_black"/>
+                    android:textColor="@color/ref_coolgray_800"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -505,7 +526,7 @@
                     android:text="@string/detail_information"
                     style="@style/Font_Title_Semibold"
                     android:layout_marginBottom="20dp"
-                    android:textColor="@color/ref_black"/>
+                    android:textColor="@color/ref_coolgray_800"/>
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -551,7 +572,7 @@
                         android:text="@string/comment"
                         style="@style/Font_Title_Semibold"
                         android:layout_marginEnd="8dp"
-                        android:textColor="@color/ref_black"/>
+                        android:textColor="@color/ref_coolgray_800"/>
                     <TextView
                         android:id="@+id/text_review_count"
                         android:layout_width="wrap_content"
@@ -559,7 +580,7 @@
                         android:text="@string/num"
                         style="@style/Font_Title_Semibold"
                         android:layout_marginEnd="8dp"
-                        android:textColor="@color/ref_black"/>
+                        android:textColor="@color/ref_coolgray_800"/>
                 </LinearLayout>
                 <TextView
                     android:id="@+id/textInput"
