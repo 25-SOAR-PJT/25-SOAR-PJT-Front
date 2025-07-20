@@ -5,56 +5,180 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.soar.R
+import com.example.soar.databinding.FragmentCalendarBinding
+import java.time.DayOfWeek
+import java.time.LocalDate
+import java.time.YearMonth
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+data class Schedule(
+    val date: LocalDate,
+    val title: String,
+    val type: ScheduleType
+)
 
-/**
- * A simple [Fragment] subclass.
- * Use the [CalendarFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+enum class ScheduleType {
+    DEADLINE, ALWAYS
+}
+
+
 class CalendarFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private var _binding: FragmentCalendarBinding? = null
+    private val binding get() = _binding!!
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+    // 화면상으로 보고 있는 연/월
+    private var currentYear  = 0
+    private var currentMonth = 0
+
+    // 지금 선택되어 있는 날짜 (디폴트는 today)
+    private var selectedDate: LocalDate = LocalDate.now()
+
+    override fun onResume() {
+        super.onResume()
+        setCalendar()
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_calendar, container, false)
+    ): View {
+        _binding = FragmentCalendarBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment CalendarFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            CalendarFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        selectedDate = LocalDate.now()
+        currentYear = selectedDate.year
+        currentMonth = selectedDate.monthValue
+
+        binding.btnToday.setOnClickListener {
+            val today = LocalDate.now()
+            selectedDate = today
+            currentYear = today.year
+            currentMonth = today.monthValue
+
+            setCalendar()
+        }
+
+        binding.leftArrow.setOnClickListener { prevMonth() }
+        binding.rightArrow.setOnClickListener { nextMonth() }
+
+        setCalendar()
+    }
+
+    private fun setCalendar() {
+        drawCalendarWithMap(recordTypeMap)
+        setScheduleList(selectedDate)
+    }
+
+    private fun drawCalendarWithMap(recordTypeMap: Map<LocalDate, List<Int>>) {
+        val dateList = DateUtils.generateDateList(currentYear, currentMonth)
+
+        binding.date.layoutManager = GridLayoutManager(requireContext(), 7)
+        binding.date.adapter = CalendarDateAdapter(
+            dateList = dateList,
+            recordTypeMap = recordTypeMap,
+            selectedDate = selectedDate
+        ) { clicked ->
+            selectedDate = clicked
+            setCalendar()
+        }
+
+        binding.calendarYearText.text = currentYear.toString()
+        binding.calendarMonthText.text = currentMonth.toString().padStart(2, '0')
+    }
+
+    private fun prevMonth() {
+        val (y, m) = DateUtils.moveToPreviousMonth(currentYear, currentMonth)
+        currentYear  = y
+        currentMonth = m
+
+        // 화면 갱신 (달력 + 월 총합)
+        setCalendar()
+
+        // 날짜를 바꿔도(월 이동) 히스토리 영역은 초기화
+        selectedDate = LocalDate.of(currentYear, currentMonth, 1)
+    }
+
+    private fun nextMonth() {
+        val (y, m) = DateUtils.moveToNextMonth(currentYear, currentMonth)
+        currentYear  = y
+        currentMonth = m
+
+        setCalendar()
+
+        selectedDate = LocalDate.of(currentYear, currentMonth, 1)
+    }
+
+
+    private val dummyScheduleList = listOf(
+        Schedule(LocalDate.of(2025, 7, 1), "청년마음건강지원사업 이용자 모집", ScheduleType.DEADLINE),
+        Schedule(LocalDate.of(2025, 7, 1), "청년마음건강지원사업 이용자 모집", ScheduleType.ALWAYS),
+        Schedule(LocalDate.of(2025, 7, 15), "청년마음건강지원사업 이용자 모집2", ScheduleType.DEADLINE),
+        Schedule(LocalDate.of(2025, 7, 15), "청년마음건강지원사업 이용자 모집", ScheduleType.DEADLINE),
+        Schedule(LocalDate.of(2025, 7, 15), "청년마음건강지원사업 이용자 모집", ScheduleType.ALWAYS),
+        Schedule(LocalDate.of(2025, 7, 30), "청년마음건강지원사업 이용자 모집", ScheduleType.DEADLINE)
+    )
+
+    private val recordTypeMap: Map<LocalDate, List<Int>> = dummyScheduleList
+        .groupBy { it.date }
+        .mapValues { entry ->
+            entry.value.map {
+                if (it.type == ScheduleType.ALWAYS) 0 else 1
             }
+        }
+
+
+    private fun setScheduleList(date: LocalDate) {
+        val day = date.dayOfMonth
+        val dayOfWeekKorean = when (date.dayOfWeek) {
+            DayOfWeek.MONDAY    -> "월요일"
+            DayOfWeek.TUESDAY   -> "화요일"
+            DayOfWeek.WEDNESDAY -> "수요일"
+            DayOfWeek.THURSDAY  -> "목요일"
+            DayOfWeek.FRIDAY    -> "금요일"
+            DayOfWeek.SATURDAY  -> "토요일"
+            DayOfWeek.SUNDAY    -> "일요일"
+        }
+
+        binding.textToday.text = "${day}일 $dayOfWeekKorean"
+
+//        val scheduleList = getScheduleForDate(date)
+//        binding.scheduleContainer.removeAllViews()
+//
+//        for (schedule in scheduleList) {
+//            val itemView = LayoutInflater.from(context)
+//                .inflate(R.layout.item_schedule, binding.scheduleContainer, false)
+//
+//            val label = itemView.findViewById<TextView>(R.id.schedule_type)
+//            val title = itemView.findViewById<TextView>(R.id.schedule_title)
+//
+//            label.text = when (schedule.type) {
+//                ScheduleType.DEADLINE -> "신청 마감일"
+//                ScheduleType.ALWAYS -> "심사 발표일"
+//            }
+//
+//            label.setTextColor(
+//                ContextCompat.getColor(requireContext(),
+//                    if (schedule.type == ScheduleType.DEADLINE)
+//                        R.color.semantic_accent_deadline_based
+//                    else
+//                        R.color.semantic_accent_primary_based
+//                )
+//            )
+//
+//            title.text = schedule.title
+//            binding.scheduleContainer.addView(itemView)
+//        }
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

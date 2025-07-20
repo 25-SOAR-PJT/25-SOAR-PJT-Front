@@ -23,6 +23,7 @@
     <string name="num">000</string>
     <string name="date">00.00.00 ~ 00.00.00</string>
     <string name="date2">0000.00.00</string>
+    <string name="date3">00일 월요일</string>
 
     <!--nav-->
     <string name="home">홈</string>
@@ -60,6 +61,20 @@
     <string name="toast_delete_review" translatable="true">댓글이 삭제되었습니다.</string>
     <string name="toast_edit_review" translatable="true">댓글이 수정되었습니다.</string>
     <string name="toast_review_error" translatable="true">내용을 입력해주세요.</string>
+
+    <!-- 캘린더 -->
+    <string name="year">년</string>
+    <string name="month">월</string>
+
+    <string name="mon">월</string>
+    <string name="tue">화</string>
+    <string name="wed">수</string>
+    <string name="thu">목</string>
+    <string name="fri">금</string>
+    <string name="sat">토</string>
+    <string name="sun">일</string>
+
+    <string name="calendar_label">모든 일정은 마감일 기준으로 저장돼요</string>
 
     <!--상세 페이지-->
     <string name="detailPage_title" translatable="true">지원 사업 정보</string>
