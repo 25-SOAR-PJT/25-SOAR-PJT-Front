@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/date_tile"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <FrameLayout
+        android:layout_width="37dp"
+        android:layout_height="45dp"
+        android:gravity="center"
+        android:layout_gravity="center">
+
+        <View
+            android:id="@+id/tile_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="@drawable/round_background2"
+            android:backgroundTint="@color/ref_gray_100"
+            android:visibility="visible"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/date_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="00"
+                android:layout_gravity="center"
+                style="@style/Font_Title_Medium"/>
+
+            <LinearLayout
+                android:id="@+id/extra_circle"
+                android:layout_width="wrap_content"
+                android:layout_height="7dp"
+                android:layout_gravity="center"
+                android:orientation="horizontal"
+                android:visibility="visible"
+                android:gravity="center">
+            </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
+
+
+</LinearLayout>

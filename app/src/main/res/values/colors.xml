@@ -35,6 +35,7 @@
 
     <!-- Blue Scale -->
     <color name="ref_blue_100">#ECF0FF</color>
+    <color name="ref_blue_150">#E7F2FF</color>
     <color name="ref_blue_200">#D7E2FF</color>
     <color name="ref_blue_300">#ABCEFF</color>
     <color name="ref_blue_400">#7CAEFF</color>
@@ -44,6 +45,7 @@
     <color name="ref_blue_800">#001B3F</color>
 
     <!-- Gray Scale -->
+    <color name="ref_gray_50">#FBFBFB</color>
     <color name="ref_gray_100">#F3F3F3</color>
     <color name="ref_gray_200">#F2F0F0</color>
     <color name="ref_gray_300">#E4E2E2</color>

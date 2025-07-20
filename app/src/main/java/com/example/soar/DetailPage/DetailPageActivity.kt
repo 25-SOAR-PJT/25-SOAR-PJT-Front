@@ -1,6 +1,7 @@
 package com.example.soar.DetailPage
 
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.Rect
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,9 +9,12 @@ import android.os.Parcel
 import android.os.Parcelable
 import android.text.TextUtils
 import android.util.TypedValue
+import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,6 +23,7 @@ import com.example.soar.R
 import com.example.soar.databinding.ActivityDetailPageBinding
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
+import com.google.android.flexbox.FlexboxLayout
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 
@@ -96,20 +101,7 @@ class DetailPageActivity : AppCompatActivity() {
             isBookmarked = !isBookmarked
         }
 
-        // 키워드
-        val keywordRecyclerview = binding.keywordRecyclerview
-        val keywordlayoutManager = FlexboxLayoutManager(this).apply {
-            flexDirection = FlexDirection.ROW
-            flexWrap = FlexWrap.WRAP
-            justifyContent = JustifyContent.FLEX_START
-        }
-        val spaceDp = 4f // 원하는 여백 (dp)
-        val spacingPx = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP, spaceDp, resources.displayMetrics
-        ).toInt()
-        keywordRecyclerview.layoutManager = keywordlayoutManager
-        keywordRecyclerview.addItemDecoration(SpacesItemDecoration(spacingPx))
-        keywordRecyclerview.adapter = KeywordAdapter(keywords)
+        updateFlexbox(keywords.map { it.text })
 
 
         // 탭 바 (페이지 스크롤)
@@ -120,30 +112,18 @@ class DetailPageActivity : AppCompatActivity() {
             }
         }
         binding.toContent.setOnClickListener() {
-            //scrollToView(binding.sectionContent)
+            scrollToView(binding.sectionContent)
             selectTab(0)
-        }
-        binding.toDocument.setOnClickListener() {
-            scrollToView(binding.sectionDocument)
-            selectTab(1)
-
         }
         binding.toDetail.setOnClickListener() {
             scrollToView(binding.sectionDetail)
-            selectTab(2)
+            selectTab(1)
 
         }
         binding.toReview.setOnClickListener() {
             scrollToView(binding.sectionReview)
-            selectTab(3)
+            selectTab(2)
         }
-
-        // 문서
-        val documentRecyclerview = binding.documentRecyclerview
-        val documentLayoutManager = GridLayoutManager(this, 2) // 2개의 열
-        documentRecyclerview.layoutManager  = documentLayoutManager
-        documentRecyclerview.addItemDecoration(SpacesItemDecoration(spacingPx))
-        documentRecyclerview.adapter = DocumentAdapter(docs)
 
 
         // 상세정보 더보기
@@ -176,6 +156,7 @@ class DetailPageActivity : AppCompatActivity() {
             )
         val count = if (reviews.size > 999) "999+" else reviews.size.toString()
         binding.textReviewCount.text = count
+        binding.textReviewCount2.text = count
 
         // 댓글 입력 + 더보기
         binding.btnMore.setOnClickListener{
@@ -190,10 +171,10 @@ class DetailPageActivity : AppCompatActivity() {
     }
 
     fun selectTab(index: Int) {
-        val colors = listOf(binding.text1, binding.text2, binding.text3, binding.text4)
-        val lines = listOf(binding.line1, binding.line2, binding.line3, binding.line4)
+        val colors = listOf(binding.text1, binding.text2, binding.text3)
+        val lines = listOf(binding.line1, binding.line2, binding.line3)
 
-        for (i in 0..3) {
+        for (i in 0..2) {
             colors[i].setTextColor(
                 getColor(if (i == index) R.color.ref_blue_500 else R.color.ref_coolgray_700)
             )
@@ -201,16 +182,61 @@ class DetailPageActivity : AppCompatActivity() {
         }
     }
 
+    private fun updateFlexbox(items: List<String>) {
+        val flexLayout = binding.flexLayout
+        flexLayout.removeAllViews()
 
-}
+        // 공통 레이아웃 파라미터 설정
+        val heightPx = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP, 36f, resources.displayMetrics
+        ).toInt()
 
-class SpacesItemDecoration(private val space: Int) : RecyclerView.ItemDecoration() {
-    override fun getItemOffsets(
-        outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State
-    ) {
-        outRect.left = space
-        outRect.right = space
-        outRect.top = space
-        outRect.bottom = space
+        val margin = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP, 6f, resources.displayMetrics
+        ).toInt()
+
+        val horizontalPadding = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP, 16f, resources.displayMetrics
+        ).toInt()
+
+        // 고정된 파란색 텍스트 ("샘플 텍스트")
+        val sampleTag = TextView(this).apply {
+            text = getString(R.string.sample)
+            layoutParams = FlexboxLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                heightPx
+            ).apply {
+                setMargins(0, 0, margin, margin)
+            }
+            setPadding(horizontalPadding, 0, horizontalPadding, 0)
+            setBackgroundResource(R.drawable.round_background2)
+            backgroundTintList = ContextCompat.getColorStateList(this@DetailPageActivity, R.color.ref_blue_150)
+            setTextColor(ContextCompat.getColor(this@DetailPageActivity, R.color.ref_blue_600))
+            setTextAppearance(R.style.Font_Label_Semibold)
+            gravity = Gravity.CENTER_VERTICAL
+        }
+        flexLayout.addView(sampleTag)
+
+        // 동적 태그들
+        items.forEach { item ->
+            val tagView = TextView(this).apply {
+                text = item
+                layoutParams = FlexboxLayout.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    heightPx
+                ).apply {
+                    setMargins(0, 0, margin, margin)
+                }
+                setPadding(horizontalPadding, 0, horizontalPadding, 0)
+                setBackgroundResource(R.drawable.round_background2)
+                backgroundTintList = ContextCompat.getColorStateList(this@DetailPageActivity, R.color.ref_coolgray_100)
+                setTextColor(ContextCompat.getColor(this@DetailPageActivity, R.color.ref_gray_800))
+                setTextAppearance(R.style.Font_Label_Semibold)
+                gravity = Gravity.CENTER_VERTICAL
+            }
+            flexLayout.addView(tagView)
+        }
     }
+
+
 }

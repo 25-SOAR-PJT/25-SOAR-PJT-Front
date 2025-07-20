@@ -38,14 +38,16 @@
                 android:layout_height="match_parent"
                 android:text="@string/comment"
                 style="@style/Font_Title_Semibold"
-                android:layout_marginEnd="8dp"/>
+                android:layout_marginEnd="8dp"
+                android:textColor="@color/ref_coolgray_800"/>
             <TextView
                 android:id="@+id/text_review_count"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/num"
                 style="@style/Font_Title_Semibold"
-                android:layout_marginEnd="8dp"/>
+                android:layout_marginEnd="8dp"
+                android:textColor="@color/ref_coolgray_800"/>
         </LinearLayout>
 
         <TextView
