@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.example.soar.DetailPage.DetailPageActivity
 import com.example.soar.DetailPage.ReviewDetailActivity
@@ -19,6 +20,10 @@ import com.example.soar.MainActivity
 import com.example.soar.R
 import com.example.soar.databinding.FragmentHomeBinding
 import com.google.api.Context
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
+import java.util.Date
 
 data class SwipeCardItem(
     val title: String,
@@ -33,6 +38,13 @@ data class adItem(
     val keyword: String
 )
 
+
+data class ProgramCard(
+    val location: String,
+    val title: String,
+    val date: LocalDate,
+    var isBookmarked: Boolean = false
+)
 
 class HomeFragment : Fragment() {
 
@@ -72,6 +84,17 @@ class HomeFragment : Fragment() {
             adItem("첫 면접, 어렵지 않아요", "면접 준비를 위한\\n실전 꿀팁을 만나보세요", "일자리", "면접 지원"),
             adItem("내 삶을 바꾸는 공부", "IT·마케팅 실무 교육으로\\n새로운 기회를 만들어보세요", "교육", "IT·마케팅 교육")
         )
+        val personalCardList = listOf(
+            ProgramCard("서울특별시 노원구", "청년취업해Dream 사업", LocalDate.of(2025, 9, 4)),
+            ProgramCard("서울특별시 강남구", "청년 어학자격 응시료 지원", LocalDate.of(2025, 7, 21)),
+            ProgramCard("서울특별시 성동구", "청년 창업 프로젝트", LocalDate.of(2025, 8, 2))
+        )
+
+        val personalCardAdapter = PersonalCardAdapter(personalCardList)
+        binding.personalCard.apply {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            adapter = personalCardAdapter
+        }
 
         val swipeAdapter = SwipeCardAdapter(cardList)
         binding.section2.adapter = swipeAdapter
@@ -127,6 +150,7 @@ class HomeFragment : Fragment() {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
         startActivity(intent)
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
