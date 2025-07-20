@@ -19,7 +19,9 @@
         샘플 텍스트 \n
         샘플 텍스트 \n
     </string>
+    <string name="sample_long2">샘플 텍스트샘플 텍스트샘플 텍스트샘플 텍스트샘플 텍스트샘플 텍스트샘플 텍스트샘플 텍스트샘플 텍스트샘플 텍스트샘플 텍스트</string>
     <string name="num">000</string>
+    <string name="date">00.00.00 ~ 00.00.00</string>
 
     <!--nav-->
     <string name="home">홈</string>
@@ -63,9 +65,15 @@
     <string name="telephone_inquiry" translatable="true">전화문의</string>
     <string name="bookmark" translatable="true">저장</string>
     <string name="support_content" translatable="true">지원내용</string>
+    <string name="process" translatable="true">신청 과정</string>
     <string name="required_documents" translatable="true">필요서류</string>
     <string name="detail_information" translatable="true">상세정보</string>
     <string name="review" translatable="true">리뷰</string>
+    <string name="process_detail1" translatable="true">신청 접수</string>
+    <string name="process_detail2" translatable="true">심사 결과 발표</string>
+    <string name="process_detail3" translatable="true">이의 신청 접수</string>
+    <string name="process_detail4" translatable="true">최종 선정 발표</string>
+    <string name="wth_soar" translatable="true">SOAR와 함께 준비하기</string>
     <string name="detail_more">상세정보 더보기</string>
     <string name="fold">접기</string>
     <string name="comment">댓글</string>

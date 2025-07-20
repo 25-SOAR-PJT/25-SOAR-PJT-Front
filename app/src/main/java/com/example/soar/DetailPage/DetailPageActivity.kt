@@ -120,30 +120,30 @@ class DetailPageActivity : AppCompatActivity() {
             }
         }
         binding.toContent.setOnClickListener() {
-            //scrollToView(binding.sectionContent)
+            scrollToView(binding.sectionContent)
             selectTab(0)
         }
-        binding.toDocument.setOnClickListener() {
-            scrollToView(binding.sectionDocument)
-            selectTab(1)
-
-        }
+//        binding.toDocument.setOnClickListener() {
+//            scrollToView(binding.sectionDocument)
+//            selectTab(1)
+//
+//        }
         binding.toDetail.setOnClickListener() {
             scrollToView(binding.sectionDetail)
-            selectTab(2)
+            selectTab(1)
 
         }
         binding.toReview.setOnClickListener() {
             scrollToView(binding.sectionReview)
-            selectTab(3)
+            selectTab(2)
         }
 
-        // 문서
-        val documentRecyclerview = binding.documentRecyclerview
-        val documentLayoutManager = GridLayoutManager(this, 2) // 2개의 열
-        documentRecyclerview.layoutManager  = documentLayoutManager
-        documentRecyclerview.addItemDecoration(SpacesItemDecoration(spacingPx))
-        documentRecyclerview.adapter = DocumentAdapter(docs)
+//        // 문서
+//        val documentRecyclerview = binding.documentRecyclerview
+//        val documentLayoutManager = GridLayoutManager(this, 2) // 2개의 열
+//        documentRecyclerview.layoutManager  = documentLayoutManager
+//        documentRecyclerview.addItemDecoration(SpacesItemDecoration(spacingPx))
+//        documentRecyclerview.adapter = DocumentAdapter(docs)
 
 
         // 상세정보 더보기
@@ -190,10 +190,10 @@ class DetailPageActivity : AppCompatActivity() {
     }
 
     fun selectTab(index: Int) {
-        val colors = listOf(binding.text1, binding.text2, binding.text3, binding.text4)
-        val lines = listOf(binding.line1, binding.line2, binding.line3, binding.line4)
+        val colors = listOf(binding.text1, binding.text2, binding.text3)
+        val lines = listOf(binding.line1, binding.line2, binding.line3)
 
-        for (i in 0..3) {
+        for (i in 0..2) {
             colors[i].setTextColor(
                 getColor(if (i == index) R.color.ref_blue_500 else R.color.ref_coolgray_700)
             )
