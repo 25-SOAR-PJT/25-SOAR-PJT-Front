@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="328dp"
+    android:layout_height="60dp"
+    android:background="@drawable/round_background2"
+    android:backgroundTint="@color/semantic_surface_normal_inverse"
+    android:paddingVertical="12dp"
+    android:paddingHorizontal="16dp"
+    android:gravity="center">
+    <TextView
+        android:id="@+id/text_message"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/sample"
+        style="@style/Font_Body_Medium"
+        android:textColor="@color/semantic_text_inverse"/>
+    <TextView
+        android:id="@+id/btn_cancel"
+        android:clickable="true"
+        android:layout_width="54dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:gravity="center"
+        android:text="@string/cancel"
+        style="@style/Font_Label_Medium"
+        android:textColor="@color/semantic_text_tertiary"/>
+
+</LinearLayout>

@@ -2,9 +2,12 @@ package com.example.soar.CalendarPage
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.soar.R
+import com.example.soar.databinding.CustomToastBinding
 import com.example.soar.databinding.ItemCalendarScheduleBinding
 import java.time.LocalDate
 
@@ -56,6 +59,21 @@ class CalendarScheduleAdapter(
         holder.binding.checkbox.setOnClickListener {
             schedule.isApplied = !schedule.isApplied
             notifyItemChanged(position)
+
+            if (schedule.isApplied) {
+                var toast: Toast? = null
+                toast = Toast(holder.itemView.context).apply {
+                    duration = Toast.LENGTH_SHORT
+                    view = CustomToastBinding.inflate(LayoutInflater.from(holder.itemView.context)).apply {
+                        textMessage.text = context.getString(R.string.toast_biz_apply)
+                        btnCancel.setOnClickListener {
+                            toast?.cancel()
+                        }
+                    }.root
+                }
+                toast.show()
+            }
+
         }
     }
 
