@@ -25,6 +25,14 @@
     <string name="date2">0000.00.00</string>
     <string name="date3">00일 월요일</string>
 
+    <!--토스트 메세지-->
+    <string name="toast_add_review" translatable="true">댓글이 등록되었습니다.</string>
+    <string name="toast_delete_review" translatable="true">댓글이 삭제되었습니다.</string>
+    <string name="toast_edit_review" translatable="true">댓글이 수정되었습니다.</string>
+    <string name="toast_review_error" translatable="true">내용을 입력해주세요.</string>
+    <string name="toast_biz_apply">해당 지원 사업이 신청 완료 되었어요!</string>
+    <string name="cancel">취소</string>
+
     <!--nav-->
     <string name="home">홈</string>
     <string name="explore">둘러보기</string>
@@ -56,16 +64,18 @@
     <string name="home_ad3_label">청년의 꿈을 응원하는 청년 DB</string>
     <string name="home_ad3_title">청년DB에서\n정책 담당자를 만나보세요</string>
 
-
-    <string name="toast_add_review" translatable="true">댓글이 등록되었습니다.</string>
-    <string name="toast_delete_review" translatable="true">댓글이 삭제되었습니다.</string>
-    <string name="toast_edit_review" translatable="true">댓글이 수정되었습니다.</string>
-    <string name="toast_review_error" translatable="true">내용을 입력해주세요.</string>
+    <!-- 아카이빙 -->
+    <string name="always">상시</string>
+    <string name="biz_deadline">사업 마감일</string>
+    <string name="apply_deadline">신청 마감일</string>
+    <string name="biz_end">사업 종료</string>
+    <string name="edit2">편집</string>
+    <string name="archiving_label1">신청 완료한 지원 사업</string>
+    <string name="select_keyword">키워드 선택</string>
 
     <!-- 캘린더 -->
     <string name="year">년</string>
     <string name="month">월</string>
-
     <string name="mon">월</string>
     <string name="tue">화</string>
     <string name="wed">수</string>
@@ -73,7 +83,6 @@
     <string name="fri">금</string>
     <string name="sat">토</string>
     <string name="sun">일</string>
-
     <string name="calendar_label">모든 일정은 마감일 기준으로 저장돼요</string>
 
     <!--상세 페이지-->

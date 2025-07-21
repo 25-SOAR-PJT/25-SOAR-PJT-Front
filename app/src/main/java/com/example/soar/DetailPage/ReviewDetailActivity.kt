@@ -3,14 +3,17 @@ package com.example.soar.DetailPage
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.soar.R
 import com.example.soar.databinding.ActivityReviewDetailBinding
+import com.example.soar.databinding.CustomToastBinding
 import org.w3c.dom.Comment
 
 class ReviewDetailActivity : AppCompatActivity() {
@@ -96,9 +99,29 @@ class ReviewDetailActivity : AppCompatActivity() {
                 val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.hideSoftInputFromWindow(binding.textInput1.windowToken, 0)
 
-                Toast.makeText(this, getString(R.string.toast_add_review), Toast.LENGTH_SHORT).show()
+                var toast: Toast? = null
+                toast = Toast(this).apply {
+                    duration = Toast.LENGTH_SHORT
+                    view = CustomToastBinding.inflate(layoutInflater).apply {
+                        textMessage.text = getString(R.string.toast_add_review)
+                        btnCancel.setOnClickListener {
+                            toast?.cancel()
+                        }
+                    }.root
+                }
+                toast.show()
             } else {
-                Toast.makeText(this, getString(R.string.toast_review_error), Toast.LENGTH_SHORT).show()
+                var toast: Toast? = null
+                toast = Toast(this).apply {
+                    duration = Toast.LENGTH_SHORT
+                    view = CustomToastBinding.inflate(layoutInflater).apply {
+                        textMessage.text = getString(R.string.toast_review_error)
+                        btnCancel.setOnClickListener {
+                            toast?.cancel()
+                        }
+                    }.root
+                }
+                toast.show()
             }
             binding.textInput1.visibility = View.VISIBLE
         }
@@ -117,9 +140,29 @@ class ReviewDetailActivity : AppCompatActivity() {
                     binding.btnEditBox.visibility = View.GONE
                     binding.textInput2.setText("")
 
-                    Toast.makeText(this, getString(R.string.toast_edit_review), Toast.LENGTH_SHORT).show()
+                    var toast: Toast? = null
+                    toast = Toast(this).apply {
+                        duration = Toast.LENGTH_SHORT
+                        view = CustomToastBinding.inflate(layoutInflater).apply {
+                            textMessage.text = getString(R.string.toast_edit_review)
+                            btnCancel.setOnClickListener {
+                                toast?.cancel()
+                            }
+                        }.root
+                    }
+                    toast!!.show()
                 } else {
-                    Toast.makeText(this, getString(R.string.toast_review_error), Toast.LENGTH_SHORT).show()
+                    var toast: Toast? = null
+                    toast = Toast(this).apply {
+                        duration = Toast.LENGTH_SHORT
+                        view = CustomToastBinding.inflate(layoutInflater).apply {
+                            textMessage.text = getString(R.string.toast_review_error)
+                            btnCancel.setOnClickListener {
+                                toast?.cancel()
+                            }
+                        }.root
+                    }
+                    toast!!.show()
                 }
             }
         }
@@ -149,6 +192,17 @@ class ReviewDetailActivity : AppCompatActivity() {
     fun deleteComment(position: Int) {
         reviews.removeAt(position)
         adapter.notifyItemRemoved(position)
-        Toast.makeText(this, getString(R.string.toast_delete_review), Toast.LENGTH_SHORT).show()
+
+        var toast: Toast? = null
+        toast = Toast(this).apply {
+            duration = Toast.LENGTH_SHORT
+            view = CustomToastBinding.inflate(layoutInflater).apply {
+                textMessage.text = getString(R.string.toast_delete_review)
+                btnCancel.setOnClickListener {
+                    toast?.cancel()
+                }
+            }.root
+        }
+        toast.show()
     }
 }
