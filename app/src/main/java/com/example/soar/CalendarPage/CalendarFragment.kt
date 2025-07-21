@@ -16,12 +16,9 @@ import java.time.YearMonth
 data class Schedule(
     val date: LocalDate,
     val title: String,
-    val type: ScheduleType
+    val type: Int,
+    var isApplied: Boolean = false
 )
-
-enum class ScheduleType {
-    DEADLINE, ALWAYS
-}
 
 
 class CalendarFragment : Fragment() {
@@ -116,20 +113,19 @@ class CalendarFragment : Fragment() {
 
 
     private val dummyScheduleList = listOf(
-        Schedule(LocalDate.of(2025, 7, 1), "청년마음건강지원사업 이용자 모집", ScheduleType.DEADLINE),
-        Schedule(LocalDate.of(2025, 7, 1), "청년마음건강지원사업 이용자 모집", ScheduleType.ALWAYS),
-        Schedule(LocalDate.of(2025, 7, 15), "청년마음건강지원사업 이용자 모집2", ScheduleType.DEADLINE),
-        Schedule(LocalDate.of(2025, 7, 15), "청년마음건강지원사업 이용자 모집", ScheduleType.DEADLINE),
-        Schedule(LocalDate.of(2025, 7, 15), "청년마음건강지원사업 이용자 모집", ScheduleType.ALWAYS),
-        Schedule(LocalDate.of(2025, 7, 30), "청년마음건강지원사업 이용자 모집", ScheduleType.DEADLINE)
+        Schedule(LocalDate.of(2025, 7, 1), "청년마음건강지원사업 이용자 모집", 1),
+        Schedule(LocalDate.of(2025, 7, 1), "청년마음건강지원사업 이용자 모집", 0),
+        Schedule(LocalDate.of(2025, 7, 15), "청년마음건강지원사업 이용자 모집2", 1),
+        Schedule(LocalDate.of(2025, 7, 15), "청년마음건강지원사업 이용자 모집", 1),
+        Schedule(LocalDate.of(2025, 7, 15), "청년마음건강지원사업 이용자 모집", 2),
+        Schedule(LocalDate.of(2025, 7, 30), "청년마음건강지원사업 이용자 모집", 2)
+        // 0 = 상시, 1 = 사업 마감일, 2 = 신청 마감일, 3 = 사업 종료
     )
 
     private val recordTypeMap: Map<LocalDate, List<Int>> = dummyScheduleList
         .groupBy { it.date }
         .mapValues { entry ->
-            entry.value.map {
-                if (it.type == ScheduleType.ALWAYS) 0 else 1
-            }
+            entry.value.map { it.type }
         }
 
 
@@ -147,33 +143,9 @@ class CalendarFragment : Fragment() {
 
         binding.textToday.text = "${day}일 $dayOfWeekKorean"
 
-//        val scheduleList = getScheduleForDate(date)
-//        binding.scheduleContainer.removeAllViews()
-//
-//        for (schedule in scheduleList) {
-//            val itemView = LayoutInflater.from(context)
-//                .inflate(R.layout.item_schedule, binding.scheduleContainer, false)
-//
-//            val label = itemView.findViewById<TextView>(R.id.schedule_type)
-//            val title = itemView.findViewById<TextView>(R.id.schedule_title)
-//
-//            label.text = when (schedule.type) {
-//                ScheduleType.DEADLINE -> "신청 마감일"
-//                ScheduleType.ALWAYS -> "심사 발표일"
-//            }
-//
-//            label.setTextColor(
-//                ContextCompat.getColor(requireContext(),
-//                    if (schedule.type == ScheduleType.DEADLINE)
-//                        R.color.semantic_accent_deadline_based
-//                    else
-//                        R.color.semantic_accent_primary_based
-//                )
-//            )
-//
-//            title.text = schedule.title
-//            binding.scheduleContainer.addView(itemView)
-//        }
+        val filteredList = dummyScheduleList.filter { it.date == selectedDate }
+        binding.bizList.adapter = CalendarScheduleAdapter(filteredList)
+
     }
 
 
