@@ -6,15 +6,28 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.soar.CalendarPage.CalendarScheduleAdapter
 import com.example.soar.DetailPage.DetailPageActivity
 import com.example.soar.EntryPage.Onboarding.OnBoardingActivity
 import com.example.soar.EntryPage.SignIn.LoginActivity
 import com.example.soar.R
 import com.example.soar.databinding.FragmentArchivingBinding
+import java.time.DayOfWeek
+import java.time.LocalDate
+
+data class Business(
+    val date: LocalDate,
+    val title: String,
+    val type: Int,
+    var isApplied: Boolean = false,
+    var isBookmarked: Boolean = false
+)
 
 class ArchivingFragment : Fragment() {
     private var _binding: FragmentArchivingBinding? = null
     private val binding get() = _binding!!
+
+    private var selectedKeyword: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,7 +50,16 @@ class ArchivingFragment : Fragment() {
             startActivity(intent)
         }
 
+
+
         return binding.root
+    }
+
+    private fun setBusiness(keyword: String) {
+
+//        val filteredList = dummyBizList.filter { it.keywowrd == selectedKeyword }
+//        binding.bizList.adapter = CalendarScheduleAdapter(filteredList)
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

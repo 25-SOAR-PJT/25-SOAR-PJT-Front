@@ -69,6 +69,9 @@
     <string name="biz_deadline">사업 마감일</string>
     <string name="apply_deadline">신청 마감일</string>
     <string name="biz_end">사업 종료</string>
+    <string name="edit2">편집</string>
+    <string name="archiving_label1">신청 완료한 지원 사업</string>
+    <string name="select_keyword">키워드 선택</string>
 
     <!-- 캘린더 -->
     <string name="year">년</string>
