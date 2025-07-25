@@ -1,0 +1,685 @@
+{
+  "status": "success",
+  "data": [
+    {
+      "tagId": 1,
+      "tagName": "취_창업 컨설팅",
+      "fieldId": 1
+    },
+    {
+      "tagId": 2,
+      "tagName": "면접지원",
+      "fieldId": 1
+    },
+    {
+      "tagId": 3,
+      "tagName": "멘토_멘티",
+      "fieldId": 1
+    },
+    {
+      "tagId": 4,
+      "tagName": "인턴십&연수&공고",
+      "fieldId": 1
+    },
+    {
+      "tagId": 5,
+      "tagName": "창업 자금 지원",
+      "fieldId": 1
+    },
+    {
+      "tagId": 6,
+      "tagName": "기타",
+      "fieldId": 1
+    },
+    {
+      "tagId": 7,
+      "tagName": "신혼부부주거지원",
+      "fieldId": 2
+    },
+    {
+      "tagId": 8,
+      "tagName": "청년주거지원",
+      "fieldId": 2
+    },
+    {
+      "tagId": 9,
+      "tagName": "여성주거지원",
+      "fieldId": 2
+    },
+    {
+      "tagId": 10,
+      "tagName": "기타",
+      "fieldId": 2
+    },
+    {
+      "tagId": 11,
+      "tagName": "주거 교육",
+      "fieldId": 3
+    },
+    {
+      "tagId": 12,
+      "tagName": "안전 교육",
+      "fieldId": 3
+    },
+    {
+      "tagId": 13,
+      "tagName": "예술 교육",
+      "fieldId": 3
+    },
+    {
+      "tagId": 14,
+      "tagName": "IT_마케팅 교육",
+      "fieldId": 3
+    },
+    {
+      "tagId": 15,
+      "tagName": "인문 교육",
+      "fieldId": 3
+    },
+    {
+      "tagId": 16,
+      "tagName": "요리 교육",
+      "fieldId": 3
+    },
+    {
+      "tagId": 17,
+      "tagName": "취_창업 교육",
+      "fieldId": 3
+    },
+    {
+      "tagId": 18,
+      "tagName": "금융 교육",
+      "fieldId": 3
+    },
+    {
+      "tagId": 19,
+      "tagName": "독서실 지원",
+      "fieldId": 3
+    },
+    {
+      "tagId": 20,
+      "tagName": "응시료&수강료 지원",
+      "fieldId": 3
+    },
+    {
+      "tagId": 21,
+      "tagName": "장학금&학자금 제출",
+      "fieldId": 3
+    },
+    {
+      "tagId": 22,
+      "tagName": "기타",
+      "fieldId": 3
+    },
+    {
+      "tagId": 23,
+      "tagName": "문화행사",
+      "fieldId": 4
+    },
+    {
+      "tagId": 24,
+      "tagName": "심리상담",
+      "fieldId": 4
+    },
+    {
+      "tagId": 25,
+      "tagName": "의료지원",
+      "fieldId": 4
+    },
+    {
+      "tagId": 26,
+      "tagName": "공간지원",
+      "fieldId": 4
+    },
+    {
+      "tagId": 27,
+      "tagName": "물품지원",
+      "fieldId": 4
+    },
+    {
+      "tagId": 28,
+      "tagName": "소상공인지원",
+      "fieldId": 4
+    },
+    {
+      "tagId": 29,
+      "tagName": "장애인지원",
+      "fieldId": 4
+    },
+    {
+      "tagId": 30,
+      "tagName": "양육지원",
+      "fieldId": 4
+    },
+    {
+      "tagId": 31,
+      "tagName": "교통비지원",
+      "fieldId": 4
+    },
+    {
+      "tagId": 32,
+      "tagName": "병역지원",
+      "fieldId": 4
+    },
+    {
+      "tagId": 33,
+      "tagName": "기타",
+      "fieldId": 4
+    },
+    {
+      "tagId": 34,
+      "tagName": "저소득",
+      "fieldId": 5
+    },
+    {
+      "tagId": 35,
+      "tagName": "장애인",
+      "fieldId": 5
+    },
+    {
+      "tagId": 36,
+      "tagName": "한부모_조손",
+      "fieldId": 5
+    },
+    {
+      "tagId": 37,
+      "tagName": "다자녀",
+      "fieldId": 5
+    },
+    {
+      "tagId": 38,
+      "tagName": "다문화_탈북민",
+      "fieldId": 5
+    },
+    {
+      "tagId": 39,
+      "tagName": "보훈대상자",
+      "fieldId": 5
+    },
+    {
+      "tagId": 40,
+      "tagName": "재직자",
+      "fieldId": 6
+    },
+    {
+      "tagId": 41,
+      "tagName": "자영업자",
+      "fieldId": 6
+    },
+    {
+      "tagId": 42,
+      "tagName": "미취업자",
+      "fieldId": 6
+    },
+    {
+      "tagId": 43,
+      "tagName": "프리랜서",
+      "fieldId": 6
+    },
+    {
+      "tagId": 44,
+      "tagName": "일용근로자",
+      "fieldId": 6
+    },
+    {
+      "tagId": 45,
+      "tagName": "(예비)창업자",
+      "fieldId": 6
+    },
+    {
+      "tagId": 46,
+      "tagName": "단기근로자",
+      "fieldId": 6
+    },
+    {
+      "tagId": 47,
+      "tagName": "영농종사자",
+      "fieldId": 6
+    },
+    {
+      "tagId": 48,
+      "tagName": "제한없음",
+      "fieldId": 6
+    },
+    {
+      "tagId": 49,
+      "tagName": "19-24",
+      "fieldId": 7
+    },
+    {
+      "tagId": 50,
+      "tagName": "25-29",
+      "fieldId": 7
+    },
+    {
+      "tagId": 51,
+      "tagName": "30-34",
+      "fieldId": 7
+    },
+    {
+      "tagId": 52,
+      "tagName": "35-39",
+      "fieldId": 7
+    },
+    {
+      "tagId": 53,
+      "tagName": "지역인재",
+      "fieldId": 8
+    },
+    {
+      "tagId": 54,
+      "tagName": "중소기업",
+      "fieldId": 8
+    },
+    {
+      "tagId": 55,
+      "tagName": "기혼자",
+      "fieldId": 8
+    },
+    {
+      "tagId": 56,
+      "tagName": "군인",
+      "fieldId": 8
+    },
+    {
+      "tagId": 57,
+      "tagName": "농업인",
+      "fieldId": 8
+    },
+    {
+      "tagId": 58,
+      "tagName": "한부모가정",
+      "fieldId": 8
+    },
+    {
+      "tagId": 59,
+      "tagName": "기초생활수급자",
+      "fieldId": 8
+    },
+    {
+      "tagId": 60,
+      "tagName": "장애인",
+      "fieldId": 8
+    },
+    {
+      "tagId": 61,
+      "tagName": "고졸미만",
+      "fieldId": 9
+    },
+    {
+      "tagId": 62,
+      "tagName": "고교재학",
+      "fieldId": 9
+    },
+    {
+      "tagId": 63,
+      "tagName": "고졸예정",
+      "fieldId": 9
+    },
+    {
+      "tagId": 64,
+      "tagName": "고교졸업",
+      "fieldId": 9
+    },
+    {
+      "tagId": 65,
+      "tagName": "대학재학",
+      "fieldId": 9
+    },
+    {
+      "tagId": 66,
+      "tagName": "대졸예정",
+      "fieldId": 9
+    },
+    {
+      "tagId": 67,
+      "tagName": "대학졸업",
+      "fieldId": 9
+    },
+    {
+      "tagId": 68,
+      "tagName": "석·박사",
+      "fieldId": 9
+    },
+    {
+      "tagId": 69,
+      "tagName": "서울시 강남구",
+      "fieldId": 10
+    },
+    {
+      "tagId": 70,
+      "tagName": "서울시 강동구",
+      "fieldId": 10
+    },
+    {
+      "tagId": 71,
+      "tagName": "서울시 강북구",
+      "fieldId": 10
+    },
+    {
+      "tagId": 72,
+      "tagName": "서울시 강서구",
+      "fieldId": 10
+    },
+    {
+      "tagId": 73,
+      "tagName": "서울시 관악구",
+      "fieldId": 10
+    },
+    {
+      "tagId": 74,
+      "tagName": "서울시 광진구",
+      "fieldId": 10
+    },
+    {
+      "tagId": 75,
+      "tagName": "서울시 구로구",
+      "fieldId": 10
+    },
+    {
+      "tagId": 76,
+      "tagName": "서울시 금천구",
+      "fieldId": 10
+    },
+    {
+      "tagId": 77,
+      "tagName": "서울시 노원구",
+      "fieldId": 10
+    },
+    {
+      "tagId": 78,
+      "tagName": "서울시 도봉구",
+      "fieldId": 10
+    },
+    {
+      "tagId": 79,
+      "tagName": "서울시 동대문구",
+      "fieldId": 10
+    },
+    {
+      "tagId": 80,
+      "tagName": "서울시 동작구",
+      "fieldId": 10
+    },
+    {
+      "tagId": 81,
+      "tagName": "서울시 마포구",
+      "fieldId": 10
+    },
+    {
+      "tagId": 82,
+      "tagName": "서울시 서대문구",
+      "fieldId": 10
+    },
+    {
+      "tagId": 83,
+      "tagName": "서울시 서초구",
+      "fieldId": 10
+    },
+    {
+      "tagId": 84,
+      "tagName": "서울시 성동구",
+      "fieldId": 10
+    },
+    {
+      "tagId": 85,
+      "tagName": "서울시 성북구",
+      "fieldId": 10
+    },
+    {
+      "tagId": 86,
+      "tagName": "서울시 송파구",
+      "fieldId": 10
+    },
+    {
+      "tagId": 87,
+      "tagName": "서울시 양천구",
+      "fieldId": 10
+    },
+    {
+      "tagId": 88,
+      "tagName": "서울시 영등포구",
+      "fieldId": 10
+    },
+    {
+      "tagId": 89,
+      "tagName": "서울시 용산구",
+      "fieldId": 10
+    },
+    {
+      "tagId": 90,
+      "tagName": "서울시 은평구",
+      "fieldId": 10
+    },
+    {
+      "tagId": 91,
+      "tagName": "서울시 종로구",
+      "fieldId": 10
+    },
+    {
+      "tagId": 92,
+      "tagName": "서울시 중구",
+      "fieldId": 10
+    },
+    {
+      "tagId": 93,
+      "tagName": "서울시 중랑구",
+      "fieldId": 10
+    },
+    {
+      "tagId": 94,
+      "tagName": "경기도 수원시 장안구",
+      "fieldId": 10
+    },
+    {
+      "tagId": 95,
+      "tagName": "경기도 수원시 권선구",
+      "fieldId": 10
+    },
+    {
+      "tagId": 96,
+      "tagName": "경기도 수원시 팔달구",
+      "fieldId": 10
+    },
+    {
+      "tagId": 97,
+      "tagName": "경기도 수원시 영통구",
+      "fieldId": 10
+    },
+    {
+      "tagId": 98,
+      "tagName": "경기도 성남시 수정구",
+      "fieldId": 10
+    },
+    {
+      "tagId": 99,
+      "tagName": "경기도 성남시 중원구",
+      "fieldId": 10
+    },
+    {
+      "tagId": 100,
+      "tagName": "경기도 성남시 분당구",
+      "fieldId": 10
+    },
+    {
+      "tagId": 101,
+      "tagName": "경기도 의정부시",
+      "fieldId": 10
+    },
+    {
+      "tagId": 102,
+      "tagName": "경기도 안양시 만안구",
+      "fieldId": 10
+    },
+    {
+      "tagId": 103,
+      "tagName": "경기도 안양시 동안구",
+      "fieldId": 10
+    },
+    {
+      "tagId": 104,
+      "tagName": "경기도 부천시",
+      "fieldId": 10
+    },
+    {
+      "tagId": 105,
+      "tagName": "경기도 광명시",
+      "fieldId": 10
+    },
+    {
+      "tagId": 106,
+      "tagName": "경기도 평택시",
+      "fieldId": 10
+    },
+    {
+      "tagId": 107,
+      "tagName": "경기도 동두천시",
+      "fieldId": 10
+    },
+    {
+      "tagId": 108,
+      "tagName": "경기도 안산시 상록구",
+      "fieldId": 10
+    },
+    {
+      "tagId": 109,
+      "tagName": "경기도 안산시 단원구",
+      "fieldId": 10
+    },
+    {
+      "tagId": 110,
+      "tagName": "경기도 고양시 덕양구",
+      "fieldId": 10
+    },
+    {
+      "tagId": 111,
+      "tagName": "경기도 고양시 일산동구",
+      "fieldId": 10
+    },
+    {
+      "tagId": 112,
+      "tagName": "경기도 고양시 일산서구",
+      "fieldId": 10
+    },
+    {
+      "tagId": 113,
+      "tagName": "경기도 과천시",
+      "fieldId": 10
+    },
+    {
+      "tagId": 114,
+      "tagName": "경기도 구리시",
+      "fieldId": 10
+    },
+    {
+      "tagId": 115,
+      "tagName": "경기도 남양주시",
+      "fieldId": 10
+    },
+    {
+      "tagId": 116,
+      "tagName": "경기도 오산시",
+      "fieldId": 10
+    },
+    {
+      "tagId": 117,
+      "tagName": "경기도 시흥시",
+      "fieldId": 10
+    },
+    {
+      "tagId": 118,
+      "tagName": "경기도 군포시",
+      "fieldId": 10
+    },
+    {
+      "tagId": 119,
+      "tagName": "경기도 의왕시",
+      "fieldId": 10
+    },
+    {
+      "tagId": 120,
+      "tagName": "경기도 하남시",
+      "fieldId": 10
+    },
+    {
+      "tagId": 121,
+      "tagName": "경기도 용인시 처인구",
+      "fieldId": 10
+    },
+    {
+      "tagId": 122,
+      "tagName": "경기도 용인시 기흥구",
+      "fieldId": 10
+    },
+    {
+      "tagId": 123,
+      "tagName": "경기도 용인시 수지구",
+      "fieldId": 10
+    },
+    {
+      "tagId": 124,
+      "tagName": "경기도 파주시",
+      "fieldId": 10
+    },
+    {
+      "tagId": 125,
+      "tagName": "경기도 이천시",
+      "fieldId": 10
+    },
+    {
+      "tagId": 126,
+      "tagName": "경기도 안성시",
+      "fieldId": 10
+    },
+    {
+      "tagId": 127,
+      "tagName": "경기도 김포시",
+      "fieldId": 10
+    },
+    {
+      "tagId": 128,
+      "tagName": "경기도 화성시",
+      "fieldId": 10
+    },
+    {
+      "tagId": 129,
+      "tagName": "경기도 광주시",
+      "fieldId": 10
+    },
+    {
+      "tagId": 130,
+      "tagName": "경기도 양주시",
+      "fieldId": 10
+    },
+    {
+      "tagId": 131,
+      "tagName": "경기도 포천시",
+      "fieldId": 10
+    },
+    {
+      "tagId": 132,
+      "tagName": "경기도 여주시",
+      "fieldId": 10
+    },
+    {
+      "tagId": 133,
+      "tagName": "경기도 연천군",
+      "fieldId": 10
+    },
+    {
+      "tagId": 134,
+      "tagName": "경기도 가평군",
+      "fieldId": 10
+    },
+    {
+      "tagId": 135,
+      "tagName": "경기도 양평군",
+      "fieldId": 10
+    },
+    {
+      "tagId": 136,
+      "tagName": "기타",
+      "fieldId": 10
+    }
+  ]
+}

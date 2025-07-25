@@ -66,6 +66,7 @@ dependencies {
     implementation ("com.squareup.okhttp3:okhttp:4.9.3")
     implementation ("com.squareup.okhttp3:logging-interceptor:4.9.3")
     implementation("androidx.benchmark:benchmark-common:1.3.4")
+    implementation("androidx.activity:activity:1.8.0")
 
 
     testImplementation("junit:junit:4.13.2")

@@ -119,7 +119,7 @@ class CalendarFragment : Fragment() {
         Schedule(LocalDate.of(2025, 7, 15), "청년마음건강지원사업 이용자 모집", 1),
         Schedule(LocalDate.of(2025, 7, 15), "청년마음건강지원사업 이용자 모집", 2),
         Schedule(LocalDate.of(2025, 7, 30), "청년마음건강지원사업 이용자 모집", 2)
-        // 0 = 상시, 1 = 사업 마감일, 2 = 신청 마감일, 3 = 사업 종료
+        // 0 = 상시, 1 = 사업 마감일, 2 = 신청 마감일, 3 = 사업 종료, 4 = 모집 요강 확인
     )
 
     private val recordTypeMap: Map<LocalDate, List<Int>> = dummyScheduleList

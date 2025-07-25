@@ -73,6 +73,31 @@
     <string name="archiving_label1">신청 완료한 지원 사업</string>
     <string name="select_keyword">키워드 선택</string>
 
+    <string name="keyword">키워드</string>
+    <string name="keyword_job">일자리</string>
+    <string name="job_all">일자리 전체</string>
+    <string name="keyword_dwelling">주거</string>
+    <string name="dwelling_all">주거 전체</string>
+    <string name="keyword_education">교육</string>
+    <string name="education_all">교육 전체</string>
+    <string name="keyword_welfare">복지문화</string>
+    <string name="welfare_all">복지문화 전체</string>
+    <string name="keyword_family">가구상황</string>
+    <string name="family_all">가구상황 전체</string>
+    <string name="keyword_employment">직업</string>
+    <string name="employment_all">직업 전체</string>
+    <string name="keyword_age">연령대</string>
+    <string name="age_all">연령대 전체</string>
+    <string name="keyword_additional">추가지원 조건</string>
+    <string name="additional_all">추가지원 조건 전체</string>
+    <string name="keyword_education_level">최종 학력</string>
+    <string name="education_level_all">최종 학력 전체</string>
+    <string name="keyword_region">지역</string>
+    <string name="region_all">지역 전체</string>
+
+
+
+
     <!-- 캘린더 -->
     <string name="year">년</string>
     <string name="month">월</string>
