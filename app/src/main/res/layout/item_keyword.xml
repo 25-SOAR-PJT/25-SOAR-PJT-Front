@@ -12,5 +12,12 @@
         android:text="@string/sample"
         style="@style/Font_Label_Semibold"
         android:textColor="@color/ref_gray_800"/>
+    <ImageView
+        android:id="@+id/btn_close"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:src="@drawable/icon_close"
+        android:layout_marginStart="2dp"
+        android:visibility="gone"/>
 
 </LinearLayout>

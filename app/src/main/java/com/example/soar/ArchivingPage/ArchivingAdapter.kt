@@ -5,17 +5,33 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.soar.R
 import com.example.soar.databinding.CustomToastBinding
 import com.example.soar.databinding.ItemCalendarScheduleBinding
 import java.time.LocalDate
 
-class ArchivingAdapter(
-    private val businuessList: List<Business>
-) : RecyclerView.Adapter<ArchivingAdapter.ScheduleViewHolder>() {
+class ArchivingAdapter :
+    ListAdapter<Business, ArchivingAdapter.ScheduleViewHolder>(DiffCallback) {
 
-    inner class ScheduleViewHolder(val binding: ItemCalendarScheduleBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class ScheduleViewHolder(val binding: ItemCalendarScheduleBinding) :
+        RecyclerView.ViewHolder(binding.root)
+
+    companion object {
+        // DiffUtil.ItemCallback 구현
+        private val DiffCallback = object : DiffUtil.ItemCallback<Business>() {
+            override fun areItemsTheSame(oldItem: Business, newItem: Business): Boolean {
+                // Business 고유값으로 비교 (id가 있다면 id로)
+                return oldItem.id == newItem.id
+            }
+
+            override fun areContentsTheSame(oldItem: Business, newItem: Business): Boolean {
+                return oldItem == newItem
+            }
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScheduleViewHolder {
         val binding = ItemCalendarScheduleBinding.inflate(
@@ -27,7 +43,7 @@ class ArchivingAdapter(
     }
 
     override fun onBindViewHolder(holder: ScheduleViewHolder, position: Int) {
-        val schedule = businuessList[position]
+        val schedule = getItem(position)
         val context = holder.itemView.context
 
         holder.binding.textTitle.text = schedule.title
@@ -55,27 +71,27 @@ class ArchivingAdapter(
 
         holder.binding.checkbox.setImageResource(checkboxDrawable)
 
-        // 체크박스 클릭 시 상태 토글 및 이미지 변경
+        // 체크박스 클릭 이벤트
         holder.binding.checkbox.setOnClickListener {
-            schedule.isApplied = !schedule.isApplied
-            notifyItemChanged(position)
+            val updatedItem = schedule.copy(isApplied = !schedule.isApplied)
 
-            if (schedule.isApplied) {
+            val newList = currentList.toMutableList().apply {
+                set(position, updatedItem)
+            }
+            submitList(newList)
+
+            if (updatedItem.isApplied) {
                 var toast: Toast? = null
                 toast = Toast(holder.itemView.context).apply {
                     duration = Toast.LENGTH_SHORT
                     view = CustomToastBinding.inflate(LayoutInflater.from(holder.itemView.context)).apply {
                         textMessage.text = context.getString(R.string.toast_biz_apply)
-                        btnCancel.setOnClickListener {
-                            toast?.cancel()
-                        }
+                        btnCancel.setOnClickListener { toast?.cancel() }
                     }.root
                 }
                 toast.show()
             }
-
         }
-    }
 
-    override fun getItemCount(): Int = businuessList.size
+    }
 }
