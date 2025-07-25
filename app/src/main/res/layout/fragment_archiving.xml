@@ -104,6 +104,7 @@
                 android:paddingHorizontal="16dp">
 
                 <LinearLayout
+                    android:id="@+id/btn_select_keyword"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
