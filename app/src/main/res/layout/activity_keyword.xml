@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -21,7 +21,8 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingTop="32dp"
-            android:paddingHorizontal="16dp">
+            android:paddingHorizontal="16dp"
+            android:paddingBottom="68dp">
 
             <LinearLayout
                 android:id="@+id/section_job"
@@ -114,147 +115,34 @@
                     app:flexDirection="row"
                     app:justifyContent="flex_start"/>
             </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/section_family"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginBottom="16dp">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/keyword_family"
-                    style="@style/Font_Body_Semibold"
-                    android:textColor="@color/ref_coolgray_800"
-                    android:layout_marginBottom="16dp"/>
-
-                <com.google.android.flexbox.FlexboxLayout
-                    android:id="@+id/flex_layout5"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:flexWrap="wrap"
-                    app:flexDirection="row"
-                    app:justifyContent="flex_start"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/section_employment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginBottom="16dp">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/keyword_employment"
-                    style="@style/Font_Body_Semibold"
-                    android:textColor="@color/ref_coolgray_800"
-                    android:layout_marginBottom="16dp"/>
-
-                <com.google.android.flexbox.FlexboxLayout
-                    android:id="@+id/flex_layout6"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:flexWrap="wrap"
-                    app:flexDirection="row"
-                    app:justifyContent="flex_start"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/section_age"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginBottom="16dp">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/keyword_age"
-                    style="@style/Font_Body_Semibold"
-                    android:textColor="@color/ref_coolgray_800"
-                    android:layout_marginBottom="16dp"/>
-
-                <com.google.android.flexbox.FlexboxLayout
-                    android:id="@+id/flex_layout7"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:flexWrap="wrap"
-                    app:flexDirection="row"
-                    app:justifyContent="flex_start"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/section_additional"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginBottom="16dp">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/keyword_additional"
-                    style="@style/Font_Body_Semibold"
-                    android:textColor="@color/ref_coolgray_800"
-                    android:layout_marginBottom="16dp"/>
-
-                <com.google.android.flexbox.FlexboxLayout
-                    android:id="@+id/flex_layout8"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:flexWrap="wrap"
-                    app:flexDirection="row"
-                    app:justifyContent="flex_start"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/section_education_level"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginBottom="16dp">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/keyword_education_level"
-                    style="@style/Font_Body_Semibold"
-                    android:textColor="@color/ref_coolgray_800"
-                    android:layout_marginBottom="16dp"/>
-
-                <com.google.android.flexbox.FlexboxLayout
-                    android:id="@+id/flex_layout9"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:flexWrap="wrap"
-                    app:flexDirection="row"
-                    app:justifyContent="flex_start"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/section_region"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginBottom="16dp">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/keyword_region"
-                    style="@style/Font_Body_Semibold"
-                    android:textColor="@color/ref_coolgray_800"
-                    android:layout_marginBottom="16dp"/>
-
-                <com.google.android.flexbox.FlexboxLayout
-                    android:id="@+id/flex_layout10"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:flexWrap="wrap"
-                    app:flexDirection="row"
-                    app:justifyContent="flex_start"/>
-            </LinearLayout>
-
-
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="bottom"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="12dp"
+        android:background="@color/ref_white">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="12dp"
+            android:text="@string/re_select"
+            style="@style/Font_Body_Semibold"
+            android:textColor="@color/semantic_text_strong"/>
+        <TextView
+            android:layout_width="230dp"
+            android:layout_height="44dp"
+            android:gravity="center"
+            android:padding="12dp"
+            android:text="@string/submit_keyword"
+            android:background="@drawable/round_background"
+            android:backgroundTint="@color/semantic_surface_primary_disabled"
+            style="@style/Font_Body_Semibold"
+            android:textColor="@color/semantic_text_inverse"/>
+    </LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
