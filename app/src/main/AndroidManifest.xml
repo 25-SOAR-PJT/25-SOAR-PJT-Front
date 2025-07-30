@@ -20,9 +20,11 @@
         android:theme="@style/Theme.SOAR"
         tools:targetApi="31">
         <activity
-            android:name=".ArchivingPage.KeywordActivity"
+            android:name=".AlarmPage.AlarmActivity"
             android:exported="false" />
-        <!-- 앱 첫 실행용 스플래시 -->
+        <activity
+            android:name=".ArchivingPage.KeywordActivity"
+            android:exported="false" /> <!-- 앱 첫 실행용 스플래시 -->
         <activity
             android:name=".EntryPage.Splash.SplashPageActivity"
             android:exported="false"

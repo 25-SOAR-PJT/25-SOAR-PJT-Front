@@ -70,6 +70,10 @@ class HomeFragment : Fragment() {
             val intent = Intent(requireContext(), LoginActivity::class.java)
             startActivity(intent)
         }
+        binding.btnAlarm.setOnClickListener {
+            val intent = Intent(requireContext(), LoginActivity::class.java)
+            startActivity(intent)
+        }
 
         val cardList = listOf(
             SwipeCardItem(getString(R.string.home_swipe), R.drawable.swipe_img1, "https://www.naver.com/"),

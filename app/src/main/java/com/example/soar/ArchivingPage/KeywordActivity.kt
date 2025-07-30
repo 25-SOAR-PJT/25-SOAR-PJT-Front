@@ -47,23 +47,14 @@ class KeywordActivity : AppCompatActivity() {
         // fieldId별 FlexboxLayout 매핑
         val flexboxMap = mapOf(
             1 to binding.flexLayout1, 2 to binding.flexLayout2,
-            3 to binding.flexLayout3, 4 to binding.flexLayout4,
-            5 to binding.flexLayout5, 6 to binding.flexLayout6,
-            7 to binding.flexLayout7, 8 to binding.flexLayout8,
-            9 to binding.flexLayout9, 10 to binding.flexLayout10
+            3 to binding.flexLayout3, 4 to binding.flexLayout4
         )
 
         val sampleTextMap = mapOf(
             1 to getString(R.string.job_all),
             2 to getString(R.string.dwelling_all),
             3 to getString(R.string.education_all),
-            4 to getString(R.string.welfare_all),
-            5 to getString(R.string.family_all),
-            6 to getString(R.string.employment_all),
-            7 to getString(R.string.age_all),
-            8 to getString(R.string.additional_all),
-            9 to getString(R.string.education_level_all),
-            10 to getString(R.string.region_all),
+            4 to getString(R.string.welfare_all)
         )
 
         // 더미 태그 데이터 로드
@@ -121,6 +112,10 @@ class KeywordActivity : AppCompatActivity() {
 
             val tagText = tagLayout.findViewById<TextView>(R.id.text_keyword)
             val btnClose = tagLayout.findViewById<ImageView>(R.id.btn_close)
+
+            val params = tagLayout.layoutParams as ViewGroup.MarginLayoutParams
+            params.setMargins(0, 0, margin, margin)
+            tagLayout.layoutParams = params
 
             tagText.text = tag.tagName
 

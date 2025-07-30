@@ -82,20 +82,8 @@
     <string name="education_all">교육 전체</string>
     <string name="keyword_welfare">복지문화</string>
     <string name="welfare_all">복지문화 전체</string>
-    <string name="keyword_family">가구상황</string>
-    <string name="family_all">가구상황 전체</string>
-    <string name="keyword_employment">직업</string>
-    <string name="employment_all">직업 전체</string>
-    <string name="keyword_age">연령대</string>
-    <string name="age_all">연령대 전체</string>
-    <string name="keyword_additional">추가지원 조건</string>
-    <string name="additional_all">추가지원 조건 전체</string>
-    <string name="keyword_education_level">최종 학력</string>
-    <string name="education_level_all">최종 학력 전체</string>
-    <string name="keyword_region">지역</string>
-    <string name="region_all">지역 전체</string>
-
-
+    <string name="re_select">재설정</string>
+    <string name="submit_keyword">필터 검색 결과 보기</string>
 
 
     <!-- 캘린더 -->
@@ -134,6 +122,7 @@
     <string name="comment">댓글</string>
     <string name="enter_comment">댓글을 입력해주세요</string>
     <string name="see_more">더보기</string>
+    <string name="apply">신청하기</string>
 
     <!--스플래시-->
     <string name="soar_logo">SOAR 로고</string>
