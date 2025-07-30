@@ -85,7 +85,7 @@
                     android:textColor="@color/semantic_text_strong"/>
                 <Button
                     android:id="@+id/btn_to_login"
-                    android:layout_width="304dp"
+                    android:layout_width="match_parent"
                     android:layout_height="41dp"
                     android:text="@string/to_login"
                     style="@style/close_button"
