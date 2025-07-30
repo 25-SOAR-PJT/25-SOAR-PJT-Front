@@ -124,6 +124,7 @@
                                 android:layout_height="20dp"
                                 android:gravity="center"
                                 android:text="@string/mon"
+                                style="@style/Font_Body_Medium"
                                 android:textColor="@color/ref_gray_500"/>
                             <Space
                                 android:layout_width="0dp"
@@ -134,6 +135,7 @@
                                 android:layout_height="20dp"
                                 android:gravity="center"
                                 android:text="@string/tue"
+                                style="@style/Font_Body_Medium"
                                 android:textColor="@color/ref_gray_500"/>
                             <Space
                                 android:layout_width="0dp"
@@ -144,6 +146,7 @@
                                 android:layout_height="20dp"
                                 android:gravity="center"
                                 android:text="@string/wed"
+                                style="@style/Font_Body_Medium"
                                 android:textColor="@color/ref_gray_500"/>
                             <Space
                                 android:layout_width="0dp"
@@ -154,6 +157,7 @@
                                 android:layout_height="20dp"
                                 android:gravity="center"
                                 android:text="@string/thu"
+                                style="@style/Font_Body_Medium"
                                 android:textColor="@color/ref_gray_500"/>
                             <Space
                                 android:layout_width="0dp"
@@ -164,6 +168,7 @@
                                 android:layout_height="20dp"
                                 android:gravity="center"
                                 android:text="@string/fri"
+                                style="@style/Font_Body_Medium"
                                 android:textColor="@color/ref_gray_500"/>
                             <Space
                                 android:layout_width="0dp"
@@ -174,6 +179,7 @@
                                 android:layout_height="20dp"
                                 android:gravity="center"
                                 android:text="@string/sat"
+                                style="@style/Font_Body_Medium"
                                 android:textColor="@color/ref_gray_500"/>
                             <Space
                                 android:layout_width="0dp"
@@ -184,6 +190,7 @@
                                 android:layout_height="20dp"
                                 android:gravity="center"
                                 android:text="@string/sun"
+                                style="@style/Font_Body_Medium"
                                 android:textColor="@color/ref_gray_500"/>
                         </LinearLayout>
                         <androidx.recyclerview.widget.RecyclerView
