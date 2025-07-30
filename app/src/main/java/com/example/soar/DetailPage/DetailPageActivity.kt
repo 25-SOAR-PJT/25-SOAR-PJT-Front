@@ -129,7 +129,7 @@ class DetailPageActivity : AppCompatActivity() {
         // 상세정보 더보기
         var isExpanded = false
         binding.btnFold.setOnClickListener {
-            if (isExpanded) {
+            if (!isExpanded) {
                 // 전체 펼치기
                 binding.textDetail.maxLines = Int.MAX_VALUE
                 binding.textDetail.ellipsize = null
