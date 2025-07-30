@@ -96,8 +96,6 @@
     <string name="region_all">지역 전체</string>
 
 
-
-
     <!-- 캘린더 -->
     <string name="year">년</string>
     <string name="month">월</string>
@@ -134,6 +132,7 @@
     <string name="comment">댓글</string>
     <string name="enter_comment">댓글을 입력해주세요</string>
     <string name="see_more">더보기</string>
+    <string name="apply">신청하기</string>
 
     <!--스플래시-->
     <string name="soar_logo">SOAR 로고</string>
