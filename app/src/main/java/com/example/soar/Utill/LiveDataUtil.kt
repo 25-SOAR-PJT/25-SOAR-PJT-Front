@@ -1,7 +1,7 @@
-// LiveDataUtil.kt
-package com.example.soar.EntryPage.SignUp
+package com.example.soar.Utill
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 
 /** 여러 LiveData(List) 결합 — 기존 */
 fun <T, R> List<LiveData<T>>.combineLatest(

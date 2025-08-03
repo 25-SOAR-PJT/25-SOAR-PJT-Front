@@ -77,4 +77,14 @@ object TokenManager {
         return prefs.getBoolean(KEY_IS_KAKAO_USER, false)
     }
 
+
+    fun getSignInInfo(): SignInResponse? {
+        val json = prefs.getString(KEY_SIGN_IN_INFO, null) ?: return null
+        return try {
+            Gson().fromJson(json, SignInResponse::class.java)
+        } catch (e: Exception) {
+            null
+        }
+    }
+
 }

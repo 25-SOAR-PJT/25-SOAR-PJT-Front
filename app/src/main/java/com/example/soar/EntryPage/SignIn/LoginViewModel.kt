@@ -34,15 +34,30 @@ class LoginViewModel(
 
     fun login() = viewModelScope.launch {
         _uiState.value = UiState.Loading
-        try {
-            val ok = repo.login(email.value.orEmpty(), password.value.orEmpty())
-            _uiState.value = if (ok) UiState.Success
-            else UiState.Failure("이메일 또는 비밀번호가 일치하지 않습니다.")
-        } catch(_: Exception) {
-            _uiState.value = UiState.Failure("네트워크 오류가 발생했습니다.")
-        }
+        repo.login(email.value.orEmpty(), password.value.orEmpty())
+            .onSuccess {
+                // 성공 시
+                _uiState.value = UiState.Success
+            }
+            .onFailure { error ->
+                // 실패 시 (네트워크 오류, 서버 에러 포함)
+                _uiState.value = UiState.Failure(error.message ?: "오류가 발생했습니다.")
+            }
     }
+
+    fun loginWithKakao(kakaoToken: String) = viewModelScope.launch {
+        _uiState.value = UiState.Loading
+        repo.kakaoLogin(kakaoToken)
+            .onSuccess {
+                _uiState.value = UiState.Success
+            }
+            .onFailure { error ->
+                _uiState.value = UiState.Failure(error.message ?: "카카오 로그인 중 오류가 발생했습니다.")
+            }
+    }
+
     fun resetState() { _uiState.value = UiState.Idle }
+
 }
 
 /* ---------- LiveData 확장 ---------- */
