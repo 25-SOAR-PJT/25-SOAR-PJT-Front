@@ -27,6 +27,14 @@
         <item name="android:textColor">@color/ref_white</item>
     </style>
 
+    <style name="DimmedActivityTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Activity 크기 축소해도 남는 부분에 dim 적용 -->
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.5</item> <!-- 0 ~ 1 (어두움 정도) -->
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
 
 
 </resources>

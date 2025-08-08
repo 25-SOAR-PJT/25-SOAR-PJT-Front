@@ -18,7 +18,7 @@
             android:layout_height="4dp"
             android:layout_gravity="center"
             android:background="@drawable/round_background2"
-            android:backgroundTint="@color/ref_gray_400"/>
+            android:backgroundTint="@color/semantic_surface_normal_based"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
