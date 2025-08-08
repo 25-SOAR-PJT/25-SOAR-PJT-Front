@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.soar.CalendarPage.CalendarScheduleAdapter
 import com.example.soar.DetailPage.DetailPageActivity
 import com.example.soar.EntryPage.Onboarding.OnBoardingActivity
-import com.example.soar.EntryPage.SignIn.LoginActivity
+import com.example.soar.CurationSequencePage.CurationSequeceActivity
 import com.example.soar.R
 import com.example.soar.databinding.FragmentArchivingBinding
 import com.google.gson.Gson
@@ -79,7 +79,7 @@ class ArchivingFragment : Fragment() {
         }
 
         binding.btn3.setOnClickListener {
-            val intent = Intent(requireContext(), LoginActivity::class.java)
+            val intent = Intent(requireContext(), CurationSequeceActivity::class.java)
             startActivity(intent)
         }
 

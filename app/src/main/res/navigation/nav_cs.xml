@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_cs"
+    app:startDestination="@id/step0Fragment">
+
+    <fragment
+        android:id="@+id/step0Fragment"
+        android:name="com.example.soar.CurationSequencePage.Step0Fragment"
+        android:label="Step0Fragment"
+        tools:layout="@layout/step_cs_start">
+        <action
+            android:id="@+id/action_step0_to_step1"
+            app:destination="@id/step1Fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/step1Fragment"
+        android:name="com.example.soar.CurationSequencePage.Step1Fragment"
+        android:label="Step1Fragment"
+        tools:layout="@layout/step_cs_location">
+        <action
+            android:id="@+id/action_step1_to_step2"
+            app:destination="@id/step2Fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_step1_to_locationSelectionFragment"
+            app:destination="@id/locationSelectionFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/locationSelectionFragment"
+        android:name="com.example.soar.CurationSequencePage.LocationSelectionFragment"
+        android:label="LocationSelectionFragment"
+        tools:layout="@layout/dialog_location_selection" />
+
+    <fragment
+        android:id="@+id/step2Fragment"
+        android:name="com.example.soar.CurationSequencePage.Step2Fragment" >
+        <action
+            android:id="@+id/action_step2_to_step3"
+            app:destination="@id/step3Fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
+    <fragment
+        android:id="@+id/step3Fragment"
+        android:name="com.example.soar.CurationSequencePage.Step3Fragment" >
+        <action
+            android:id="@+id/action_step3_to_step4"
+            app:destination="@id/step4Fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
+    <fragment
+        android:id="@+id/step4Fragment"
+        android:name="com.example.soar.CurationSequencePage.Step4Fragment" >
+        <action
+            android:id="@+id/action_step4_to_step5"
+            app:destination="@id/step5Fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
+    <fragment
+        android:id="@+id/step5Fragment"
+        android:name="com.example.soar.CurationSequencePage.Step5Fragment" >
+        <action
+            android:id="@+id/action_step5_to_step6"
+            app:destination="@id/step6Fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/step6Fragment"
+        android:name="com.example.soar.CurationSequencePage.Step6Fragment" >
+        <action
+            android:id="@+id/action_step6_to_step1"
+            app:destination="@id/step1Fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+
+        <action
+            android:id="@+id/action_step6_to_step2"
+            app:destination="@id/step2Fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_step6_to_step3"
+            app:destination="@id/step3Fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+
+        <action
+            android:id="@+id/action_step6_to_step4"
+            app:destination="@id/step4Fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+
+        <action
+            android:id="@+id/action_step6_to_step5"
+            app:destination="@id/step5Fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
+
+
+</navigation>

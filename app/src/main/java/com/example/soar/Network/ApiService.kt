@@ -54,7 +54,12 @@ interface ApiService {
     ): Response<ApiResponse<String>>
 
     @POST(ApiConfig.User.KAKAO_LOGIN)
-    suspend fun kakaoLogin(): Response<ApiResponse<String>>
+    suspend fun kakaoLogin(
+        @Header("Authorization") kakaoAccessToken: String
+    ): Response<ApiResponse<SignInResponse>> // SignInResponse를 반환한다고 가정
+
+    @POST("/api/auth/kakao/signin")
+    suspend fun kakaoSignIn(@Body request: KakaoLoginRequest): Response<ApiResponse<SignInResponse>>
 
 
 }

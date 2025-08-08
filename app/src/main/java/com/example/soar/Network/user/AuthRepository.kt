@@ -2,6 +2,7 @@ package com.example.soar.repository
 
 import com.example.soar.Network.ApiService
 import com.example.soar.Network.RetrofitClient
+import com.example.soar.Network.TokenManager
 import com.example.soar.Network.user.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -48,9 +49,49 @@ class AuthRepository(
         }
     }
 
-    suspend fun login(email: String, pw: String): Boolean {
-        // 실제 구현 시 Retrofit 호출
-        delay(800)
-        return email == "test@example.com" && pw == "12345678"
+    suspend fun login(email: String, pw: String): Result<SignInResponse> = withContext(Dispatchers.IO) {
+        runCatching {
+            val request = SignInRequest(userEmail = email, userPassword = pw)
+            val response = api.signIn(request)
+
+            if (response.isSuccessful) {
+                // API 호출 성공
+                val signInData = response.body()?.data ?: error("로그인 응답 데이터가 비어있습니다.")
+
+                // TokenManager를 사용해 토큰 및 사용자 정보 저장
+                TokenManager.saveAccessToken(signInData.accessToken ?: "")
+                TokenManager.saveRefreshToken(signInData.refreshToken ?: "")
+                TokenManager.saveUserId(signInData.userId)
+                TokenManager.saveSignInInfo(signInData) // 로그인 응답 전체 저장
+
+                signInData // 성공 결과 반환
+            } else {
+                // API 호출 실패 (예: 400 Bad Request)
+                error(parseError(response.errorBody()))
+            }
+        }
     }
+
+    suspend fun kakaoLogin(kakaoAccessToken: String): Result<SignInResponse> = withContext(Dispatchers.IO) {
+        runCatching {
+            // "Bearer " 접두사를 붙여주는 것이 일반적입니다. 백엔드 요구사항에 따라 조정하세요.
+            val response = api.kakaoLogin("Bearer $kakaoAccessToken")
+
+            if (response.isSuccessful) {
+                val signInData = response.body()?.data ?: error("카카오 로그인 응답 데이터가 비어있습니다.")
+
+                // 일반 로그인과 동일하게 토큰 및 사용자 정보 저장
+                TokenManager.saveAccessToken(signInData.accessToken ?: "")
+                TokenManager.saveRefreshToken(signInData.refreshToken ?: "")
+                TokenManager.saveUserId(signInData.userId)
+                TokenManager.saveSignInInfo(signInData)
+
+                signInData // 성공 결과 반환
+            } else {
+                error(parseError(response.errorBody()))
+            }
+        }
+    }
+
+
 }

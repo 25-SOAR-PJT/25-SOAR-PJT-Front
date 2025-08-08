@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- layout_progress_header.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingHorizontal="24dp"
+    android:paddingVertical="16dp">
+
+    <TextView
+        android:id="@+id/tvProgress"
+        style="@style/Font_Label_Semibold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1/6"
+        android:textColor="@color/ref_gray_600"
+        android:textSize="12sp"
+        tools:text="1/6" />
+
+    <TextView
+        android:id="@+id/tvProgressDescription"
+        style="@style/Font_Label_Semibold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="첫 질문부터 차근차근 답해볼까요?"
+        android:textColor="@color/ref_gray_500"
+        tools:text="첫 질문부터 차근차근 답해볼까요?" />
+
+</LinearLayout>

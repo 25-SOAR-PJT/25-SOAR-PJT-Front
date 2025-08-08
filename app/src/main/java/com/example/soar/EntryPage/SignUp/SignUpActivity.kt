@@ -1,6 +1,7 @@
 package com.example.soar.EntryPage.SignUp
 
 import android.animation.ValueAnimator
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
@@ -8,6 +9,7 @@ import com.example.soar.R
 import com.example.soar.databinding.ActivitySignUpBinding
 
 import androidx.core.view.doOnLayout      // ← 추가
+import com.example.soar.MainActivity
 
 class SignUpActivity : AppCompatActivity() {
 
@@ -21,6 +23,7 @@ class SignUpActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.setBackgroundDrawableResource(R.color.ref_white)
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -75,5 +78,14 @@ class SignUpActivity : AppCompatActivity() {
     fun completeSignUp() {
         setResult(RESULT_OK)
         finish()
+    }
+
+    fun navigateToMainAndFinish() {
+        val intent = Intent(this, MainActivity::class.java).apply {
+            // 기존의 모든 액티비티를 스택에서 제거하고 새로운 태스크로 시작
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        startActivity(intent)
+        finish() // SignUpActivity 종료
     }
 }

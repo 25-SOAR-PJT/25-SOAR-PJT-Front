@@ -23,7 +23,7 @@
         android:id="@+id/btn3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="로그인으로 이동"/>
+        android:text="큐레이션으로 이동"/>
 
     <LinearLayout
         android:id="@+id/logo"
