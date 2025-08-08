@@ -20,6 +20,27 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SOAR"
         tools:targetApi="31">
+        <activity
+            android:name=".MyPage.PolicyActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MyPage.AnnouncementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MyPage.RecordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MyPage.CommentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MyPage.AppliedActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MyPage.EditProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MyPage.ProfileActivity"
+            android:exported="false" />
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
@@ -39,11 +60,10 @@
                     android:scheme="@string/kakao_scheme" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ExplorePage.PersonalBizActivity"
             android:exported="false"
-            android:theme="@style/DimmedActivityTheme"/>
+            android:theme="@style/DimmedActivityTheme" />
         <activity
             android:name=".ExplorePage.SearchActivity"
             android:exported="false" />
@@ -74,11 +94,8 @@
         <activity android:name=".EntryPage.SignIn.LoginActivity" /> <!-- 회원가입 페이지 -->
         <activity
             android:name=".EntryPage.SignUp.SignUpActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
-
-        <!-- 큐레이션시퀀스 페이지 -->
+            android:windowSoftInputMode="adjustResize|stateHidden" /> <!-- 큐레이션시퀀스 페이지 -->
         <activity android:name=".CurationSequencePage.CurationSequeceActivity" />
-
     </application>
 
 </manifest>
