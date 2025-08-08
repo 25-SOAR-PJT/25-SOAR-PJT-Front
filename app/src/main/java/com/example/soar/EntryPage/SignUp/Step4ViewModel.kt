@@ -1,8 +1,11 @@
 package com.example.soar.EntryPage.SignUp
 
+import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.*
+import androidx.savedstate.SavedStateRegistryOwner
 import com.example.soar.Network.user.SignUpRequest
+import com.example.soar.Utill.combineLatest
 import com.example.soar.repository.AuthRepository
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -63,9 +66,25 @@ class Step4ViewModel @Inject constructor(
                 agreedTerms     = terms
             )
             Log.d("SOAR_SIGNUP", "요청 바디: $body")
+            // 1. 회원가입 요청
             repo.signUp(body)
-                .onSuccess { _uiState.value = UiState.Success }
-                .onFailure { throw it }
+                .onSuccess {
+                    // ✨ 2. 회원가입 성공 시, 즉시 자동 로그인 시도
+                    val loginPassword = pw.value.orEmpty()
+                    repo.login(email, loginPassword)
+                        .onSuccess {
+                            // 3. 자동 로그인까지 성공하면 최종 성공 상태로 변경
+                            _uiState.value = UiState.Success
+                        }
+                        .onFailure { loginError ->
+                            // 로그인은 실패한 경우 (네트워크 문제 등)
+                            throw Exception("회원가입은 성공했으나, 자동 로그인에 실패했습니다. (${loginError.message})")
+                        }
+                }
+                .onFailure { signUpError ->
+                    // 회원가입 자체가 실패한 경우
+                    throw signUpError
+                }
         } catch (e: Exception) {
             Log.e("SOAR_SIGNUP", "오류: ${e.message}", e)
             _uiState.value = UiState.Failure(e.message ?: "네트워크 오류")
@@ -89,3 +108,14 @@ class Step4ViewModel @Inject constructor(
     }
 }
 
+class Step4ViewModelFactory(
+    private val repo: AuthRepository,
+    owner: SavedStateRegistryOwner,
+    defaultArgs: Bundle? = null
+) : AbstractSavedStateViewModelFactory(owner, defaultArgs) {
+    override fun <T : ViewModel> create(
+        key: String,
+        modelClass: Class<T>,
+        state: SavedStateHandle
+    ): T = Step4ViewModel(repo, state) as T
+}

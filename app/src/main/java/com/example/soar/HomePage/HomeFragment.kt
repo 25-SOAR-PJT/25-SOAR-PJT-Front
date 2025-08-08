@@ -17,6 +17,7 @@ import com.example.soar.EntryPage.Onboarding.OnBoardingActivity
 import com.example.soar.EntryPage.SignIn.LoginActivity
 import com.example.soar.ExplorePage.ExploreFragment
 import com.example.soar.MainActivity
+import com.example.soar.Network.TokenManager
 import com.example.soar.R
 import com.example.soar.databinding.FragmentHomeBinding
 import com.google.api.Context
@@ -133,6 +134,37 @@ class HomeFragment : Fragment() {
         }
         binding.ad3.setOnClickListener{
             openWebPage("https://www.2030db.go.kr/")
+        }
+
+
+        // ✨ 1. 로그인 상태 확인 및 UI 분기 처리
+        val accessToken = TokenManager.getAccessToken()
+
+        if (!accessToken.isNullOrEmpty()) {
+            // --- 로그인 상태일 때 ---
+            binding.section1.visibility = View.GONE
+            binding.sectionLogin.visibility = View.VISIBLE
+            binding.sectionPopular.visibility = View.VISIBLE
+
+            // 사용자 이름 가져와서 인사말 설정
+            val signInInfo = TokenManager.getSignInInfo()
+            val userName = signInInfo?.userName ?: "사용자"
+            binding.tvUserNameGreeting.text = userName
+
+        } else {
+            // --- 비로그인 상태일 때 ---
+            binding.section1.visibility = View.VISIBLE
+            binding.sectionLogin.visibility = View.GONE
+            binding.sectionPopular.visibility = View.GONE
+
+            // 비로그인 섹션의 버튼 리스너 설정
+            binding.btnCloseFirst.setOnClickListener {
+                binding.section1.visibility = View.GONE
+            }
+            binding.btnToLogin.setOnClickListener {
+                val intent = Intent(requireContext(), LoginActivity::class.java)
+                startActivity(intent)
+            }
         }
     }
 
