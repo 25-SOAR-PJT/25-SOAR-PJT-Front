@@ -84,7 +84,7 @@ class KeywordActivity : AppCompatActivity() {
             TypedValue.COMPLEX_UNIT_DIP, 36f, resources.displayMetrics
         ).toInt()
         val margin = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP, 6f, resources.displayMetrics
+            TypedValue.COMPLEX_UNIT_DIP, 12f, resources.displayMetrics
         ).toInt()
         val horizontalPadding = TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP, 16f, resources.displayMetrics
