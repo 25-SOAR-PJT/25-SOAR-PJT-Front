@@ -1,23 +1,242 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ExplorePage.ExploreFragment"
-    android:background="@color/ref_white"
-    android:orientation="vertical">
+    android:background="@color/ref_white">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="둘러보기 페이지"
-        style="@style/Font_Heading100_Bold"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/logo"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="12dp"
+            android:background="@color/ref_white">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/explore"
+                style="@style/Font_Heading400_Semibold"
+                android:textColor="@color/ref_coolgray_600"/>
+            <ImageView
+                android:id="@+id/btn_search"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:src="@drawable/icon_search"/>
+        </LinearLayout>
 
-    <TextView
-        android:id="@+id/text_sample"
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="18dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="40dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/biz_category"
+                        style="@style/Font_Heading500_Semibold"
+                        android:textColor="@color/ref_coolgray_600"
+                        android:paddingBottom="24dp"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center">
+                        <LinearLayout
+                            android:id="@+id/category1"
+                            android:layout_width="78dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:paddingTop="7dp"
+                            android:paddingBottom="9dp"
+                            android:gravity="center"
+                            android:layout_marginEnd="4dp">
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/image_categroy2"
+                                android:layout_marginBottom="2dp"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/keyword_job"
+                                style="@style/Font_Label_Semibold"
+                                android:textColor="@color/semantic_text_alternative"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:id="@+id/category2"
+                            android:layout_width="78dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:paddingTop="7dp"
+                            android:paddingBottom="9dp"
+                            android:gravity="center"
+                            android:layout_marginEnd="4dp">
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/image_categroy"
+                                android:layout_marginBottom="2dp"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/keyword_dwelling"
+                                style="@style/Font_Label_Semibold"
+                                android:textColor="@color/semantic_text_alternative"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:id="@+id/category3"
+                            android:layout_width="78dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:paddingTop="7dp"
+                            android:paddingBottom="9dp"
+                            android:gravity="center"
+                            android:layout_marginEnd="4dp">
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/image_categroy4"
+                                android:layout_marginBottom="2dp"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/keyword_education"
+                                style="@style/Font_Label_Semibold"
+                                android:textColor="@color/semantic_text_alternative"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:id="@+id/category4"
+                            android:layout_width="78dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:paddingTop="7dp"
+                            android:paddingBottom="9dp"
+                            android:gravity="center">
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/image_categroy3"
+                                android:layout_marginBottom="2dp"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/keyword_welfare"
+                                style="@style/Font_Label_Semibold"
+                                android:textColor="@color/semantic_text_alternative"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/popular_biz"
+                        style="@style/Font_Heading500_Semibold"
+                        android:textColor="@color/ref_coolgray_600"
+                        android:paddingBottom="20dp"/>
+
+                    <LinearLayout
+                        android:id="@+id/open_keyword_page"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingVertical="12dp"
+                        android:paddingHorizontal="16dp">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_gravity="center"
+                            android:text="@string/keyword_select"
+                            style="@style/Font_Heading500_Semibold"
+                            android:textColor="@color/semantic_text_strong"/>
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/icon_arrow_left"
+                            android:rotation="180"
+                            app:tint="@color/semantic_information_normal_strongest"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/biz_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <include
+                    layout="@layout/item_explore_biz"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="리사이클 뷰 만들어둠 아답터 만들어서 연결하면 됨"
+                    style="@style/Font_Heading100_Bold"/>
+
+                <TextView
+                    android:id="@+id/text_sample"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="카테고리 번호"
+                    style="@style/Font_Heading100_Bold"/>
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/btn_personal_biz"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="카테고리 번호"
-        style="@style/Font_Heading100_Bold"/>
+        android:layout_gravity="bottom|center"
+        android:orientation="horizontal"
+        android:background="@drawable/round_background6"
+        android:paddingVertical="10dp"
+        android:paddingHorizontal="24dp"
+        android:layout_marginBottom="13dp"
+        android:elevation="4dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/personal_biz"
+            style="@style/Font_Label_Bold"
+            android:textColor="@color/ref_blue_150"
+            android:layout_marginEnd="4dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/num"
+            style="@style/Font_Label_Bold"
+            android:textColor="@color/ref_blue_150"/>
+    </LinearLayout>
 
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

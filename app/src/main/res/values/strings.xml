@@ -64,6 +64,13 @@
     <string name="home_ad3_label">청년의 꿈을 응원하는 청년 DB</string>
     <string name="home_ad3_title">청년DB에서\n정책 담당자를 만나보세요</string>
 
+    <!-- 둘러보기 -->
+    <string name="biz_category">지원 사업 카테고리</string>
+    <string name="popular_biz">인기 지원 사업</string>
+    <string name="keyword_select">키워드로 지원 사업 모아보기</string>
+    <string name="personal_biz">나에게 맞는 공고 </string>
+    <string name="personal_biz_title">님의 정보와 맞는 공고</string>
+
     <!-- 아카이빙 -->
     <string name="always">상시</string>
     <string name="biz_deadline">사업 마감일</string>

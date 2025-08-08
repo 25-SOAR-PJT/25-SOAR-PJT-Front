@@ -1,5 +1,6 @@
 package com.example.soar.ExplorePage
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -35,6 +36,16 @@ class ExploreFragment : Fragment() {
 
         // 확인용 임시 바인딩
         binding.textSample.text = fieldId.toString()
+
+        binding.btnPersonalBiz.setOnClickListener {
+            val intent = Intent(requireContext(), PersonalBizActivity::class.java)
+            startActivity(intent)
+            requireActivity().overridePendingTransition(
+                R.anim.slide_in_up,
+                R.anim.slide_out_down
+            )
+        }
+
     }
 
     companion object {
