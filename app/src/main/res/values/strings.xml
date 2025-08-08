@@ -131,6 +131,27 @@
     <string name="see_more">더보기</string>
     <string name="apply">신청하기</string>
 
+    <!-- 마이페이지 -->
+    <string name="applied">신청 완료</string>
+    <string name="my_activity">나의 활동</string>
+    <string name="use_guide">이용 안내</string>
+    <string name="soar_guide">SOAR 가이드</string>
+    <string name="announcement">공지사항</string>
+    <string name="customer_center">고객센터</string>
+    <string name="app_inform">앱 정보</string>
+    <string name="policy">약관 및 정책</string>
+    <string name="app_version">버전 정보</string>
+    <string name="unsubscribe">회원 탈퇴</string>
+    <string name="profile">프로필</string>
+    <string name="record">기록</string>
+    <string name="policy_title1">서비스 이용 약관</string>
+    <string name="policy_title2">개인 정보 처리 방침</string>
+    <string name="policy_title3">기타</string>
+    <string name="policy_detail1">임시 텍스트</string>
+    <string name="policy_detail2">임시 텍스트</string>
+    <string name="policy_detail3">임시 텍스트</string>
+
+
     <!--스플래시-->
     <string name="soar_logo">SOAR 로고</string>
 
