@@ -2,11 +2,9 @@ package com.example.soar.ExplorePage
 
 import android.os.Bundle
 import android.view.Gravity
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.soar.R
+import com.example.soar.Utill.SwipeToDismissUtil
 import com.example.soar.databinding.ActivityPersonalBizBinding
 
 class PersonalBizActivity : AppCompatActivity() {

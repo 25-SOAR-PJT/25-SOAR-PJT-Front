@@ -53,7 +53,7 @@ class PolicyActivity : AppCompatActivity() {
                 binding.policy3Title,
                 binding.policy3DetailContainer,
                 binding.policy3Arrow,
-                binding.line2
+                binding.line3
             )
         )
 

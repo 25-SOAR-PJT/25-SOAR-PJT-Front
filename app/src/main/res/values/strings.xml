@@ -33,6 +33,24 @@
     <string name="toast_biz_apply">해당 지원 사업이 신청 완료 되었어요!</string>
     <string name="cancel">취소</string>
 
+    <!--알림-->
+    <string name="alarm_title">알림함</string>
+    <string name="no_alarm1">받은 알림이 없습니다</string>
+    <string name="no_alarm2">알림을 설정하여 다양한 정보를 받아보세요</string>
+    <string name="alarm_7days">최근 7일간 알림까지 확인할 수 있어요</string>
+    <string name="dropdown1">전체</string>
+    <string name="dropdown2">일정 리마인드</string>
+    <string name="dropdown3">리뷰</string>
+    <string name="dropdown4">신청 확인</string>
+    <string name="dropdown5">큐레이션</string>
+    <string name="dropdown6">기능</string>
+    <string name="alarm_setting">알림 설정</string>
+    <string name="alarm_setting_title1">일정 리마인드 설정</string>
+    <string name="alarm_setting_detail1">신청 시작 알림</string>
+    <string name="alarm_setting_detail2">결과발표 알림</string>
+    <string name="confirm">확인</string>
+
+
     <!--nav-->
     <string name="home">홈</string>
     <string name="explore">둘러보기</string>
@@ -141,6 +159,8 @@
     <string name="app_inform">앱 정보</string>
     <string name="policy">약관 및 정책</string>
     <string name="app_version">버전 정보</string>
+    <string name="version">v1.0</string>
+    <string name="logout">로그아웃</string>
     <string name="unsubscribe">회원 탈퇴</string>
     <string name="profile">프로필</string>
     <string name="record">기록</string>
@@ -151,6 +171,31 @@
     <string name="policy_detail2">임시 텍스트</string>
     <string name="policy_detail3">임시 텍스트</string>
 
+    <!-- 프로필 -->
+    <string name="profile_title">프로필 수정</string>
+    <string name="change_pw">비밀번호 변경</string>
+    <string name="change_curation_inform">큐레이션 정보 수정</string>
+
+    <!-- 아이디 비번 찾기 -->
+    <string name="find_id">아이디 찾기</string>
+    <string name="find_pw">비밀번호 찾기</string>
+    <string name="find_id_title1">가입정보로</string>
+    <string name="find_id_title2">아이디를 확인하세요</string>
+    <string name="find_pw_title1">비밀번호 재설정을 위한</string>
+    <string name="find_pw_title2">임시 비밀번호를 발급 받으세요</string>
+    <string name="send_pw_email">비밀번호 재설정 메일 요청</string>
+    <string name="new_pw">새 비밀번호</string>
+    <string name="new_pw2">새 비밀번호 확인</string>
+    <string name="input_new_pw">새롭게 사용할 비밀번호를 입력해주세요</string>
+    <string name="input_again">다시 한 번 입력해주세요</string>
+    <string name="change">변경하기</string>
+    <string name="fid_id_success">아이디 찾기 성공!</string>
+    <string name="result1">님의 아이디는</string>
+    <string name="result2">입니다</string>
+    <string name="to_login2">로그인하러 가기</string>
+
+    <!-- 댓글 -->
+    <string name="my_comment">내가 작성한 댓글</string>
 
     <!--스플래시-->
     <string name="soar_logo">SOAR 로고</string>
@@ -191,9 +236,9 @@
     <string name="policy_title">서비스 이용약관에\n동의해주세요</string>
     <string name="policy_all_agree">약관 전체 동의</string>
     <string name="next">다음</string>
-    <string name="basic_info_title">SORA에서 사용하실\n회원 정보를 입력해주세요</string>
+    <string name="basic_info_title">SOAR에서 사용하실\n회원 정보를 입력해주세요</string>
     <string name="hint_name">이름을 입력해주세요</string>
-    <string name="email_info_title">SORA에서 사용하실\n이메일을 입력해주세요</string>
+    <string name="email_info_title">SOAR에서 사용하실\n이메일을 입력해주세요</string>
     <string name="hint_email">이메일을 입력해주세요</string>
     <string name="error_email_form">이메일 형식을 다시 확인해주세요</string>
     <string name="error_request_email">인증번호를 다시 확인해주세요</string>
@@ -205,7 +250,7 @@
     <string name="clock_max">3:00</string>
     <string name="new_code">새로운 코드 받기</string>
     <string name="request_email">인증메일 요청</string>
-    <string name="basic_pw_title">SORA에서 사용하실\n비밀번호를 입력해주세요</string>
+    <string name="basic_pw_title">SOAR에서 사용하실\n비밀번호를 입력해주세요</string>
     <string name="pw_check_label">비밀번호 확인</string>
     <string name="sign_up_finish">가입완료</string>
     <string name="error_name_format">이름에는 특수문자나 숫자를 사용할 수 없습니다.</string>
@@ -248,5 +293,7 @@
     <string name="kakao_scheme">kakao80d7e06a50cc895bc7bfe51ebceb5ae2</string> -->
     <string name="kakao_native_app_key">6bd868dc4dfc4411b3ed036307340a65</string>
     <string name="kakao_scheme">kakao6bd868dc4dfc4411b3ed036307340a65</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

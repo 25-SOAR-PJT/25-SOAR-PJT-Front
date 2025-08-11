@@ -34,6 +34,7 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/containor_profile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="24dp"
@@ -47,6 +48,7 @@
                     android:gravity="center_vertical"
                     android:layout_marginBottom="9dp">
                     <TextView
+                        android:id="@+id/text_user_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         style="@style/Font_Heading400_Semibold"
@@ -59,6 +61,7 @@
                         android:src="@drawable/icon_arrow_small"/>
                 </LinearLayout>
                 <TextView
+                    android:id="@+id/text_user_address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/sample"
@@ -73,6 +76,7 @@
                 android:orientation="vertical">
 
                 <LinearLayout
+                    android:id="@+id/container_user_preview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -81,6 +85,7 @@
                     android:background="@drawable/round_background8"
                     android:layout_marginBottom="32dp">
                     <LinearLayout
+                        android:id="@+id/btn_to_applied"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -104,6 +109,7 @@
                         android:layout_height="match_parent"
                         android:background="@color/semantic_line_secondary_based"/>
                     <LinearLayout
+                        android:id="@+id/btn_to_comment"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -118,13 +124,14 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/my_activity"
+                            android:text="@string/comment"
                             style="@style/Font_Body_Semibold"
                             android:textColor="@color/ref_gray_700"/>
                     </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/container_user_activity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -230,31 +237,6 @@
                                 android:src="@drawable/icon_arrow_left"
                                 android:rotation="180"/>
                         </LinearLayout>
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="@color/ref_coolgray_200"/>
-                        <LinearLayout
-                            android:id="@+id/btn_customer_center"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:gravity="center"
-                            android:paddingVertical="10dp"
-                            android:paddingHorizontal="16dp">
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="@string/customer_center"
-                                style="@style/Font_Body_Semibold"
-                                android:textColor="@color/semantic_text_strong"/>
-                            <ImageView
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:src="@drawable/icon_arrow_left"
-                                android:rotation="180"/>
-                        </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -315,8 +297,36 @@
                                 android:text="@string/app_version"
                                 style="@style/Font_Body_Semibold"
                                 android:textColor="@color/semantic_text_strong"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/version"
+                                style="@style/Font_Label_Semibold"
+                                android:textColor="@color/semantic_text_strong"/>
                         </LinearLayout>
                     </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/btn_logout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="14dp">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/logout"
+                        style="@style/Font_Label_Semibold"
+                        android:textColor="@color/ref_gray_600"/>
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/icon_arrow_small"
+                        app:tint="@color/ref_coolgray_300"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -324,7 +334,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="14dp">
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -335,34 +347,10 @@
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/icon_arrow_left"
-                        app:tint="@color/ref_coolgray_300"
-                        android:rotation="180"/>
+                        android:src="@drawable/icon_arrow_small"
+                        app:tint="@color/ref_coolgray_300"/>
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/tvGreeting"
-                    style="@style/Font_Heading300_Semibold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:visibility="gone"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvTitle"
-                    tools:text="홍길동님, 안녕하세요!"
-                    tools:visibility="visible" />
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btnLogout"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
-                    android:text="로그아웃"
-                    android:visibility="gone"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvGreeting"
-                    tools:visibility="visible" />
             </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

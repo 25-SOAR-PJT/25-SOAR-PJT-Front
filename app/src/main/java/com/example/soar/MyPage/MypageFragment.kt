@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.soar.AlarmPage.AlarmActivity
+import com.example.soar.EntryPage.Onboarding.OnBoardingActivity
 import com.example.soar.MainActivity
 import com.example.soar.Network.TokenManager
 import com.example.soar.databinding.FragmentMypageBinding
@@ -13,45 +15,93 @@ import com.example.soar.databinding.FragmentMypageBinding
 class MypageFragment : Fragment() {
 
     private var _binding: FragmentMypageBinding? = null
-    private val b get() = _binding!!
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMypageBinding.inflate(inflater, container, false)
-        return b.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.containorProfile.setOnClickListener{
+            val intent = Intent(requireContext(), ProfileActivity::class.java)
+            startActivity(intent)
+        }
+        binding.btnToApplied.setOnClickListener{
+            val intent = Intent(requireContext(), AppliedActivity::class.java)
+            startActivity(intent)
+        }
+        binding.btnToComment.setOnClickListener{
+            val intent = Intent(requireContext(), CommentActivity::class.java)
+            startActivity(intent)
+        }
+        binding.btnRecentlyViewed.setOnClickListener{
+            val intent = Intent(requireContext(), RecordActivity::class.java)
+            startActivity(intent)
+        }
+        binding.btnSoarGuide.setOnClickListener{
+            val intent = Intent(requireContext(), OnBoardingActivity::class.java)
+            startActivity(intent)
+        }
+        binding.btnAnnouncement.setOnClickListener{
+            val intent = Intent(requireContext(), AnnouncementActivity::class.java)
+            startActivity(intent)
+        }
+        binding.btnPolicy.setOnClickListener{
+            val intent = Intent(requireContext(), PolicyActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.btnLogout.setOnClickListener {
+            TokenManager.clearTokens()
+
+            val intent = Intent(requireActivity(), MainActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }
+            startActivity(intent)
+            requireActivity().finish()
+        }
+        binding.btnUnsubscribe.setOnClickListener{
+           // 회원 탈퇴 로직
+        }
+
+        val userViews = listOf(
+            binding.containorProfile,
+            binding.containerUserPreview,
+            binding.containerUserActivity,
+            binding.btnLogout,
+            binding.btnUnsubscribe
+        )
+
+        fun setLoggedInViewsVisibility(isVisible: Boolean) {
+            val visibility = if (isVisible) View.VISIBLE else View.GONE
+            userViews.forEach {
+                it.visibility = visibility
+            }
+        }
+
         val accessToken = TokenManager.getAccessToken()
 
         if (!accessToken.isNullOrEmpty()) {
-            // ✨ 1. 로그인 정보 가져오기
+            // 로그인 상태일 시 유저 관련 UI 보임
+            setLoggedInViewsVisibility(true)
+
+            // 로그인 정보 가져오기
             val signInInfo = TokenManager.getSignInInfo()
             val userName = signInInfo?.userName ?: "사용자" // 이름이 없을 경우 기본값
 
-            // ✨ 2. 인사말 TextView 설정 및 표시
-            b.tvGreeting.text = "${userName}님, 안녕하세요!"
-            b.tvGreeting.visibility = View.VISIBLE
+            // 유저 데이터 바인딩
+            binding.textUserName.text = userName
 
-            // 로그아웃 버튼 표시 및 리스너 설정
-            b.btnLogout.visibility = View.VISIBLE
-            b.btnLogout.setOnClickListener {
-                TokenManager.clearTokens()
-
-                val intent = Intent(requireActivity(), MainActivity::class.java).apply {
-                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                }
-                startActivity(intent)
-                requireActivity().finish()
-            }
         } else {
             // 토큰이 없으면 모든 관련 UI 숨김
-            b.tvGreeting.visibility = View.GONE
-            b.btnLogout.visibility = View.GONE
+            //setLoggedInViewsVisibility(false)
+            setLoggedInViewsVisibility(true)
         }
     }
 

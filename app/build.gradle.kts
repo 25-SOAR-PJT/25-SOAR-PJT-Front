@@ -51,6 +51,8 @@ dependencies {
     implementation("com.google.firebase:firebase-inappmessaging:21.0.2")
     implementation("androidx.navigation:navigation-fragment:2.9.1")
 
+    implementation("androidx.preference:preference:1.2.1")
+
     // module-level build.gradle
     implementation("com.google.code.gson:gson:2.12.1")
     implementation("com.squareup.retrofit2:converter-gson:2.11.0")
