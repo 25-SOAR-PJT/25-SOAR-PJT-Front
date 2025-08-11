@@ -1,10 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
-    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MyPage.AppliedActivity">
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="@color/ref_white">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <include
+        android:id="@+id/appbar"
+        layout="@layout/appbar"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="4dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/semantic_surface_primary_lightest"
+            android:paddingStart="19dp"
+            android:paddingVertical="5dp"
+            android:layout_marginBottom="14dp">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_gravity="center">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="2dp"
+                    android:text="@string/archiving_label1"
+                    style="@style/Font_Title_Semibold"
+                    android:textColor="@color/semantic_text_strongest"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sample"
+                    style="@style/Font_Heading300_Bold"
+                    android:textColor="@color/ref_blue_600"/>
+            </LinearLayout>
+            <ImageView
+                android:layout_width="132dp"
+                android:layout_height="74dp"
+                android:src="@drawable/image_archive"/>
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/applied_biz"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+</LinearLayout>
