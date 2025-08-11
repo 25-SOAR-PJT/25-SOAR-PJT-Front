@@ -1,10 +1,9 @@
-package com.example.soar.ExplorePage
+package com.example.soar.Utill
 
 import android.app.Activity
 import android.view.MotionEvent
 import android.view.View
 import com.example.soar.R
-import kotlin.math.abs
 
 class SwipeToDismissUtil(activity: Activity) {
 
