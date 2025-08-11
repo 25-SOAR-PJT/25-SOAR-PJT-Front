@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.example.soar.AlarmPage.AlarmActivity
 import com.example.soar.DetailPage.DetailPageActivity
 import com.example.soar.DetailPage.ReviewDetailActivity
 import com.example.soar.EntryPage.Onboarding.OnBoardingActivity
@@ -71,10 +72,6 @@ class HomeFragment : Fragment() {
             val intent = Intent(requireContext(), LoginActivity::class.java)
             startActivity(intent)
         }
-        binding.btnAlarm.setOnClickListener {
-            val intent = Intent(requireContext(), LoginActivity::class.java)
-            startActivity(intent)
-        }
 
         val cardList = listOf(
             SwipeCardItem(getString(R.string.home_swipe), R.drawable.swipe_img1, "https://www.naver.com/"),
@@ -113,16 +110,16 @@ class HomeFragment : Fragment() {
         binding.section4.adapter = adapter
 
         binding.category1.setOnClickListener{
-            openExplore(1)
+            openExplore(0)
         }
         binding.category2.setOnClickListener{
-            openExplore(2)
+            openExplore(1)
         }
         binding.category3.setOnClickListener{
-            openExplore(3)
+            openExplore(2)
         }
         binding.category4.setOnClickListener{
-            openExplore(4)
+            openExplore(3)
         }
 
         binding.ad1.setOnClickListener{
@@ -137,8 +134,28 @@ class HomeFragment : Fragment() {
         }
 
 
-        // ✨ 1. 로그인 상태 확인 및 UI 분기 처리
+        // 임시
+        binding.btnAlarm.setOnClickListener {
+            val intent = Intent(requireContext(), AlarmActivity::class.java)
+            startActivity(intent)
+        }
+
+
+        // 1. 로그인 상태 확인 및 UI 분기 처리
         val accessToken = TokenManager.getAccessToken()
+
+//        // 알람 버튼 클릭 로그인 분기
+//        binding.btnAlarm.setOnClickListener {
+//            if (!accessToken.isNullOrEmpty()) {
+//                // 로그인 상태일 때: 알림 페이지로 이동
+//                val intent = Intent(requireContext(), AlarmActivity::class.java)
+//                startActivity(intent)
+//            } else {
+//                // 비로그인 상태일 때: 로그인 페이지로 이동
+//                val intent = Intent(requireContext(), LoginActivity::class.java)
+//                startActivity(intent)
+//            }
+//        }
 
         if (!accessToken.isNullOrEmpty()) {
             // --- 로그인 상태일 때 ---
