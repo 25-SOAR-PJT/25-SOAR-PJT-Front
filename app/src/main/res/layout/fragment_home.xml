@@ -28,7 +28,7 @@
             android:id="@+id/btn_alarm"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/icon_alarm"
+            android:src="@drawable/icon_alarm2"
             android:layout_gravity="center"/>
     </LinearLayout>
     <androidx.core.widget.NestedScrollView
