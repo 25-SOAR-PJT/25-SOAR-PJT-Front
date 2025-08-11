@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/alarm_setting_title1">
+        <SwitchPreferenceCompat
+            android:key="remind_start"
+            android:title="@string/alarm_setting_detail1"
+            android:defaultValue="false"/>
+        <SwitchPreferenceCompat
+            android:key="remind_result"
+            android:title="@string/alarm_setting_detail2"
+            android:defaultValue="true"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="어쩌구 대항목">
+        <SwitchPreferenceCompat android:key="cat1" android:title="어쩌구 소항목"/>
+        <SwitchPreferenceCompat android:key="cat2" android:title="어쩌구 소항목" android:defaultValue="true"/>
+        <SwitchPreferenceCompat android:key="cat3" android:title="어쩌구 소항목"/>
+    </PreferenceCategory>
+
+</PreferenceScreen>
