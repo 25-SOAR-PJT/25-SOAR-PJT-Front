@@ -24,6 +24,8 @@ import com.example.soar.repository.AuthRepository
 import com.google.android.material.textfield.TextInputLayout
 import android.util.Log
 import android.widget.Toast
+import com.example.soar.MyPage.ChangePwActivity
+import com.example.soar.MyPage.FindActivity
 import com.example.soar.Network.ApiResponse
 import com.example.soar.Network.TokenManager
 import com.example.soar.Network.user.KakaoLoginRequest
@@ -72,6 +74,12 @@ class LoginActivity : AppCompatActivity() {
         setContentView(b.root)
 
         b.btnLogin.isEnabled = false
+
+        // 비밀번호 / 아이디 찾기 페이지 연결
+        b.tvFindAccount.setOnClickListener{
+            val intent = Intent(this, FindActivity::class.java)
+            startActivity(intent)
+        }
 
         /* 입력값 ↔️ ViewModel 바인딩 */
         b.etEmail   .doAfterTextChanged { vm.email.value    = it.toString() }

@@ -66,13 +66,16 @@
                         android:gravity="center">
                         <LinearLayout
                             android:id="@+id/category1"
-                            android:layout_width="78dp"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:orientation="vertical"
                             android:paddingTop="7dp"
                             android:paddingBottom="9dp"
                             android:gravity="center"
-                            android:layout_marginEnd="4dp">
+                            android:layout_marginEnd="4dp"
+                            android:background="@drawable/round_background7"
+                            android:backgroundTint="@color/ref_white">
                             <ImageView
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
@@ -87,13 +90,16 @@
                         </LinearLayout>
                         <LinearLayout
                             android:id="@+id/category2"
-                            android:layout_width="78dp"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:orientation="vertical"
                             android:paddingTop="7dp"
                             android:paddingBottom="9dp"
                             android:gravity="center"
-                            android:layout_marginEnd="4dp">
+                            android:layout_marginEnd="4dp"
+                            android:background="@drawable/round_background7"
+                            android:backgroundTint="@color/ref_white">
                             <ImageView
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
@@ -108,13 +114,16 @@
                         </LinearLayout>
                         <LinearLayout
                             android:id="@+id/category3"
-                            android:layout_width="78dp"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:orientation="vertical"
                             android:paddingTop="7dp"
                             android:paddingBottom="9dp"
                             android:gravity="center"
-                            android:layout_marginEnd="4dp">
+                            android:layout_marginEnd="4dp"
+                            android:background="@drawable/round_background7"
+                            android:backgroundTint="@color/ref_white">
                             <ImageView
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
@@ -129,12 +138,15 @@
                         </LinearLayout>
                         <LinearLayout
                             android:id="@+id/category4"
-                            android:layout_width="78dp"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:orientation="vertical"
                             android:paddingTop="7dp"
                             android:paddingBottom="9dp"
-                            android:gravity="center">
+                            android:gravity="center"
+                            android:background="@drawable/round_background7"
+                            android:backgroundTint="@color/ref_white">
                             <ImageView
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
@@ -196,11 +208,6 @@
                 <include
                     layout="@layout/item_explore_biz"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="리사이클 뷰 만들어둠 아답터 만들어서 연결하면 됨"
-                    style="@style/Font_Heading100_Bold"/>
 
                 <TextView
                     android:id="@+id/text_sample"

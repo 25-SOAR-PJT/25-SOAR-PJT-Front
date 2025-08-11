@@ -1,5 +1,4 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
     <style name="Base.Theme.SOAR" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
@@ -7,6 +6,7 @@
         <item name="android:colorBackgroundCacheHint">@null</item>
 
         <item name="android:textColorPrimary">@color/semantic_text_primary</item>
+        <item name="preferenceTheme">@style/Soar.PreferenceTheme</item>
     </style>
 
     <style name="Theme.SOAR" parent="Base.Theme.SOAR" />
@@ -16,25 +16,48 @@
         <item name="android:layout_height">44dp</item>
         <item name="android:background">@drawable/round_background</item>
         <item name="android:elevation">0dp</item>
+        <item name="android:textColor">@color/semantic_text_strong</item>
+        <item name="android:textAppearance">@style/Font_Body_Semibold</item>
     </style>
 
     <style name="close_button" parent="Widget.AppCompat.Button">
         <item name="android:layout_width">328dp</item>
         <item name="android:layout_height">44dp</item>
-        <item name="android:background">@drawable/round_background</item>
-        <item name="backgroundTint">@color/semantic_surface_primary_based</item>
+        <item name="android:background">@drawable/button_selector</item>
         <item name="android:elevation">0dp</item>
         <item name="android:textColor">@color/ref_white</item>
+        <item name="android:textAppearance">@style/Font_Body_Semibold</item>
     </style>
 
     <style name="DimmedActivityTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Activity 크기 축소해도 남는 부분에 dim 적용 -->
         <item name="android:backgroundDimEnabled">true</item>
-        <item name="android:backgroundDimAmount">0.5</item> <!-- 0 ~ 1 (어두움 정도) -->
+        <item name="android:backgroundDimAmount">0.5</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowCloseOnTouchOutside">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
+    <style name="Soar.SwitchPreferenceStyle" parent="Preference.SwitchPreferenceCompat">
+        <item name="widgetLayout">@layout/pref_switch_widget</item>
+        <item name="iconSpaceReserved">false</item>
+    </style>
 
+    <style name="Soar.PreferenceTheme" parent="PreferenceThemeOverlay">
+        <item name="preferenceStyle">@style/Soar.PreferenceBase</item>
+        <item name="switchPreferenceCompatStyle">@style/Soar.SwitchPreferenceStyle</item>
+    </style>
+
+    <style name="Soar.PreferenceBase" parent="Preference">
+        <item name="android:layout">@layout/pref_item_texts</item>
+    </style>
+
+    <style name="Soar.PreferenceTitle" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textColor">@color/ref_orange</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="Soar.PreferenceSummary" parent="TextAppearance.AppCompat.Small">
+        <item name="android:textColor">@color/ref_black</item>
+        <item name="android:textSize">14sp</item>
+    </style>
 </resources>

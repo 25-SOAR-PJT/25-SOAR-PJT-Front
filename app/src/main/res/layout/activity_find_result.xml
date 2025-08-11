@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="@color/ref_white">
+
+    <include
+        android:id="@+id/appbar"
+        layout="@layout/appbar"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:paddingHorizontal="16dp">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_checkbox_active"
+            android:layout_marginTop="76dp"
+            android:layout_marginBottom="16dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fid_id_success"
+            style="@style/Font_Heading400_Bold"
+            android:textColor="@color/semantic_text_strongest"
+            android:layout_marginBottom="52dp"/>
+
+        <TextView
+            android:id="@+id/result_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/result1"
+            style="@style/Font_Title_Medium"
+            android:textColor="@color/semantic_text_strong"
+            android:layout_marginBottom="4dp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/email_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/result2"
+            style="@style/Font_Title_Medium"
+            android:textColor="@color/semantic_text_strong"
+            android:layout_marginBottom="4dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/btn_to_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/to_login2"
+            style="@style/close_button"
+            android:layout_marginBottom="16dp"/>
+    </LinearLayout>
+
+</LinearLayout>

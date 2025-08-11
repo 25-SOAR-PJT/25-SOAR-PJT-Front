@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/ref_white">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="22dp"
+        android:layout_marginBottom="6dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingVertical="2.5dp"
+            android:paddingHorizontal="6dp"
+            android:text="@string/sample"
+            android:background="@drawable/round_background4"
+            android:backgroundTint="@color/ref_red_100"
+            android:textColor="@color/ref_red_500"
+            style="@style/Font_Caption_Semibold"
+            android:layout_marginEnd="6dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingVertical="2.5dp"
+            android:paddingHorizontal="6dp"
+            android:text="@string/sample"
+            android:textColor="@color/ref_red_600"
+            style="@style/Font_Label_Semibold"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sample"
+        style="@style/Font_Title_Medium"
+        android:textColor="@color/ref_black"
+        android:layout_marginBottom="23dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/ref_gray_100"/>
+
+
+</LinearLayout>

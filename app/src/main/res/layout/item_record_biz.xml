@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="18dp">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="24dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sample"
+                    style="@style/Font_Label_Medium"
+                    android:textColor="@color/ref_blue_600"
+                    android:layout_marginEnd="4dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/num"
+                    android:paddingVertical="1.5dp"
+                    android:paddingHorizontal="3dp"
+                    android:background="@drawable/round_background5"
+                    android:backgroundTint="@color/semantic_surface_primary_lightest"
+                    style="@style/Font_Caption_Medium"
+                    android:textColor="@color/ref_blue_500"/>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sample"
+                style="@style/Font_Label_Medium"
+                android:textColor="@color/ref_black"
+                android:layout_marginVertical="5.5dp"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sample"
+                    style="@style/Font_Label_Medium"
+                    android:textColor="@color/ref_gray_400"/>
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="8dp"
+                    android:background="@color/ref_coolgray_300"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="4dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sample"
+                    style="@style/Font_Label_Medium"
+                    android:textColor="@color/ref_gray_400"/>
+
+            </LinearLayout>
+        </LinearLayout>
+
+         <ImageView
+             android:id="@+id/btn_bookmark"
+             android:layout_width="24dp"
+             android:layout_height="match_parent"
+             android:src="@drawable/icon_bookmark"
+             android:layout_gravity="center"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/ref_gray_200"/>
+</LinearLayout>

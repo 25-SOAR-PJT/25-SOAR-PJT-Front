@@ -3,15 +3,14 @@ package com.example.soar.ArchivingPage
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.soar.Business
 import com.example.soar.R
 import com.example.soar.databinding.CustomToastBinding
 import com.example.soar.databinding.ItemCalendarScheduleBinding
-import java.time.LocalDate
 
 class ArchivingAdapter :
     ListAdapter<Business, ArchivingAdapter.ScheduleViewHolder>(DiffCallback) {

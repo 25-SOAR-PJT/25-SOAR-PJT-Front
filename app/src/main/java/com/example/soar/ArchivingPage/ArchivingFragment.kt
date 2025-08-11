@@ -3,95 +3,58 @@ package com.example.soar.ArchivingPage
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.soar.CalendarPage.CalendarScheduleAdapter
+import com.example.soar.ApiResponse
+import com.example.soar.Business
 import com.example.soar.DetailPage.DetailPageActivity
 import com.example.soar.EntryPage.Onboarding.OnBoardingActivity
 import com.example.soar.CurationSequencePage.CurationSequeceActivity
-import com.example.soar.R
+import com.example.soar.TagResponse
 import com.example.soar.databinding.FragmentArchivingBinding
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import java.time.DayOfWeek
 import java.time.LocalDate
 
-data class Business(
-    val id: Int,
-    val date: LocalDate,
-    val title: String,
-    val type: Int,
-    val tags: List<TagResponse>,
-    var isApplied: Boolean = false,
-    var isBookmarked: Boolean = false
-)
 
-data class TagResponse(
-    val tagId: Int,
-    val tagName: String,
-    val fieldId: Int
-)
+// (Business, TagResponse 데이터 클래스들은 그대로 유지)
 
 class ArchivingFragment : Fragment() {
     private var _binding: FragmentArchivingBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var adapter: ArchivingAdapter
-    private val dataList = mutableListOf<Business>()
-    private val originalDataList = mutableListOf<Business>() // 초기 전체 데이터 저장
+    // activityViewModels()를 사용해 액티비티 스코프의 ViewModel을 공유
+    private val tagViewModel: TagViewModel by activityViewModels()
 
-    // ActivityResultLauncher 등록
+    private lateinit var adapter: ArchivingAdapter
+
+    private var selectedTagIds = arrayListOf<Int>()
     private val keywordLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
-            val selectedTagIds = result.data?.getIntegerArrayListExtra("selectedTagIds") ?: arrayListOf()
+            val newSelectedTagIds = result.data?.getIntegerArrayListExtra("selectedTagIds") ?: arrayListOf()
+            this.selectedTagIds = newSelectedTagIds
 
-            Log.d("ArchivingFragment", "받은 selectedTagIds = $selectedTagIds")
-
-            if (selectedTagIds.isEmpty()) {
-                resetFilteredData()
+            if (this.selectedTagIds.isEmpty()) {
+                tagViewModel.resetFilteredData()
             } else {
-                filterDataByTagIds(selectedTagIds)
+                tagViewModel.filterDataByTagIds(this.selectedTagIds)
             }
         }
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentArchivingBinding.inflate(inflater, container, false)
-
-        binding.btn1.setOnClickListener {
-            val intent = Intent(requireContext(), DetailPageActivity::class.java)
-            startActivity(intent)
-        }
-
-        binding.btn2.setOnClickListener {
-            val intent = Intent(requireContext(), OnBoardingActivity::class.java)
-            startActivity(intent)
-        }
-
-        binding.btn3.setOnClickListener {
-            val intent = Intent(requireContext(), CurationSequeceActivity::class.java)
-            startActivity(intent)
-        }
-
-        binding.btnSelectKeyword.setOnClickListener{
-            binding.btnSelectKeyword.setOnClickListener {
-                val intent = Intent(requireContext(), KeywordActivity::class.java)
-                keywordLauncher.launch(intent)
-            }
-        }
-
-
-
         return binding.root
     }
 
@@ -103,30 +66,51 @@ class ArchivingFragment : Fragment() {
         binding.bizList.adapter = adapter
         binding.bizList.layoutManager = LinearLayoutManager(requireContext())
 
-        // 더미 태그 데이터 연결
+        // ViewModel에 초기 데이터 로드 (Fragment의 Context가 필요하므로 여기서 호출)
         val tagList = loadDummyTagData() // JSON에서 TagResponse 전체 로드
+        val initialBusinessData = loadDummyBusinessData(tagList)
+        tagViewModel.setInitialData(initialBusinessData)
 
-        // 더미 데이터 or API 데이터 로드 후 전체 리스트 초기화
-        originalDataList.addAll(loadDummyBusinessData(tagList))
+        // ViewModel의 dataList를 관찰하고 데이터 변경 시 어댑터 갱신
+        tagViewModel.dataList.observe(viewLifecycleOwner) { newList ->
+            adapter.submitList(newList)
+        }
 
-        // 전체 데이터로 리스트 표시
-        adapter.submitList(originalDataList)
-
-        Log.d("ArchivingFragment", "business size = ${originalDataList.size}")
-
-        // 태그 선택 이벤트 결과 수신
-        parentFragmentManager.setFragmentResultListener("tagResultKey", this) { _, bundle ->
-            val selectedTagIds = bundle.getIntegerArrayList("selectedTagIds") ?: emptyList()
-            if (selectedTagIds.isEmpty()) {
-                resetFilteredData()
-            } else {
-                filterDataByTagIds(selectedTagIds)
+        // 버튼 클릭 리스너 설정
+        binding.btnSelectKeyword.setOnClickListener {
+            val intent = Intent(requireContext(), KeywordActivity::class.java).apply {
+                putIntegerArrayListExtra("selectedTagIds", selectedTagIds)
             }
+            keywordLauncher.launch(intent)
+        }
+
+        // (기존 버튼 리스너들은 그대로 유지)
+        binding.btn1.setOnClickListener {
+            val intent = Intent(requireContext(), DetailPageActivity::class.java)
+            startActivity(intent)
+        }
+        binding.btn2.setOnClickListener {
+            val intent = Intent(requireContext(), OnBoardingActivity::class.java)
+            startActivity(intent)
+        }
+        binding.btn3.setOnClickListener {
+            val intent = Intent(requireContext(), CurationSequeceActivity::class.java)
+            startActivity(intent)
         }
     }
 
-    // 더미데이터 연결
+    // Fragment에서 context를 사용해 더미 데이터 로드
+    private fun loadDummyTagData(): List<TagResponse> {
+        val json = requireContext().assets.open("response_tags.json")
+            .bufferedReader().use { it.readText() }
+        val gson = Gson()
+        val type = object : TypeToken<ApiResponse>() {}.type
+        val response: ApiResponse = gson.fromJson(json, type)
+        return response.data
+    }
+
     private fun loadDummyBusinessData(tagList: List<TagResponse>): List<Business> {
+        // (기존 loadDummyBusinessData 함수는 그대로 유지)
         return listOf(
             Business(
                 id = 1,
@@ -177,57 +161,6 @@ class ArchivingFragment : Fragment() {
                 type = 3,
                 tags = tagList.filter { it.tagId in listOf(26, 27) }
             )
-
         )
     }
-
-    // 추후 삭제
-    private fun loadDummyTagData(): List<TagResponse> {
-        val json = requireContext().assets.open("response_tags.json")
-            .bufferedReader().use { it.readText() }
-
-        val gson = Gson()
-        val type = object : TypeToken<ApiResponse>() {}.type
-        val response: ApiResponse = gson.fromJson(json, type)
-        return response.data
-    }
-    // JSON 최상위 구조를 위한 data class
-    data class ApiResponse(
-        val status: String,
-        val data: List<TagResponse>
-    )
-
-
-    //api 연결 후 사용
-//    private fun loadAllData() {
-//        // 전체 데이터 로드 후 originalDataList 저장
-//        originalDataList.clear()
-//        originalDataList.addAll(apiLoadData())
-//
-//        resetFilteredData()
-//    }
-
-    private fun filterDataByTagIds(tagIds: List<Int>) {
-        // 데이터 필터링 로직
-        val filtered = originalDataList.filter { business ->
-            business.tags.any { tag -> tagIds.contains(tag.tagId) }
-        }
-        adapter.submitList(filtered)
-    }
-
-    private fun resetFilteredData() {
-        // 1. 전체 데이터 다시 로딩 (API 호출 or 로컬 전체 데이터 복원)
-        dataList.clear()
-        dataList.addAll(originalDataList) // originalDataList = 초기 전체 데이터
-
-        // 2. 어댑터 갱신
-        adapter.submitList(dataList)
-
-    }
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
 }
