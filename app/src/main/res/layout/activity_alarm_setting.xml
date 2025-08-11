@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AlarmPage.AlarmSettingActivity"
+    android:background="@color/ref_white"
+    android:orientation="vertical">
+
+
+    <include
+        android:id="@+id/appbar"
+        layout="@layout/appbar"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp"
+        android:paddingBottom="20dp"
+        android:orientation="vertical">
+
+
+        <FrameLayout
+            android:id="@+id/settings_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="vertical">-->
+
+<!--            <TextView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@string/alarm_setting_title1"-->
+<!--                android:layout_marginBottom="20dp"/>-->
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal">-->
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="@string/alarm_setting_detail1"-->
+<!--                    style="@style/Font_Body_Medium"-->
+<!--                    android:textColor="@color/ref_black"/>-->
+<!--                <com.google.android.material.materialswitch.MaterialSwitch-->
+<!--                    android:id="@+id/switchResult"-->
+<!--                    android:layout_width="49dp"-->
+<!--                    android:layout_height="48dp"-->
+<!--                    android:text="결과 발표 알림"-->
+<!--                    app:useMaterialThemeColors="true"/>-->
+<!--            </LinearLayout>-->
+<!--        </LinearLayout>-->
+
+    </LinearLayout>
+
+</LinearLayout>
