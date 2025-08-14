@@ -29,25 +29,29 @@
         android:id="@+id/logo"
         android:layout_width="match_parent"
         android:layout_height="56dp"
+        android:background="@color/ref_white"
         android:paddingHorizontal="16dp"
-        android:paddingVertical="12dp"
-        android:background="@color/ref_white">
+        android:paddingVertical="12dp">
+
         <TextView
+            style="@style/Font_Heading400_Semibold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/archiving"
-            style="@style/Font_Heading400_Semibold"
-            android:textColor="@color/ref_coolgray_600"/>
+            android:textColor="@color/ref_coolgray_600" />
+
         <View
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
+
         <TextView
+            android:id="@+id/btn_to_edit"
+            style="@style/Font_Title_Semibold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/edit2"
-            style="@style/Font_Title_Semibold"
-            android:textColor="@color/ref_coolgray_600"/>
+            android:textColor="@color/ref_coolgray_600" />
     </LinearLayout>
 
     <androidx.core.widget.NestedScrollView

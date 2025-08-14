@@ -21,6 +21,9 @@
         android:theme="@style/Theme.SOAR"
         tools:targetApi="31">
         <activity
+            android:name=".ArchivingPage.BookmarkEditActivity"
+            android:exported="false" />
+        <activity
             android:name=".AlarmPage.AlarmSettingActivity"
             android:exported="false" />
         <activity
