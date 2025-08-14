@@ -63,6 +63,11 @@ class ExploreFragment : Fragment() {
         // 확인용 임시 바인딩
         binding.textSample.text = fieldId.toString()
 
+        binding.btnSearch.setOnClickListener {
+            val intent = Intent(requireContext(), SearchActivity::class.java)
+            keywordLauncher.launch(intent)
+        }
+
         binding.btnPersonalBiz.setOnClickListener {
             val intent = Intent(requireContext(), PersonalBizActivity::class.java)
             startActivity(intent)

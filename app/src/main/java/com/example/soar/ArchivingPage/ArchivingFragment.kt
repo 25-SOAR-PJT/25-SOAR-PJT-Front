@@ -76,6 +76,11 @@ class ArchivingFragment : Fragment() {
             adapter.submitList(newList)
         }
 
+        binding.btnToEdit.setOnClickListener {
+            val intent = Intent(requireContext(), BookmarkEditActivity::class.java)
+            startActivity(intent)
+        }
+
         // 버튼 클릭 리스너 설정
         binding.btnSelectKeyword.setOnClickListener {
             val intent = Intent(requireContext(), KeywordActivity::class.java).apply {
