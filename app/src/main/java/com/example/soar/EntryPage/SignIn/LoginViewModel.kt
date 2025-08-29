@@ -2,7 +2,8 @@ package com.example.soar.EntryPage.SignIn
 
 import android.util.Patterns
 import androidx.lifecycle.*
-import com.example.soar.repository.AuthRepository
+import com.example.soar.Network.TokenManager
+import com.example.soar.Network.user.AuthRepository
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
@@ -37,22 +38,12 @@ class LoginViewModel(
         repo.login(email.value.orEmpty(), password.value.orEmpty())
             .onSuccess {
                 // 성공 시
+                TokenManager.saveIsKakaoUser(false)
                 _uiState.value = UiState.Success
             }
             .onFailure { error ->
                 // 실패 시 (네트워크 오류, 서버 에러 포함)
                 _uiState.value = UiState.Failure(error.message ?: "오류가 발생했습니다.")
-            }
-    }
-
-    fun loginWithKakao(kakaoToken: String) = viewModelScope.launch {
-        _uiState.value = UiState.Loading
-        repo.kakaoLogin(kakaoToken)
-            .onSuccess {
-                _uiState.value = UiState.Success
-            }
-            .onFailure { error ->
-                _uiState.value = UiState.Failure(error.message ?: "카카오 로그인 중 오류가 발생했습니다.")
             }
     }
 

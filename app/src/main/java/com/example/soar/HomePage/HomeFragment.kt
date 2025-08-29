@@ -9,23 +9,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.example.soar.AlarmPage.AlarmActivity
-import com.example.soar.DetailPage.DetailPageActivity
-import com.example.soar.DetailPage.ReviewDetailActivity
-import com.example.soar.EntryPage.Onboarding.OnBoardingActivity
 import com.example.soar.EntryPage.SignIn.LoginActivity
 import com.example.soar.ExplorePage.ExploreFragment
 import com.example.soar.MainActivity
 import com.example.soar.Network.TokenManager
 import com.example.soar.R
 import com.example.soar.databinding.FragmentHomeBinding
-import com.google.api.Context
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import java.time.temporal.ChronoUnit
-import java.util.Date
+import androidx.fragment.app.viewModels // 추가
+import android.widget.Toast // 추가
 
 data class SwipeCardItem(
     val title: String,
@@ -53,6 +47,8 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
+    private val homeViewModel: HomeViewModel by viewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -74,7 +70,11 @@ class HomeFragment : Fragment() {
         }
 
         val cardList = listOf(
-            SwipeCardItem(getString(R.string.home_swipe), R.drawable.swipe_img1, "https://www.naver.com/"),
+            SwipeCardItem(
+                getString(R.string.home_swipe),
+                R.drawable.swipe_img1,
+                "https://www.naver.com/"
+            ),
             SwipeCardItem("이건 제목 2", R.drawable.swipe_img2, "https://example.com/2"),
             SwipeCardItem("이건 제목 3", R.drawable.swipe_img3, "https://example.com/3"),
             SwipeCardItem("이건 제목 4", R.drawable.swipe_img4, "https://example.com/4")
@@ -109,27 +109,27 @@ class HomeFragment : Fragment() {
         binding.section4.layoutManager = LinearLayoutManager(requireContext())
         binding.section4.adapter = adapter
 
-        binding.category1.setOnClickListener{
+        binding.category1.setOnClickListener {
             openExplore(0)
         }
-        binding.category2.setOnClickListener{
+        binding.category2.setOnClickListener {
             openExplore(1)
         }
-        binding.category3.setOnClickListener{
+        binding.category3.setOnClickListener {
             openExplore(2)
         }
-        binding.category4.setOnClickListener{
+        binding.category4.setOnClickListener {
             openExplore(3)
         }
 
-        binding.ad1.setOnClickListener{
+        binding.ad1.setOnClickListener {
             Log.d("CLICK", "ad1 clicked")
             openWebPage("https://www.k-startup.go.kr/")
         }
-        binding.ad2.setOnClickListener{
+        binding.ad2.setOnClickListener {
             openWebPage("https://www.worldjob.or.kr/")
         }
-        binding.ad3.setOnClickListener{
+        binding.ad3.setOnClickListener {
             openWebPage("https://www.2030db.go.kr/")
         }
 
@@ -183,6 +183,9 @@ class HomeFragment : Fragment() {
                 startActivity(intent)
             }
         }
+
+        setupLoginStateUI()
+        observeViewModel()
     }
 
     private fun openExplore(id: Int) {
@@ -202,6 +205,59 @@ class HomeFragment : Fragment() {
     private fun openWebPage(url: String) {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
         startActivity(intent)
+    }
+
+    /** [추가] ViewModel의 LiveData를 관찰하는 함수 */
+    private fun observeViewModel() {
+        // 사용자 정보가 성공적으로 업데이트되었을 때
+        homeViewModel.userInfo.observe(viewLifecycleOwner) { newInfo ->
+            // 1. 받아온 최신 정보를 로컬(TokenManager)에 저장
+            TokenManager.saveUserInfo(newInfo)
+
+            // 2. UI 업데이트
+            binding.tvUserNameGreeting.text = newInfo.userName
+            Toast.makeText(requireContext(), "최신 사용자 정보를 업데이트했습니다.", Toast.LENGTH_SHORT).show()
+        }
+
+        // 에러 발생 시
+        homeViewModel.error.observe(viewLifecycleOwner) { errorMessage ->
+            Toast.makeText(requireContext(), "정보 업데이트 실패: $errorMessage", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    /** [추가] 로그인 상태에 따라 UI를 설정하는 함수 */
+    private fun setupLoginStateUI() {
+        val accessToken = TokenManager.getAccessToken()
+
+        if (!accessToken.isNullOrEmpty()) {
+            // --- 로그인 상태일 때 ---
+            binding.section1.visibility = View.GONE
+            binding.sectionLogin.visibility = View.VISIBLE
+            binding.sectionPopular.visibility = View.VISIBLE
+
+            // 1. 우선 로컬에 저장된 정보로 UI를 즉시 업데이트
+            val localUserInfo = TokenManager.getUserInfo()
+            val userName = localUserInfo?.userName ?: TokenManager.getSignInInfo()?.userName ?: "사용자"
+            binding.tvUserNameGreeting.text = userName
+
+            // 2. 서버에 최신 사용자 정보 요청 (네트워크 상태에 따라 시간이 걸릴 수 있음)
+            homeViewModel.fetchUserInfo()
+
+        } else {
+            // --- 비로그인 상태일 때 ---
+            binding.section1.visibility = View.VISIBLE
+            binding.sectionLogin.visibility = View.GONE
+            binding.sectionPopular.visibility = View.GONE
+
+            // 비로그인 섹션의 버튼 리스너 설정
+            binding.btnCloseFirst.setOnClickListener {
+                binding.section1.visibility = View.GONE
+            }
+            binding.btnToLogin.setOnClickListener {
+                val intent = Intent(requireContext(), LoginActivity::class.java)
+                startActivity(intent)
+            }
+        }
     }
 
 

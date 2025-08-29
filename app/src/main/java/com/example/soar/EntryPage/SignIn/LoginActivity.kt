@@ -20,19 +20,16 @@ import com.example.soar.Utill.ErrorMessageHelper
 import com.example.soar.Utill.FocusErrorController
 import com.example.soar.Utill.PasswordToggleHelper
 import com.example.soar.databinding.ActivityLoginPageBinding
-import com.example.soar.repository.AuthRepository
+import com.example.soar.Network.user.AuthRepository
 import com.google.android.material.textfield.TextInputLayout
 import android.util.Log
 import android.widget.Toast
-import com.example.soar.MyPage.ChangePwActivity
 import com.example.soar.MyPage.FindActivity
 import com.example.soar.Network.ApiResponse
 import com.example.soar.Network.TokenManager
 import com.example.soar.Network.user.KakaoLoginRequest
 import com.example.soar.Network.user.SignInResponse
 import com.kakao.sdk.auth.model.OAuthToken
-import com.kakao.sdk.common.model.ClientError
-import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -140,7 +137,15 @@ class LoginActivity : AppCompatActivity() {
         b.btnLogin.setOnClickListener { vm.login() }
 
         /* 상단 X 버튼 */
-        b.appbarLogin.btnClose.setOnClickListener { finish() }
+        b.appbarLogin.btnClose.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java).apply {
+                // 기존의 모든 액티비티를 스택에서 제거하고 새로운 태스크로 시작
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }
+            startActivity(intent)
+            finish() // LoginActivity 종료
+
+        }
 
         /* 회원가입 이동 */
         b.tvSignUp.setOnClickListener {
@@ -148,7 +153,6 @@ class LoginActivity : AppCompatActivity() {
         }
 
         b.btnKakao.setOnClickListener {
-            //handleKakaoLogin()
             kakaoLogin()
         }
 
@@ -215,48 +219,6 @@ class LoginActivity : AppCompatActivity() {
         til.setBoxStrokeColorStateList(android.content.res.ColorStateList(states, colors))
     }
 
-    private fun handleKakaoLogin() {
-        // 카카오계정으로 로그인 공통 콜백
-        val callback: (OAuthToken?, Throwable?) -> Unit = callback@{ token, error ->
-            if (error != null) {
-                Log.e("LoginActivity", "카카오계정으로 로그인 실패", error)
-                // 사용자가 로그인 창을 닫으면 ClientError(ClientErrorCause.Cancelled) 발생
-                if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
-                    // 특별한 처리가 필요 없다면 무시
-                    return@callback
-                }
-                // 그 외 에러는 사용자에게 피드백
-                vm.resetState() // UI 상태 초기화
-            } else if (token != null) {
-                Log.i("LoginActivity", "카카오계정으로 로그인 성공 ${token.accessToken}")
-                // ViewModel을 통해 서버에 로그인 요청
-                vm.loginWithKakao(token.accessToken)
-            }
-        }
-
-        // 카카오톡이 설치되어 있으면 카카오톡으로 로그인, 아니면 카카오계정으로 로그인
-        if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
-            UserApiClient.instance.loginWithKakaoTalk(this) { token, error ->
-                if (error != null) {
-                    Log.e("LoginActivity", "카카오톡으로 로그인 실패", error)
-                    // 사용자가 카카오톡 설치 후 디바이스 권한 요청 화면에서 로그인을 취소한 경우,
-                    // 의도적인 로그인 취소로 보고 카카오계정으로 로그인 시도 없이 로그인 취소로 처리 (예: 뒤로 가기)
-                    if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
-                        return@loginWithKakaoTalk
-                    }
-                    // 카카오톡에 연결된 카카오계정이 없는 경우, 카카오계정으로 로그인 시도
-                    UserApiClient.instance.loginWithKakaoAccount(this, callback = callback)
-                } else if (token != null) {
-                    Log.i("LoginActivity", "카카오톡으로 로그인 성공 ${token.accessToken}")
-                    vm.loginWithKakao(token.accessToken)
-                }
-            }
-        } else {
-            UserApiClient.instance.loginWithKakaoAccount(this, callback = callback)
-        }
-    }
-
-
     private fun kakaoLogin() {
         if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
             UserApiClient.instance.loginWithKakaoTalk(this) { token, error ->
@@ -267,6 +229,18 @@ class LoginActivity : AppCompatActivity() {
                 handleKakaoLogin(token, error)
             }
         }
+
+
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val intent = Intent(this, MainActivity::class.java).apply {
+            // Clear the entire activity stack and start a new task
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        startActivity(intent)
+        finish() // Finish the current LoginActivity
     }
 
     // ✅ 로그인 성공/실패 후 처리
@@ -305,6 +279,7 @@ class LoginActivity : AppCompatActivity() {
 
                             Log.d("KakaoLoginActivity", "✅ 저장된 accessToken 확인용: ${TokenManager.getAccessToken()}")
 
+                            TokenManager.saveIsKakaoUser(true)
                             Toast.makeText(this@LoginActivity, "로그인 성공", Toast.LENGTH_SHORT).show()
                             if (data.firstSocialLogin == true && data.socialProvider == "kakao") {
                                 Toast.makeText(
@@ -333,5 +308,6 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
+
 
 }

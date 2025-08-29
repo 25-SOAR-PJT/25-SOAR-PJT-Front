@@ -5,11 +5,14 @@ import android.view.MotionEvent
 import android.view.View
 import com.example.soar.R
 
-class SwipeToDismissUtil(activity: Activity) {
+class SwipeToDismissUtil(
+    private val activity: Activity,
+    private val onDismiss: () -> Unit // 액티비티 종료 시 실행할 람다 추가
+) {
 
     private var startY = 0f
     private var isDragging = false
-    private val SWIPE_THRESHOLD = 200f  // Activity 닫히는 최소 스와이프 거리
+    private val SWIPE_THRESHOLD = 200f
 
     init {
         val rootView = activity.findViewById<View>(android.R.id.content)
@@ -23,7 +26,7 @@ class SwipeToDismissUtil(activity: Activity) {
 
                 MotionEvent.ACTION_MOVE -> {
                     val diffY = event.rawY - startY
-                    if (diffY > 0) { // 아래로 드래그 중
+                    if (diffY > 0) {
                         rootView.translationY = diffY
                         isDragging = true
                     }
@@ -32,15 +35,13 @@ class SwipeToDismissUtil(activity: Activity) {
                 MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
                     val diffY = event.rawY - startY
 
-                    // 드래그 중이 아니면 클릭으로 간주 -> performClick 호출
                     if (!isDragging) {
                         v.performClick()
                     }
 
                     if (isDragging && diffY > SWIPE_THRESHOLD) {
-                        // 스와이프 충분하면 Activity 종료
-                        activity.finish()
-                        activity.overridePendingTransition(0, R.anim.slide_out_down)
+                        // 스와이프가 충분하면 onDismiss 람다 호출
+                        onDismiss.invoke()
                     } else {
                         // 원래 위치로 복귀
                         rootView.animate().translationY(0f).setDuration(200).start()
@@ -51,6 +52,3 @@ class SwipeToDismissUtil(activity: Activity) {
         }
     }
 }
-
-
-

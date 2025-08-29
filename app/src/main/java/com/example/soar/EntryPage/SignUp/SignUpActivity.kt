@@ -30,6 +30,7 @@ class SignUpActivity : AppCompatActivity() {
         // ── 색상 ───────────────────────────────
         binding.progressBg.setBackgroundColor(getColor(R.color.ref_coolgray_200))
         binding.progressActive.setBackgroundColor(getColor(R.color.ref_coolgray_500))
+        binding.appbar.textTitle.text = " "
 
         // ── NavController ─────────────────────
         val navHost = supportFragmentManager

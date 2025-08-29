@@ -1,41 +1,32 @@
 package com.example.soar.CalendarPage
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
+import android.widget.Toast
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.soar.R
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.soar.DetailPage.DetailPageActivity
+import com.example.soar.Network.archiving.BookmarkedPolicy
 import com.example.soar.databinding.FragmentCalendarBinding
-import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
-
-data class Schedule(
-    val date: LocalDate,
-    val title: String,
-    val type: Int,
-    var isApplied: Boolean = false
-)
-
+import java.time.format.TextStyle
+import java.util.Locale
 
 class CalendarFragment : Fragment() {
     private var _binding: FragmentCalendarBinding? = null
     private val binding get() = _binding!!
 
-    // 화면상으로 보고 있는 연/월
-    private var currentYear  = 0
-    private var currentMonth = 0
+    private val viewModel: CalendarViewModel by viewModels()
+    private lateinit var calendarDateAdapter: CalendarDateAdapter
+    private lateinit var scheduleAdapter: CalendarScheduleAdapter
 
-    // 지금 선택되어 있는 날짜 (디폴트는 today)
-    private var selectedDate: LocalDate = LocalDate.now()
-
-    override fun onResume() {
-        super.onResume()
-        setCalendar()
-    }
+    private var currentYearMonth: YearMonth = YearMonth.now()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,107 +38,98 @@ class CalendarFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupRecyclerViews()
+        setupListeners()
+        setupObservers()
 
-        selectedDate = LocalDate.now()
-        currentYear = selectedDate.year
-        currentMonth = selectedDate.monthValue
+        updateCalendarDisplay(currentYearMonth)
+        viewModel.fetchBookmarkedPolicies()
+    }
 
-        binding.btnToday.setOnClickListener {
-            val today = LocalDate.now()
-            selectedDate = today
-            currentYear = today.year
-            currentMonth = today.monthValue
+    private fun setupRecyclerViews() {
+        scheduleAdapter = CalendarScheduleAdapter(
+            onPolicyClick = { policy ->
+                onPolicyItemClick(policy)
+            },
+            onApplyClick = { policy ->
+                // ViewModel의 API 호출 함수를 실행
+                viewModel.togglePolicyApplied(policy.policyId)
+            }
+        )
+        binding.bizList.adapter = scheduleAdapter
+        binding.bizList.layoutManager = LinearLayoutManager(requireContext())
 
-            setCalendar()
+        // 어댑터 초기화 시 ViewModel에서 받은 올바른 타입의 데이터를 전달
+        calendarDateAdapter = CalendarDateAdapter(
+            dateList = emptyList(),
+            recordTypeMap = emptyMap(),
+            selectedDate = LocalDate.now()
+        ) { clickedDate ->
+            viewModel.selectDate(clickedDate)
         }
-
-        binding.leftArrow.setOnClickListener { prevMonth() }
-        binding.rightArrow.setOnClickListener { nextMonth() }
-
-        setCalendar()
-    }
-
-    private fun setCalendar() {
-        drawCalendarWithMap(recordTypeMap)
-        setScheduleList(selectedDate)
-    }
-
-    private fun drawCalendarWithMap(recordTypeMap: Map<LocalDate, List<Int>>) {
-        val dateList = DateUtils.generateDateList(currentYear, currentMonth)
-
+        binding.date.adapter = calendarDateAdapter
         binding.date.layoutManager = GridLayoutManager(requireContext(), 7)
-        binding.date.adapter = CalendarDateAdapter(
-            dateList = dateList,
-            recordTypeMap = recordTypeMap,
-            selectedDate = selectedDate
-        ) { clicked ->
-            selectedDate = clicked
-            setCalendar()
+    }
+
+    private fun setupListeners() {
+        binding.btnToday.setOnClickListener {
+            currentYearMonth = YearMonth.now()
+            viewModel.selectDate(LocalDate.now())
+            updateCalendarDisplay(currentYearMonth)
+        }
+        binding.leftArrow.setOnClickListener {
+            currentYearMonth = currentYearMonth.minusMonths(1)
+            updateCalendarDisplay(currentYearMonth)
+        }
+        binding.rightArrow.setOnClickListener {
+            currentYearMonth = currentYearMonth.plusMonths(1)
+            updateCalendarDisplay(currentYearMonth)
+        }
+    }
+
+    private fun setupObservers() {
+        viewModel.selectedDate.observe(viewLifecycleOwner) { date ->
+            updateSelectedDateHeader(date)
+            calendarDateAdapter.updateSelectedDate(date)
         }
 
-        binding.calendarYearText.text = currentYear.toString()
-        binding.calendarMonthText.text = currentMonth.toString().padStart(2, '0')
-    }
-
-    private fun prevMonth() {
-        val (y, m) = DateUtils.moveToPreviousMonth(currentYear, currentMonth)
-        currentYear  = y
-        currentMonth = m
-
-        // 화면 갱신 (달력 + 월 총합)
-        setCalendar()
-
-        // 날짜를 바꿔도(월 이동) 히스토리 영역은 초기화
-        selectedDate = LocalDate.of(currentYear, currentMonth, 1)
-    }
-
-    private fun nextMonth() {
-        val (y, m) = DateUtils.moveToNextMonth(currentYear, currentMonth)
-        currentYear  = y
-        currentMonth = m
-
-        setCalendar()
-
-        selectedDate = LocalDate.of(currentYear, currentMonth, 1)
-    }
-
-
-    private val dummyScheduleList = listOf(
-        Schedule(LocalDate.of(2025, 7, 1), "청년마음건강지원사업 이용자 모집", 1),
-        Schedule(LocalDate.of(2025, 7, 1), "청년마음건강지원사업 이용자 모집", 0),
-        Schedule(LocalDate.of(2025, 7, 15), "청년마음건강지원사업 이용자 모집2", 1),
-        Schedule(LocalDate.of(2025, 7, 15), "청년마음건강지원사업 이용자 모집", 1),
-        Schedule(LocalDate.of(2025, 7, 15), "청년마음건강지원사업 이용자 모집", 2),
-        Schedule(LocalDate.of(2025, 7, 30), "청년마음건강지원사업 이용자 모집", 2)
-        // 0 = 상시, 1 = 사업 마감일, 2 = 신청 마감일, 3 = 사업 종료, 4 = 모집 요강 확인
-    )
-
-    private val recordTypeMap: Map<LocalDate, List<Int>> = dummyScheduleList
-        .groupBy { it.date }
-        .mapValues { entry ->
-            entry.value.map { it.type }
+        viewModel.eventsByDate.observe(viewLifecycleOwner) { eventsMap ->
+            // 올바른 타입의 Map을 어댑터에 전달
+            calendarDateAdapter.updateEvents(eventsMap)
         }
 
+        viewModel.schedulesForSelectedDate.observe(viewLifecycleOwner) { schedules ->
+            scheduleAdapter.submitList(schedules)
+        }
 
-    private fun setScheduleList(date: LocalDate) {
+        viewModel.toastEvent.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let { message ->
+                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    // 달력 UI를 업데이트하는 로직을 별도 함수로 분리
+    private fun updateCalendarDisplay(yearMonth: YearMonth) {
+        binding.calendarYearText.text = yearMonth.year.toString()
+        binding.calendarMonthText.text = yearMonth.monthValue.toString().padStart(2, '0')
+        val dateList = DateUtils.generateDateList(yearMonth.year, yearMonth.monthValue)
+        calendarDateAdapter.updateDateList(dateList)
+    }
+
+    private fun updateSelectedDateHeader(date: LocalDate) {
         val day = date.dayOfMonth
-        val dayOfWeekKorean = when (date.dayOfWeek) {
-            DayOfWeek.MONDAY    -> "월요일"
-            DayOfWeek.TUESDAY   -> "화요일"
-            DayOfWeek.WEDNESDAY -> "수요일"
-            DayOfWeek.THURSDAY  -> "목요일"
-            DayOfWeek.FRIDAY    -> "금요일"
-            DayOfWeek.SATURDAY  -> "토요일"
-            DayOfWeek.SUNDAY    -> "일요일"
-        }
-
+        val dayOfWeekKorean = date.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.KOREAN)
         binding.textToday.text = "${day}일 $dayOfWeekKorean"
-
-        val filteredList = dummyScheduleList.filter { it.date == selectedDate }
-        binding.bizList.adapter = CalendarScheduleAdapter(filteredList)
-
     }
 
+    // 2. DetailPageActivity로 이동하는 함수를 추가합니다.
+    private fun onPolicyItemClick(policy: BookmarkedPolicy) {
+        val intent = Intent(requireContext(), DetailPageActivity::class.java).apply {
+            putExtra("policyId", policy.policyId)
+        }
+        startActivity(intent)
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

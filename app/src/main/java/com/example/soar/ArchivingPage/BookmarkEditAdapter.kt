@@ -1,96 +1,74 @@
+// ArchivingPage/BookmarkEditAdapter.kt
+
 package com.example.soar.ArchivingPage
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.soar.Business
 import com.example.soar.R
-import com.example.soar.databinding.CustomToastBinding
-import com.example.soar.databinding.ItemCalendarScheduleBinding
+import com.example.soar.databinding.ItemEditArchivingBinding
 
-class BookmarkEditAdapter :
-    ListAdapter<Business, BookmarkEditAdapter.ScheduleViewHolder>(DiffCallback) {
+class BookmarkEditAdapter(private val onItemClick: (String) -> Unit) :
+    ListAdapter<EditPolicyUiModel, BookmarkEditAdapter.PolicyViewHolder>(DiffCallback) {
 
-    inner class ScheduleViewHolder(val binding: ItemCalendarScheduleBinding) :
-        RecyclerView.ViewHolder(binding.root)
+    inner class PolicyViewHolder(val binding: ItemEditArchivingBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        init {
+            binding.checkbox.setOnClickListener {
+                if (adapterPosition != RecyclerView.NO_POSITION) {
+                    onItemClick(getItem(adapterPosition).policy.policyId)
+                }
+            }
+        }
+    }
 
     companion object {
-        // DiffUtil.ItemCallback 구현
-        private val DiffCallback = object : DiffUtil.ItemCallback<Business>() {
-            override fun areItemsTheSame(oldItem: Business, newItem: Business): Boolean {
-                // Business 고유값으로 비교 (id가 있다면 id로)
-                return oldItem.id == newItem.id
+        private val DiffCallback = object : DiffUtil.ItemCallback<EditPolicyUiModel>() {
+            override fun areItemsTheSame(oldItem: EditPolicyUiModel, newItem: EditPolicyUiModel): Boolean {
+                return oldItem.policy.policyId == newItem.policy.policyId
             }
 
-            override fun areContentsTheSame(oldItem: Business, newItem: Business): Boolean {
+            override fun areContentsTheSame(oldItem: EditPolicyUiModel, newItem: EditPolicyUiModel): Boolean {
                 return oldItem == newItem
             }
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScheduleViewHolder {
-        val binding = ItemCalendarScheduleBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PolicyViewHolder {
+        val binding = ItemEditArchivingBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false
         )
-        return ScheduleViewHolder(binding)
+        return PolicyViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ScheduleViewHolder, position: Int) {
-        val schedule = getItem(position)
+    override fun onBindViewHolder(holder: PolicyViewHolder, position: Int) {
+        val uiModel = getItem(position)
+        val policy = uiModel.policy
         val context = holder.itemView.context
 
-        holder.binding.textTitle.text = schedule.title
-        holder.binding.textLabel.text = when (schedule.type) {
-            0 -> context.getString(R.string.always)
-            1 -> context.getString(R.string.biz_deadline)
-            2 -> context.getString(R.string.apply_deadline)
-            else -> context.getString(R.string.biz_end)
-        }
+        holder.binding.textTitle.text = policy.policyName
+        holder.binding.textLabel.text = policy.dateLabel
 
-        val colorRes = when (schedule.type) {
-            0, 1 -> R.color.semantic_accent_primary_based
-            2 -> R.color.semantic_accent_deadline_based
+        // ArchivingAdapter와 동일한 색상 로직 적용
+        val colorRes = when (policy.dateType) {
+            "ONGOING", "UPCOMING" -> R.color.semantic_accent_primary_based
+            "DEADLINE" -> if (policy.applied) R.color.semantic_accent_primary_based else R.color.semantic_accent_deadline_based
             else -> R.color.ref_gray_400
         }
-
         val color = ContextCompat.getColor(context, colorRes)
         holder.binding.textLabel.setTextColor(color)
         holder.binding.colorTag.setBackgroundColor(color)
 
-        val checkboxDrawable = if (schedule.isApplied)
-            R.drawable.icon_checkbox_checked
+        // isSelected 상태에 따라 체크박스 UI 변경
+        val checkboxDrawable = if (uiModel.isSelected)
+            R.drawable.ic_checkbox_active
         else
-            R.drawable.icon_checkbox
-
+            R.drawable.ic_checkbox_inactive
         holder.binding.checkbox.setImageResource(checkboxDrawable)
-
-        // 체크박스 클릭 이벤트
-        holder.binding.checkbox.setOnClickListener {
-            val updatedItem = schedule.copy(isApplied = !schedule.isApplied)
-
-            val newList = currentList.toMutableList().apply {
-                set(position, updatedItem)
-            }
-            submitList(newList)
-
-            if (updatedItem.isApplied) {
-                var toast: Toast? = null
-                toast = Toast(holder.itemView.context).apply {
-                    duration = Toast.LENGTH_SHORT
-                    view = CustomToastBinding.inflate(LayoutInflater.from(holder.itemView.context)).apply {
-                        textMessage.text = context.getString(R.string.toast_biz_apply)
-                        btnCancel.setOnClickListener { toast?.cancel() }
-                    }.root
-                }
-                toast.show()
-            }
-        }
-
     }
+
+
 }

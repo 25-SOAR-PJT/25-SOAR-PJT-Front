@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.example.soar.Network.tag.TagResponse
 import com.example.soar.R
 import com.example.soar.databinding.StepCsKeywordBinding
 import com.google.android.flexbox.FlexboxLayout
@@ -37,8 +38,10 @@ class Step5Fragment : Fragment(R.layout.step_cs_keyword) {
 
         initializeFlexboxMap()
 
-        val allTags = loadDummyTagData()
-        viewModel.loadInitialTags(allTags)
+        activityViewModel.allTags.observe(viewLifecycleOwner) { allTags ->
+            if (allTags.isNullOrEmpty()) return@observe
+            viewModel.loadInitialTags(allTags)
+        }
 
         // [추가] 수정 모드일 경우, 저장된 값으로 ViewModel 상태를 초기화합니다.
         if (activityViewModel.isEditMode.value == true) {
@@ -75,7 +78,7 @@ class Step5Fragment : Fragment(R.layout.step_cs_keyword) {
             if (!selectedUiModels.isNullOrEmpty()) {
                 // [수정] List<TagUiModel>을 List<TagResponse>로 변환(map)합니다.
                 val selectedTags = selectedUiModels.map { uiModel ->
-                    TagResponse(uiModel.tagId, uiModel.tagName, uiModel.fieldId, "")
+                    TagResponse(uiModel.tagId, uiModel.tagName, uiModel.fieldId)
                 }
                 // [수정] 변환된 '리스트'를 전달합니다.
                 activityViewModel.setKeywords(selectedTags)
@@ -173,16 +176,6 @@ class Step5Fragment : Fragment(R.layout.step_cs_keyword) {
         val btnClose = tagView.findViewById<ImageView>(R.id.btn_close)
         textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.ref_blue_600))
         btnClose.visibility = View.VISIBLE
-    }
-
-    private fun loadDummyTagData(): List<TagResponse> {
-        val json = requireContext().assets.open("response_tags.json")
-            .bufferedReader().use { it.readText() }
-        val gson = Gson()
-        // ApiResponse 와 TagResponse data class는 기존 코드에 있다고 가정
-        val type = object : TypeToken<ApiResponse>() {}.type
-        val response: ApiResponse = gson.fromJson(json, type)
-        return response.data
     }
 
     override fun onDestroyView() {

@@ -84,7 +84,8 @@
             android:exported="false" />
         <activity
             android:name=".ArchivingPage.KeywordActivity"
-            android:exported="false" /> <!-- 앱 첫 실행용 스플래시 -->
+            android:exported="false" />
+        <!-- 앱 첫 실행용 스플래시 -->
         <activity
             android:name=".EntryPage.Splash.SplashPageActivity"
             android:exported="false"
@@ -101,13 +102,19 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity> <!-- 온보딩 페이지 -->
-        <activity android:name=".EntryPage.Onboarding.OnBoardingActivity" /> <!-- 로그인 페이지 -->
-        <activity android:name=".EntryPage.SignIn.LoginActivity" /> <!-- 회원가입 페이지 -->
+        </activity>
+        <!-- 온보딩 페이지 -->
+        <activity android:name=".EntryPage.Onboarding.OnBoardingActivity" />
+        <!-- 로그인 페이지 -->
+        <activity android:name=".EntryPage.SignIn.LoginActivity" />
+        <!-- 회원가입 페이지 -->
         <activity
             android:name=".EntryPage.SignUp.SignUpActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden" /> <!-- 큐레이션시퀀스 페이지 -->
-        <activity android:name=".CurationSequencePage.CurationSequeceActivity" />
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <!-- 큐레이션시퀀스 페이지 -->
+        <activity android:name=".CurationSequencePage.CurationSequenceActivity" />
+
+        <activity android:name=".MyPage.TagSelection.TagSelectionActivity" />
     </application>
 
 </manifest>

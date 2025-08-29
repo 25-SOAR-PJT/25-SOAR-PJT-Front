@@ -50,10 +50,10 @@ object TokenManager {
             val json = Gson().toJson(userInfo)
             prefs.edit()
                 .putString(KEY_USER_INFO, json)
-                .putBoolean(KEY_IS_KAKAO_USER, userInfo.isKakaoUser ?: false)
                 .apply()
         }
     }
+
 
 
     fun getUserInfo(): UserInfoResponse? {
@@ -77,6 +77,10 @@ object TokenManager {
         return prefs.getBoolean(KEY_IS_KAKAO_USER, false)
     }
 
+    // ✨ 추가: isKakaoUser 상태를 직접 저장하는 함수
+    fun saveIsKakaoUser(isKakaoUser: Boolean) {
+        prefs.edit().putBoolean(KEY_IS_KAKAO_USER, isKakaoUser).apply()
+    }
 
     fun getSignInInfo(): SignInResponse? {
         val json = prefs.getString(KEY_SIGN_IN_INFO, null) ?: return null

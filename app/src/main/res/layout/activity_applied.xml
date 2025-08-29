@@ -39,9 +39,10 @@
                     style="@style/Font_Title_Semibold"
                     android:textColor="@color/semantic_text_strongest"/>
                 <TextView
+                    android:id="@+id/applied_counts"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/sample"
+                    android:text=""
                     style="@style/Font_Heading300_Bold"
                     android:textColor="@color/ref_blue_600"/>
             </LinearLayout>
@@ -50,6 +51,37 @@
                 android:layout_height="74dp"
                 android:src="@drawable/image_archive"/>
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvTitle"
+            style="@style/Font_Heading400_Semibold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="12dp"
+            android:fontFamily="@font/pretendard_semibold"
+            android:lineSpacingExtra="12sp"
+            android:textColor="@color/ref_coolgray_800"
+            android:text="신청완료 체크한 지원사업이 없어요"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone"
+            />
+
+        <TextView
+            android:id="@+id/tvSubtitle"
+            style="@style/Font_Body_Medium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="12dp"
+            android:layout_marginTop="8dp"
+            android:text="신청 완료한 지원 사업 목록들이 뜰거에요"
+            android:textColor="@color/ref_gray_600"
+            app:layout_constraintEnd_toEndOf="@id/tvTitle"
+            app:layout_constraintStart_toStartOf="@id/tvTitle"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle"
+            android:visibility="gone"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/applied_biz"

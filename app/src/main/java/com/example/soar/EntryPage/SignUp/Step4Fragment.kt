@@ -17,7 +17,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.soar.Network.RetrofitClient
 import com.example.soar.R
 import com.example.soar.databinding.StepPwInfoBinding
-import com.example.soar.repository.AuthRepository
+import com.example.soar.Network.user.AuthRepository
 import com.google.android.material.textfield.TextInputLayout
 import com.example.soar.Utill.ErrorMessageHelper
 import com.example.soar.Utill.FocusErrorController

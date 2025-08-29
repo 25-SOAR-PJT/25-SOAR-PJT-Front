@@ -19,7 +19,7 @@ import com.example.soar.R
 import com.example.soar.Utill.ErrorMessageHelper
 import com.example.soar.Utill.FocusErrorController
 import com.example.soar.databinding.StepEmailInfoBinding
-import com.example.soar.repository.AuthRepository
+import com.example.soar.Network.user.AuthRepository
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collectLatest
 import java.util.concurrent.TimeUnit

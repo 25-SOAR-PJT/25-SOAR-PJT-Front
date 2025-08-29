@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.example.soar.Network.tag.TagResponse
 import com.example.soar.R
 import com.example.soar.databinding.StepCsEducationBinding
 import com.google.gson.Gson
@@ -29,8 +30,10 @@ class Step3Fragment : Fragment(R.layout.step_cs_education) {
         super.onViewCreated(view, savedInstanceState)
         _binding = StepCsEducationBinding.bind(view)
 
-        val allTags = loadDummyTagData()
-        viewModel.loadInitialTags(allTags)
+        activityViewModel.allTags.observe(viewLifecycleOwner) { allTags ->
+            if (allTags.isNullOrEmpty()) return@observe
+            viewModel.loadInitialTags(allTags)
+        }
 
         // [추가] 수정 모드일 경우, 저장된 값으로 ViewModel 상태를 초기화합니다.
         if (activityViewModel.isEditMode.value == true) {
@@ -58,7 +61,7 @@ class Step3Fragment : Fragment(R.layout.step_cs_education) {
             // [수정] if/else 구문으로 명시적으로 상태를 업데이트합니다.
             if (selectedTag != null) {
                 // 선택한 것이 있을 경우
-                val tagResponse = TagResponse(selectedTag.tagId, selectedTag.tagName, selectedTag.fieldId, "최종학력")
+                val tagResponse = TagResponse(selectedTag.tagId, selectedTag.tagName, selectedTag.fieldId)
                 activityViewModel.setEducation(tagResponse)
             } else {
                 // 선택한 것이 없을 경우, null로 상태를 업데이트
@@ -124,16 +127,6 @@ class Step3Fragment : Fragment(R.layout.step_cs_education) {
         val textView = tagView.findViewById<TextView>(R.id.text_keyword)
         tagView.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.ref_blue_150)
         textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.ref_blue_600))
-    }
-
-    private fun loadDummyTagData(): List<TagResponse> {
-        val json = requireContext().assets.open("response_tags.json")
-            .bufferedReader().use { it.readText() }
-
-        val gson = Gson()
-        val type = object : TypeToken<ApiResponse>() {}.type
-        val response: ApiResponse = gson.fromJson(json, type)
-        return response.data
     }
 
     override fun onDestroyView() {

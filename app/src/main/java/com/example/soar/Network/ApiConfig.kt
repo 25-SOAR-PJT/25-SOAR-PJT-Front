@@ -19,14 +19,6 @@ object ApiConfig {
         const val BY_DATE = "/api/calendar/{date}"
     }
 
-    // CurationSequence 관련
-    object CurationSequence {
-        const val SELECT = "/api/curation-sequence/select"
-        const val GET_SEQUENCE = "/api/curation-sequence/{seqId}"
-        const val RESULT = "/api/curation-sequence/result/{seqId}"
-        const val SEARCH_ADDRESS = "/api/curation-sequence/result/{seqId}"
-    }
-
     // Home 관련
     object Home {
         const val USER_INFO = "/api/home/user"
@@ -39,7 +31,7 @@ object ApiConfig {
         const val SIGNUP = "/api/auth/signup"
         const val SIGNIN = "/api/auth/signin"
         const val SIGNOUT = "/api/auth/signout"
-        const val USER_INFO = "/api/auth/user-info?userEmail={userEmail}"
+        const val USER_INFO = "/api/auth/get-userinfo"
         const val RESET_NAME = "/api/auth/reset-name"
         const val RESET_PASSWORD = "/api/auth/reset-password"
         const val SIGNUP_OTP = "/api/auth/signup/otp"
@@ -47,6 +39,9 @@ object ApiConfig {
         const val FIND_ID = "/api/auth/find-id"
         const val FIND_PASSWORD = "/api/auth/find-password"
         const val KAKAO_LOGIN = "/api/auth/kakao"
+        const val TAG = "/api/user-tag/user"
+        const val TAG_MODIFY = "/api/user-tag/"
+        const val UPDATE_PW = "/api/auth/update-password"
     }
 
     // Project/My 관련
@@ -54,17 +49,24 @@ object ApiConfig {
         const val USER_PROJECT_LIST = "/api/project/{userId}"
     }
 
-    // Browse 관련
-    object Browse {
-        const val MAIN = "/api/browse"
-        const val LIST = "/api/browse/list"
-        const val SEARCH_HISTORY = "/api/browse/search/history"
-        const val SUGGESTIONS = "/api/browse/search/suggestions"
-        const val SEARCH = "/api/browse/search"
-        const val CATEGORY = "/api/browse/category"
-        const val CATEGORY_KEYWORDS = "/api/browse/category/keywords"
-        const val FILTERS = "/api/browse/filters"
+    // Explore 관련
+    object Explore {
+        const val MAIN = "/api/youth-policy/main"
+        const val MAIN_WITH_LOGIN = "/api/user-policy/main"
+        const val MULTI_SEARCH = "/api/youth-policy/search/multi"
     }
+
+    // UserYouthPolicy 관련
+    object UserYouthPolicy{
+        const val MAIN ="/api/user-policies/mainLoginTags"
+        const val TOGGLE_BOOKMARK = "/api/user-policies/{policyId}/bookmarks/toggle"
+    }
+
+    // UserYouthPolicyTag 관련
+    object UserYouthPolicyTag{
+        const val QS = "/api/youth-policy-tag/tags/qs"
+    }
+
 
     // Archive 관련
     object Archive {
@@ -76,11 +78,18 @@ object ApiConfig {
         const val FILTER = "/api/archive/filter"
     }
 
-    // SupportDetails 관련
-    object SupportDetails {
-        const val DETAIL = "/api/support/{id}"
-        const val MORE_DETAIL = "/api/support/{id}/detail"
-        const val REVIEWS = "/api/support/{id}/reviews"
-        const val DOCUMENTS = "/api/support/{id}/documents"
+    // Details 관련
+    object Details {
+        const val DETAIL_BY_ID = "/api/youth-policy/{policyId}"
+    }
+
+
+    // Tag 관련
+    object Tag {
+        const val TAG = "/api/tag/"
+    }
+
+    object CurationSequence {
+        const val MULTI_SEARCH = "/api/youth-policy/search/multi"
     }
 }

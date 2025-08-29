@@ -132,6 +132,44 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"/>
+
+        <action
+            android:id="@+id/action_step6_to_step7"
+            app:destination="@id/step7Fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/step7Fragment"
+        android:name="com.example.soar.CurationSequencePage.Step7Fragment"
+        android:label="Step7Fragment"
+        tools:layout="@layout/step_cs_loading_suggestion">
+        <action
+            android:id="@+id/action_step7_to_step8"
+            app:destination="@id/step8Fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/step8Fragment"
+        android:name="com.example.soar.CurationSequencePage.Step8Fragment"
+        android:label="Step8Fragment"
+        tools:layout="@layout/step_cs_suggestion">
+
+        <action
+            android:id="@+id/action_step8_to_step6"
+            app:destination="@id/step6Fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+
     </fragment>
 
 

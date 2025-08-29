@@ -8,6 +8,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.example.soar.Network.tag.TagResponse
 import com.example.soar.R
 import com.example.soar.databinding.StepCsLocationBinding
 
@@ -57,8 +58,8 @@ class Step1Fragment : Fragment(R.layout.step_cs_location) {
             val selectedId = bundle.getInt("selected_id")
             val selectedName = bundle.getString("selected_name")
             if (selectedName != null) {
-                // fieldId: 10은 지역을 의미, fieldName은 임시값
-                val selectedTag = TagResponse(selectedId, selectedName, 10, "거주지역")
+                // fieldId: 9은 지역을 의미
+                val selectedTag = TagResponse(selectedId, selectedName, 9)
                 viewModel.setLocation(selectedTag)
             }
         }

@@ -3,7 +3,7 @@ package com.example.soar.EntryPage.SignUp
 import android.os.Bundle
 import androidx.lifecycle.*
 import androidx.savedstate.SavedStateRegistryOwner
-import com.example.soar.repository.AuthRepository
+import com.example.soar.Network.user.AuthRepository
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*

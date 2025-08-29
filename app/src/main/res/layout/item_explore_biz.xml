@@ -3,9 +3,10 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
     android:padding="18dp"
     android:background="@drawable/round_background7">
-    
+
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -18,6 +19,7 @@
             android:orientation="horizontal"
             android:gravity="center_vertical">
             <TextView
+                android:id="@+id/textViewPolicyRegion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/sample"
@@ -25,6 +27,7 @@
                 android:textColor="@color/ref_blue_600"
                 android:layout_marginEnd="4dp"/>
             <TextView
+                android:id="@+id/textViewPolicyDeadline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/num"
@@ -35,8 +38,9 @@
                 style="@style/Font_Caption_Medium"
                 android:textColor="@color/ref_blue_500"/>
         </LinearLayout>
-        
+
         <TextView
+            android:id="@+id/textViewPolicyName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/sample"
@@ -49,6 +53,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
+                android:id="@+id/largeClassification"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/sample"
@@ -61,20 +66,34 @@
                 android:layout_gravity="center"
                 android:layout_marginHorizontal="4dp"/>
             <TextView
+                android:id="@+id/mediumClassification"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/sample"
                 style="@style/Font_Label_Medium"
                 android:textColor="@color/ref_gray_400"/>
-            
+
         </LinearLayout>
     </LinearLayout>
 
-     <ImageView
-         android:id="@+id/btn_bookmark"
-         android:layout_width="24dp"
-         android:layout_height="match_parent"
-         android:src="@drawable/icon_bookmark"
-         android:layout_gravity="center"/>
+    <FrameLayout
+        android:layout_width="24dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_marginStart="8dp">
 
+        <ImageView
+            android:id="@+id/btn_bookmark"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/icon_bookmark"
+            android:layout_gravity="center"/>
+
+        <ProgressBar
+            android:id="@+id/bookmark_progress_bar"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:visibility="gone" /> </FrameLayout>
 </LinearLayout>

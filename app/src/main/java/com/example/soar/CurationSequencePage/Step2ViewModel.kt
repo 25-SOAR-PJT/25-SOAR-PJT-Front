@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.soar.Network.tag.TagResponse
 
 class Step2ViewModel : ViewModel() {
 
@@ -33,7 +34,7 @@ class Step2ViewModel : ViewModel() {
     }
 
     fun loadInitialTags(tags: List<TagResponse>) {
-        _allJobTags.value = tags.filter { it.fieldId == 6 }
+        _allJobTags.value = tags.filter { it.fieldId == 5 }
     }
 
     /**

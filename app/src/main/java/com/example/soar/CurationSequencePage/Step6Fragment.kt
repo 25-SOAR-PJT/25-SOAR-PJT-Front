@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.soar.R
 import com.example.soar.databinding.StepCsSummaryBinding
 import com.google.android.flexbox.FlexboxLayout
+import com.example.soar.Network.tag.TagResponse
 
 class Step6Fragment : Fragment(R.layout.step_cs_summary) {
 
@@ -36,8 +37,8 @@ class Step6Fragment : Fragment(R.layout.step_cs_summary) {
 
     private fun setupListeners() {
         binding.btnNext.setOnClickListener {
-            // TODO: 서버에 큐레이션 정보 전송 API 호출
-            (requireActivity() as? CurationSequeceActivity)?.navigateToMainAndFinish()
+            activityViewModel.fetchSuggestedPolicies()
+            findNavController().navigate(R.id.action_step6_to_step7)
         }
         binding.btnPrevious.setOnClickListener {
             findNavController().popBackStack()
@@ -72,7 +73,7 @@ class Step6Fragment : Fragment(R.layout.step_cs_summary) {
             emptyList()
         } else {
             // 내용이 있는 경우에만 리스트 생성
-            listOf(TagResponse(0, text, 0, ""))
+            listOf(TagResponse(0, text, 0))
         }
         addChipsToFlexbox(flexbox, tags, navigationActionId)
     }
@@ -88,7 +89,7 @@ class Step6Fragment : Fragment(R.layout.step_cs_summary) {
         ).toInt()
 
         val displayTags = if (tags.isNullOrEmpty()) {
-            listOf(TagResponse(0, "해당사항 없음", 0, ""))
+            listOf(TagResponse(0, "해당사항 없음", 0))
         } else {
             tags
         }

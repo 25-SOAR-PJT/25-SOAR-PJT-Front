@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.soar.Network.tag.TagResponse
 
 // JSON 파싱과 UI 상태 관리를 위한 데이터 클래스
 
@@ -36,7 +37,7 @@ class Step4ViewModel : ViewModel() {
     }
 
     fun loadInitialTags(tags: List<TagResponse>) {
-        _allExtraTags.value = tags.filter { it.fieldId == 8 }
+        _allExtraTags.value = tags.filter { it.fieldId == 7 }
     }
 
     /**

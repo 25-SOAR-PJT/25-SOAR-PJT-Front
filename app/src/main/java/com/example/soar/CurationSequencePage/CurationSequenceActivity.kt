@@ -12,10 +12,6 @@ import com.example.soar.databinding.ActivityCsPageBinding
 import com.example.soar.MainActivity
 import com.example.soar.Network.TokenManager
 
-
-// 데이터 클래스는 변경할 필요 없습니다.
-data class TagResponse(val tagId: Int, val tagName: String, val fieldId: Int, val fieldName: String)
-data class ApiResponse(val status: String, val data: List<TagResponse>)
 data class TagUiModel(
     val tagId: Int,
     val tagName: String,
@@ -49,7 +45,7 @@ open class Event<out T>(private val content: T) {
     fun peekContent(): T = content
 }
 
-class CurationSequeceActivity : AppCompatActivity() {
+class CurationSequenceActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCsPageBinding
 
@@ -64,8 +60,9 @@ class CurationSequeceActivity : AppCompatActivity() {
         R.id.step5Fragment
     )
 
+    val getUserInfo = TokenManager.getUserInfo()
     val signInInfo = TokenManager.getSignInInfo()
-    val userName = signInInfo?.userName ?: "사용자"
+    val userName = getUserInfo?.userName ?:signInInfo?.userName ?: "사용자"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,9 +70,12 @@ class CurationSequeceActivity : AppCompatActivity() {
         binding = ActivityCsPageBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val signInInfo = TokenManager.getSignInInfo()
-        val userName = signInInfo?.userName ?: "사용자"
+
         viewModel.setUserName(userName)
+
+        // [추가] ViewModel을 통해 태그 데이터를 한 번만 로드합니다.
+        // 액티비티 Context 대신 applicationContext를 넘겨주는 것이 더 안전합니다.
+        viewModel.loadAllTags()
 
         // ── NavController ─────────────────────
         val navHost = supportFragmentManager
@@ -86,16 +86,21 @@ class CurationSequeceActivity : AppCompatActivity() {
             onBackPressedDispatcher.onBackPressed()
         }
 
+        binding.appbar.textTitle.text = " "
+
     }
 
 
-    fun navigateToMainAndFinish() {
+    // `Step8Fragment`에서 호출할 새로운 함수
+    fun navigateToMainAndOpenPersonalBiz() {
         val intent = Intent(this, MainActivity::class.java).apply {
-            // 기존의 모든 액티비티를 스택에서 제거하고 새로운 태스크로 시작
+            // 기존 스택 정리 후 MainActivity만 남김
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            putExtra("start_destination", "explore")     // 시작 프래그먼트 지시
+            putExtra("open_personal_biz", true)          // PersonalBizActivity 띄우기 지시
         }
         startActivity(intent)
-        finish() // CurationSequeceActivity 종료
+        finish()
     }
 
 }

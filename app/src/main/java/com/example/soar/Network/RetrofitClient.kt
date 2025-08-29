@@ -83,7 +83,7 @@ class TokenAuthenticator : Authenticator {
             .build()
 
         val refreshReq = Request.Builder()
-            .url(RetrofitClient.BASE_URL + "api/auth/refresh")
+            .url(RetrofitClient.BASE_URL + "/api/auth/refresh")
             .addHeader("Refresh-Token", refreshToken)
             .post("".toRequestBody(null))
             .build()

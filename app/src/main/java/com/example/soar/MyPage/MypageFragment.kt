@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.soar.AlarmPage.AlarmActivity
 import com.example.soar.EntryPage.Onboarding.OnBoardingActivity
+import com.example.soar.EntryPage.SignIn.LoginActivity
 import com.example.soar.MainActivity
 import com.example.soar.Network.TokenManager
 import com.example.soar.databinding.FragmentMypageBinding
@@ -17,12 +18,31 @@ class MypageFragment : Fragment() {
     private var _binding: FragmentMypageBinding? = null
     private val binding get() = _binding!!
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMypageBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    // ✨ 추가: 액티비티가 다시 시작될 때마다 데이터를 갱신합니다.
+    override fun onResume() {
+        super.onResume()
+        val accessToken = TokenManager.getAccessToken()
+        if (!accessToken.isNullOrEmpty()) {
+
+            // 로그인 정보 가져오기
+            val localUserInfo = TokenManager.getUserInfo()
+            val userName = localUserInfo?.userName ?: TokenManager.getUserInfo()?.userName ?: "사용자"
+            val userAddress = localUserInfo?.userAddress ?: "거주하시는 지역을 설정해주세요"
+
+            // 유저 데이터 바인딩
+            binding.textUserName.text = userName
+            binding.textUserAddress.text = userAddress
+
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -58,13 +78,26 @@ class MypageFragment : Fragment() {
         }
 
         binding.btnLogout.setOnClickListener {
-            TokenManager.clearTokens()
+            val accessToken = TokenManager.getAccessToken()
 
-            val intent = Intent(requireActivity(), MainActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            if (!accessToken.isNullOrEmpty()) {
+                TokenManager.clearTokens()
+
+                val intent = Intent(requireActivity(), MainActivity::class.java).apply {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                }
+                startActivity(intent)
+                requireActivity().finish()
             }
-            startActivity(intent)
-            requireActivity().finish()
+
+            else {
+                val intent = Intent(requireActivity(), LoginActivity::class.java).apply {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                }
+
+                startActivity(intent)
+                requireActivity().finish()
+            }
         }
         binding.btnUnsubscribe.setOnClickListener{
            // 회원 탈퇴 로직
@@ -74,7 +107,6 @@ class MypageFragment : Fragment() {
             binding.containorProfile,
             binding.containerUserPreview,
             binding.containerUserActivity,
-            binding.btnLogout,
             binding.btnUnsubscribe
         )
 
@@ -92,16 +124,19 @@ class MypageFragment : Fragment() {
             setLoggedInViewsVisibility(true)
 
             // 로그인 정보 가져오기
-            val signInInfo = TokenManager.getSignInInfo()
-            val userName = signInInfo?.userName ?: "사용자" // 이름이 없을 경우 기본값
+            val localUserInfo = TokenManager.getUserInfo()
+            val userName = localUserInfo?.userName ?: TokenManager.getUserInfo()?.userName ?: "사용자"
+            val userAddress = localUserInfo?.userAddress ?: "거주하시는 지역을 설정해주세요"
 
             // 유저 데이터 바인딩
             binding.textUserName.text = userName
+            binding.textUserAddress.text = userAddress
+            binding.btnLoginText.text = "로그아웃"
 
         } else {
             // 토큰이 없으면 모든 관련 UI 숨김
-            //setLoggedInViewsVisibility(false)
-            setLoggedInViewsVisibility(true)
+            setLoggedInViewsVisibility(false)
+            binding.btnLoginText.text = "로그인"
         }
     }
 

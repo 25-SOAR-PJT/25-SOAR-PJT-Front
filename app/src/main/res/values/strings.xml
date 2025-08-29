@@ -291,15 +291,23 @@
     <string name="cs_keyword_tv">관심있는 키워드를 선택해주세요</string>
     <string name="cs_keyword_description">최대 5개까지 선택 가능해요</string>
     <string name="cs_summary_tv">입력하신 내용들을 확인해주세요!</string>
+    <string name="cs_loading_tv">%1$s님과 맞는 지원사업을\n찾고있어요"</string>
+    <string name="cs_suggestion_tv">%1$d건 찾기 성공!</string>
+    <string name="cs_suggestion_description">이제부터 %1$s님께\n맞춤화된 지원 사업 리스트를 받아보실 수 있어요</string>
+    <string name="move_user_policies">지원 사업 확인하러 가기</string>
+    <string name="cs_suggestion_description_empty">관련 정책이 없습니다.</string>
+
+    <string name="pb_suggestion_count">%1$d건</string>
+
+    <string name="applied_count_format">%1$d/%2$d개</string>
 
     <!--kakao-->
-    <!--
-    먼저 내가 테스트용으로 사용하는 키
-    <string name="kakao_native_app_key">80d7e06a50cc895bc7bfe51ebceb5ae2</string>
-    <string name="kakao_scheme">kakao80d7e06a50cc895bc7bfe51ebceb5ae2</string> -->
-    <string name="kakao_native_app_key">6bd868dc4dfc4411b3ed036307340a65</string>
-    <string name="kakao_scheme">kakao6bd868dc4dfc4411b3ed036307340a65</string>
+
+    <string name="kakao_native_app_key">1f43096207325bbb93ef070f8389d0cc</string>
+    <string name="kakao_scheme">kakao1f43096207325bbb93ef070f8389d0cc</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="deselect_all">전체 해제</string>
+
 
 </resources>

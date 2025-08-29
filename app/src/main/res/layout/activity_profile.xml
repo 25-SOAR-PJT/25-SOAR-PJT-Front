@@ -51,6 +51,7 @@
                         android:textColor="@color/ref_coolgray_600"
                         android:layout_marginBottom="6dp"/>
                     <TextView
+                        android:id="@+id/name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/round_background"

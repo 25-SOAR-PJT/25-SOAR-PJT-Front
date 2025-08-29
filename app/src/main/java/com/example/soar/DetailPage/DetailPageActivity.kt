@@ -1,12 +1,8 @@
 package com.example.soar.DetailPage
 
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.Rect
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Parcel
-import android.os.Parcelable
 import android.text.TextUtils
 import android.util.TypedValue
 import android.view.Gravity
@@ -14,44 +10,29 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.example.soar.Network.RecentViewManager
 import com.example.soar.R
 import com.example.soar.databinding.ActivityDetailPageBinding
-import com.google.android.flexbox.FlexDirection
-import com.google.android.flexbox.FlexWrap
+import com.example.soar.Network.detail.YouthPolicyDetail
 import com.google.android.flexbox.FlexboxLayout
-import com.google.android.flexbox.FlexboxLayoutManager
-import com.google.android.flexbox.JustifyContent
-
-// 임시 데이터 클래스
 
 sealed class Item {
     data class Document(val title: String, val subtitle: String) : Item()
     data class Keyword(val text: String) : Item()
     data class Review (val username: String, val content: String) : Item()
 }
-// 더미데이터
-object DummyData {
 
+// 더미데이터 (This will be replaced by live data)
+object DummyData {
     val documentItems = listOf(
         Item.Document( "신분증 사본", "정부24에서 발급"),
         Item.Document( "개인정보 수집 동의서", "서울시청 양식"),
         Item.Document( "통장사본", "주민센터 발급"),
         Item.Document( "사업자등록증", "국세청 발급")
-    )
-
-    val keywordItems = listOf(
-        Item.Keyword( "청년정책"),
-        Item.Keyword( "지원금"),
-        Item.Keyword( "일자리일자리일자리일자리일자리일자리일자리일자리일자리일자리일자리"),
-        Item.Keyword( "일자리"),
-        Item.Keyword( "일자리"),
-        Item.Keyword( "일자리"),
-        Item.Keyword( "일자리")
     )
 
     val reviewItems = listOf(
@@ -64,33 +45,44 @@ object DummyData {
     )
 }
 
-
 class DetailPageActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailPageBinding
+    private val viewModel: DetailViewModel by viewModels()
 
     // 더미데이터
     val docs = DummyData.documentItems
-    val keywords = DummyData.keywordItems
     val reviews = DummyData.reviewItems
-
-    override fun startActivity(intent: Intent?) {
-        super.startActivity(intent)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailPageBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // 앱 바
+        // Get policyId from Intent
+        val policyId = intent.getStringExtra("policyId")
+        if (policyId == null) {
+            Toast.makeText(this, "정책 정보를 불러올 수 없습니다.", Toast.LENGTH_SHORT).show()
+            finish()
+            return
+        }
+
+        // ✨ 여기에 최근 본 정책으로 기록하는 코드를 추가합니다.
+        RecentViewManager.addPolicy(policyId)
+
+        setupUI()
+        observeViewModel()
+        viewModel.loadPolicyDetail(policyId)
+    }
+
+    private fun setupUI() {
+        // Appbar
         val textTitle = findViewById<TextView>(R.id.text_title)
         textTitle.text = getString(R.string.detailPage_title)
         findViewById<ImageView>(R.id.btn_back).setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
 
-
-        // 북마크
+        // Bookmark
         var isBookmarked = false
         binding.btnBookmark.setOnClickListener {
             if (isBookmarked) {
@@ -101,10 +93,7 @@ class DetailPageActivity : AppCompatActivity() {
             isBookmarked = !isBookmarked
         }
 
-        updateFlexbox(keywords.map { it.text })
-
-
-        // 탭 바 (페이지 스크롤)
+        // Tab bar
         val scrollView = binding.scrollView
         fun scrollToView(target: View) {
             scrollView.post {
@@ -118,25 +107,21 @@ class DetailPageActivity : AppCompatActivity() {
         binding.toDetail.setOnClickListener() {
             scrollToView(binding.sectionDetail)
             selectTab(1)
-
         }
         binding.toReview.setOnClickListener() {
             scrollToView(binding.sectionReview)
             selectTab(2)
         }
 
-
-        // 상세정보 더보기
+        // Expand/Fold
         var isExpanded = false
         binding.btnFold.setOnClickListener {
             if (!isExpanded) {
-                // 전체 펼치기
                 binding.textDetail.maxLines = Int.MAX_VALUE
                 binding.textDetail.ellipsize = null
                 binding.btnFold.text = getString(R.string.fold)
                 binding.gradient.visibility = View.GONE
             } else {
-                // 다시 접기
                 binding.textDetail.maxLines = 15
                 binding.textDetail.ellipsize = TextUtils.TruncateAt.END
                 binding.btnFold.text = getString(R.string.detail_more)
@@ -145,29 +130,70 @@ class DetailPageActivity : AppCompatActivity() {
             isExpanded = !isExpanded
         }
 
-        // 댓글 표시
-        val top5 = reviews.take(5) // 상위 5개만
+        // Dummy review data setup
+        val top5 = reviews.take(5)
         val reviewRecyclerview = binding.reviewRecyclerview
         reviewRecyclerview.layoutManager = LinearLayoutManager(this)
         reviewRecyclerview.adapter = ReviewAdapter(
             top5,
             onOptionsClick = null,
             showOptions = false
-            )
+        )
         val count = if (reviews.size > 999) "999+" else reviews.size.toString()
         binding.textReviewCount.text = count
         binding.textReviewCount2.text = count
 
-        // 댓글 입력 + 더보기
         binding.btnMore.setOnClickListener{
             val intent = Intent(this, ReviewDetailActivity::class.java)
             startActivity(intent)
         }
         binding.textInput.setOnClickListener{
             val intent = Intent(this, ReviewDetailActivity::class.java)
-            intent.putExtra("FOCUS_INPUT", true) // 신호 전달
+            intent.putExtra("FOCUS_INPUT", true)
             startActivity(intent)
         }
+    }
+
+    private fun observeViewModel() {
+        viewModel.policyDetail.observe(this) { detail ->
+            updateUIWithPolicyDetail(detail)
+        }
+
+        viewModel.error.observe(this) { errorMsg ->
+            Toast.makeText(this, errorMsg, Toast.LENGTH_SHORT).show()
+        }
+
+        viewModel.isLoading.observe(this) { isLoading ->
+            // TODO: Handle loading state (e.g., show/hide progress bar)
+        }
+    }
+
+    private fun updateUIWithPolicyDetail(detail: YouthPolicyDetail) {
+        // Update main info
+        binding.textPolicyName.text = detail.policyName
+        binding.textPolicyDeadline.text = detail.dateLabel
+
+        // Update support content and benefit
+        binding.textSupportTarget.text = detail.policyExplanation
+        binding.textSupportBenefit.text = detail.policySupportContent
+
+        // Update detail section
+        val combinedDetails = buildString {
+            append(detail.policyExplanation)
+            append("\n\n")
+            append(detail.policySupportContent)
+            append("\n\n")
+            append(detail.applyMethodContent)
+            append("\n\n")
+            append(detail.submitDocumentContent)
+            append("\n\n")
+            append(detail.etcMatterContent)
+        }.trim()
+        binding.textDetail.text = combinedDetails
+
+        // [수정] 키워드, 대분류, 중분류 데이터를 추출하여 updateFlexbox 함수에 전달합니다.
+        val keywords = detail.policyKeyword?.split(",")?.map { it.trim() }?.filter { it.isNotEmpty() } ?: emptyList()
+        updateFlexbox(detail.largeClassification, detail.mediumClassification, keywords)
     }
 
     fun selectTab(index: Int) {
@@ -182,11 +208,12 @@ class DetailPageActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateFlexbox(items: List<String>) {
+    // [수정] 함수 파라미터를 추가하여 대분류, 중분류, 키워드 목록을 받도록 변경합니다.
+    private fun updateFlexbox(largeClassification: String?, mediumClassification: String?, items: List<String>) {
         val flexLayout = binding.flexLayout
         flexLayout.removeAllViews()
 
-        // 공통 레이아웃 파라미터 설정
+        // 공통 레이아웃 속성 정의
         val heightPx = TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP, 36f, resources.displayMetrics
         ).toInt()
@@ -199,25 +226,47 @@ class DetailPageActivity : AppCompatActivity() {
             TypedValue.COMPLEX_UNIT_DIP, 16f, resources.displayMetrics
         ).toInt()
 
-        // 고정된 파란색 텍스트 ("샘플 텍스트")
-        val sampleTag = TextView(this).apply {
-            text = getString(R.string.sample)
-            layoutParams = FlexboxLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                heightPx
-            ).apply {
-                setMargins(0, 0, margin, margin)
+        // [추가] 1. 대분류(largeClassification) 태그 추가 (파란색 배경)
+        if (!largeClassification.isNullOrEmpty()) {
+            val largeClassTag = TextView(this).apply {
+                text = largeClassification
+                layoutParams = FlexboxLayout.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    heightPx
+                ).apply {
+                    setMargins(0, 0, margin, margin)
+                }
+                setPadding(horizontalPadding, 0, horizontalPadding, 0)
+                setBackgroundResource(R.drawable.round_background2)
+                backgroundTintList = ContextCompat.getColorStateList(this@DetailPageActivity, R.color.ref_blue_150)
+                setTextColor(ContextCompat.getColor(this@DetailPageActivity, R.color.ref_blue_600))
+                setTextAppearance(R.style.Font_Label_Semibold)
+                gravity = Gravity.CENTER_VERTICAL
             }
-            setPadding(horizontalPadding, 0, horizontalPadding, 0)
-            setBackgroundResource(R.drawable.round_background2)
-            backgroundTintList = ContextCompat.getColorStateList(this@DetailPageActivity, R.color.ref_blue_150)
-            setTextColor(ContextCompat.getColor(this@DetailPageActivity, R.color.ref_blue_600))
-            setTextAppearance(R.style.Font_Label_Semibold)
-            gravity = Gravity.CENTER_VERTICAL
+            flexLayout.addView(largeClassTag)
         }
-        flexLayout.addView(sampleTag)
 
-        // 동적 태그들
+        // [추가] 2. 중분류(mediumClassification) 태그 추가 (회색 배경)
+        if (!mediumClassification.isNullOrEmpty()) {
+            val mediumClassTag = TextView(this).apply {
+                text = mediumClassification
+                layoutParams = FlexboxLayout.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    heightPx
+                ).apply {
+                    setMargins(0, 0, margin, margin)
+                }
+                setPadding(horizontalPadding, 0, horizontalPadding, 0)
+                setBackgroundResource(R.drawable.round_background2)
+                backgroundTintList = ContextCompat.getColorStateList(this@DetailPageActivity, R.color.ref_coolgray_100)
+                setTextColor(ContextCompat.getColor(this@DetailPageActivity, R.color.ref_gray_800))
+                setTextAppearance(R.style.Font_Label_Semibold)
+                gravity = Gravity.CENTER_VERTICAL
+            }
+            flexLayout.addView(mediumClassTag)
+        }
+
+        // [추가] 3. 나머지 키워드(policyKeyword) 태그들 추가 (회색 배경)
         items.forEach { item ->
             val tagView = TextView(this).apply {
                 text = item
@@ -237,6 +286,4 @@ class DetailPageActivity : AppCompatActivity() {
             flexLayout.addView(tagView)
         }
     }
-
-
 }

@@ -1,6 +1,7 @@
 package com.example.soar.CurationSequencePage
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.soar.R
 import com.example.soar.databinding.DialogLocationSelectionBinding
+import androidx.fragment.app.activityViewModels
+import com.example.soar.Network.tag.TagResponse
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
@@ -24,6 +27,9 @@ class LocationSelectionFragment : Fragment(R.layout.dialog_location_selection) {
     private lateinit var majorRegionAdapter: MajorRegionAdapter
     private lateinit var subRegionAdapter: SubRegionAdapter
 
+    // [추가] activityViewModel 선언
+    private val activityViewModel: CurationSequenceViewModel by activityViewModels()
+
     private val locationMap = mutableMapOf<String, MutableList<TagResponse>>()
     private var selectedMajorRegion: String? = null
 
@@ -31,22 +37,29 @@ class LocationSelectionFragment : Fragment(R.layout.dialog_location_selection) {
         super.onViewCreated(view, savedInstanceState)
         _binding = DialogLocationSelectionBinding.bind(view)
 
-        parseLocationData()
-        setupMajorRegionRecyclerView()
-        setupSubRegionRecyclerView()
+        // [수정] parseLocationData() 대신 ViewModel 데이터 관찰
+        activityViewModel.allTags.observe(viewLifecycleOwner) { allTags ->
+            if (allTags.isNullOrEmpty()) return@observe
 
-        val initialMajorRegion = locationMap.keys.firstOrNull()
-        if (initialMajorRegion != null) {
-            selectMajorRegion(initialMajorRegion)
+            parseLocationData(allTags) // 받아온 데이터로 UI 구성
+            setupMajorRegionRecyclerView()
+            setupSubRegionRecyclerView()
+
+            val initialMajorRegion = locationMap.keys.firstOrNull()
+            if (initialMajorRegion != null) {
+                selectMajorRegion(initialMajorRegion)
+            }
         }
     }
 
     private fun setupSubRegionRecyclerView() {
         subRegionAdapter = SubRegionAdapter { selectedTag ->
-            setFragmentResult("location_request", bundleOf(
-                "selected_id" to selectedTag.tagId,
-                "selected_name" to selectedTag.tagName
-            ))
+            setFragmentResult(
+                "location_request", bundleOf(
+                    "selected_id" to selectedTag.tagId,
+                    "selected_name" to selectedTag.tagName
+                )
+            )
             findNavController().popBackStack()
         }
         binding.rvSubRegion.apply {
@@ -55,17 +68,16 @@ class LocationSelectionFragment : Fragment(R.layout.dialog_location_selection) {
         }
     }
 
+    private fun parseLocationData(allTags: List<TagResponse>) {
+        // 기존의 파일 로드 코드 삭제
+        locationMap.clear() // 데이터를 다시 파싱하기 전에 맵을 비워줍니다.
 
-    private fun parseLocationData() {
-        val jsonString = requireContext().assets.open("response_tags.json")
-            .bufferedReader().use { it.readText() }
-        val type = object : TypeToken<ApiResponse>() {}.type
-        val response: ApiResponse = Gson().fromJson(jsonString, type)
-
-        response.data.filter { it.fieldId == 10 }.forEach { tag ->
+        allTags.filter { it.fieldId == 9 }.forEach { tag ->
+            // tagName을 공백 기준으로 2개로 나눕니다. (예: "서울시 강남구" -> ["서울시", "강남구"])
             val parts = tag.tagName.split(" ", limit = 2)
             if (parts.size == 2) {
-                val major = parts[0]
+                val major = parts[0] // "서울시"
+                // major를 key로 하여 locationMap에 tag를 추가합니다.
                 locationMap.getOrPut(major) { mutableListOf() }.add(tag)
             }
         }
@@ -141,7 +153,7 @@ class SubRegionAdapter(
     private var subRegions: List<TagResponse> = emptyList()
 
     fun submitList(list: List<TagResponse>) {
-        subRegions = list
+        subRegions = list.sortedBy { it.tagName }
         notifyDataSetChanged()
     }
 
@@ -161,7 +173,17 @@ class SubRegionAdapter(
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val nameTextView: TextView = itemView.findViewById(R.id.tv_sub_region_name)
         fun bind(regionTag: TagResponse) {
-            nameTextView.text = regionTag.tagName.split(" ").last()
+            // [수정] 첫 번째 단어를 제외한 나머지 부분을 sub-region 이름으로 설정
+            val parts = regionTag.tagName.split(" ", limit = 2)
+
+            // parts가 2개 이상으로 나뉘었다면(예: "경기도 고양시 일산서구"), 두 번째 부분을 사용
+            if (parts.size > 1) {
+                nameTextView.text = parts[1] // "고양시 일산서구"
+            } else {
+                // 단일 단어라면(예: "기타"), 그냥 전체 이름을 표시
+                nameTextView.text = regionTag.tagName
+            }
+
             itemView.setOnClickListener { onClick(regionTag) }
         }
     }
