@@ -12,12 +12,15 @@ import com.example.soar.EntryPage.SignIn.LoginActivity
 import com.example.soar.MainActivity
 import com.example.soar.Network.TokenManager
 import com.example.soar.databinding.FragmentMypageBinding
+import androidx.fragment.app.viewModels // viewModels import 추가
+import android.widget.Toast // Toast import 추가
 
 class MypageFragment : Fragment() {
 
     private var _binding: FragmentMypageBinding? = null
     private val binding get() = _binding!!
 
+    private val viewModel: MypageViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,6 +44,8 @@ class MypageFragment : Fragment() {
             // 유저 데이터 바인딩
             binding.textUserName.text = userName
             binding.textUserAddress.text = userAddress
+
+            viewModel.fetchUserActivityCounts()
 
         }
     }
@@ -133,10 +138,27 @@ class MypageFragment : Fragment() {
             binding.textUserAddress.text = userAddress
             binding.btnLoginText.text = "로그아웃"
 
+            setupObservers()
+
         } else {
             // 토큰이 없으면 모든 관련 UI 숨김
             setLoggedInViewsVisibility(false)
             binding.btnLoginText.text = "로그인"
+        }
+
+    }
+
+    private fun setupObservers() {
+        viewModel.appliedPolicyCount.observe(viewLifecycleOwner) { count ->
+            binding.appliedCount.text = count.toString()
+        }
+
+        viewModel.commentCount.observe(viewLifecycleOwner) { count ->
+            binding.commentCount.text = count.toString()
+        }
+
+        viewModel.error.observe(viewLifecycleOwner) { errorMessage ->
+            Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
         }
     }
 

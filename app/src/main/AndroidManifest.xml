@@ -93,7 +93,8 @@
         <activity
             android:name=".DetailPage.DetailPageActivity"
             android:exported="false" />
-        <activity android:name=".DetailPage.ReviewDetailActivity" />
+        <activity android:name=".DetailPage.ReviewDetailActivity"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

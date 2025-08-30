@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,7 +19,10 @@ import com.example.soar.DetailPage.DetailPageActivity
 import com.example.soar.Network.archiving.BookmarkedPolicy
 import com.example.soar.R
 import com.example.soar.Network.tag.TagResponse
-import com.example.soar.databinding.CustomToastBinding
+
+import com.example.soar.util.showBlockingToast
+import com.example.soar.util.TouchBlockingToast
+
 
 class ArchivingFragment : Fragment() {
     private var _binding: FragmentArchivingBinding? = null
@@ -120,14 +122,14 @@ class ArchivingFragment : Fragment() {
         }
 
         viewModel.error.observe(viewLifecycleOwner) { error ->
-            Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show()
+            requireActivity().showBlockingToast(error, hideCancel = true)
         }
 
         // 새로 추가된 LiveData 옵저버들
         viewModel.toastEvent.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let { message ->
                 // Custom Toast를 사용하도록 수정
-                showCustomToast(message)
+                requireActivity().showBlockingToast(message, hideCancel = true)
             }
         }
 
@@ -189,22 +191,10 @@ class ArchivingFragment : Fragment() {
         startActivity(intent)
     }
 
-    // Custom Toast를 보여주는 함수를 추가합니다.
-    private fun showCustomToast(message: String) {
-        val inflater = LayoutInflater.from(requireContext())
-        val customToastBinding = CustomToastBinding.inflate(inflater)
-        var toast: Toast? = null
-
-        customToastBinding.textMessage.text = message
-        customToastBinding.btnCancel.setOnClickListener {
-            toast?.cancel()
-        }
-
-        toast = Toast(requireContext()).apply {
-            duration = Toast.LENGTH_SHORT
-            view = customToastBinding.root
-        }
-        toast.show()
+    override fun onStop() {
+        super.onStop()
+        // ✅ 화면 떠날 때 혹시 남아있을 차단뷰/토스트 정리 (안전장치)
+        TouchBlockingToast.clear(requireActivity())
     }
 
     override fun onDestroyView() {

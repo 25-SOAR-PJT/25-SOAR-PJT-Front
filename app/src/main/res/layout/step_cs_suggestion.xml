@@ -50,6 +50,7 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
+        android:layoutAnimation="@anim/layout_anim_stagger_75"
         android:id="@+id/biz_list"
         android:paddingTop="12dp"
         android:layout_width="match_parent"

@@ -36,6 +36,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.Response
+import com.example.soar.util.showBlockingToast
 
 
 /** Login UI state */
@@ -247,7 +248,7 @@ class LoginActivity : AppCompatActivity() {
     private fun handleKakaoLogin(token: OAuthToken?, error: Throwable?) {
         if (error != null) {
             Log.e("LoginActivity", "카카오톡으로 로그인 실패", error)
-            Toast.makeText(this, "카카오 로그인 실패: ${error.message}", Toast.LENGTH_SHORT).show()
+            showBlockingToast("카카오 로그인 실패: ${error.message}", long = false, hideCancel = true)
         } else if (token != null) {
             Log.d("KakaoLoginActivity", "✅ 카카오 로그인 성공! 토큰: ${token.accessToken}")
             sendTokenToServer(token.accessToken)
@@ -280,30 +281,32 @@ class LoginActivity : AppCompatActivity() {
                             Log.d("KakaoLoginActivity", "✅ 저장된 accessToken 확인용: ${TokenManager.getAccessToken()}")
 
                             TokenManager.saveIsKakaoUser(true)
-                            Toast.makeText(this@LoginActivity, "로그인 성공", Toast.LENGTH_SHORT).show()
+                            showBlockingToast("로그인 성공", long = false, hideCancel = true)
                             if (data.firstSocialLogin == true && data.socialProvider == "kakao") {
-                                Toast.makeText(
-                                    this@LoginActivity,
-                                    "소셜 계정 최초 로그인입니다. 설정 메뉴에서 기본 정보를 지정해주세요.",
-                                    Toast.LENGTH_LONG
-                                ).show()
+                                com.example.soar.util.TouchBlockingToast.show(
+                                    activity = this@LoginActivity,
+                                    message = "소셜 계정 최초 로그인입니다. 설정 메뉴에서 기본 정보를 지정해주세요.",
+                                    long = true,
+                                    cancelText = "확인",
+                                    hideCancel = false         // 버튼 노출
+                                )
                             }
                             startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                             finish()
                         } else {
                             Log.e("KakaoLoginActivity", "🚨 로그인 실패: data가 null")
-                            Toast.makeText(this@LoginActivity, "로그인 실패: 서버 응답 없음", Toast.LENGTH_SHORT).show()
+                            showBlockingToast("로그인 실패: 서버 응답 없음", long = false, hideCancel = true)
                         }
                     } else {
                         val errorMessage = response.errorBody()?.string()
                         Log.e("KakaoLoginActivity", "🚨 서버 오류: $errorMessage")
-                        Toast.makeText(this@LoginActivity, "서버 오류: $errorMessage", Toast.LENGTH_SHORT).show()
+                        showBlockingToast("서버 오류: $errorMessage", long = false, hideCancel = true)
                     }
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
                     Log.e("KakaoLoginActivity", "🚨 예외 발생: ${e.message}", e)
-                    Toast.makeText(this@LoginActivity, "예외 발생: ${e.message}", Toast.LENGTH_SHORT).show()
+                    showBlockingToast("예외 발생: ${e.message}", long = false, hideCancel = true)
                 }
             }
         }

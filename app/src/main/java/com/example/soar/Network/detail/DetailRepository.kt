@@ -26,4 +26,12 @@ class DetailRepository(
             }
         }
     }
+
+    suspend fun getPolicyStepDetail(policyId: String): Result<PolicyStepDetail> = withContext(Dispatchers.IO) {
+        runCatching {
+            val response = api.getPolicyStepDetail(policyId)
+            if (response.isSuccessful) response.body()?.data ?: error("신청 과정 정보가 없습니다.")
+            else error(parseError(response.errorBody()))
+        }
+    }
 }

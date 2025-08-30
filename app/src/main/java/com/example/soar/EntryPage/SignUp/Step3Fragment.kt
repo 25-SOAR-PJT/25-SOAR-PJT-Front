@@ -20,9 +20,10 @@ import com.example.soar.Utill.ErrorMessageHelper
 import com.example.soar.Utill.FocusErrorController
 import com.example.soar.databinding.StepEmailInfoBinding
 import com.example.soar.Network.user.AuthRepository
-import com.google.android.material.snackbar.Snackbar
+import com.example.soar.util.TouchBlockingToast
 import kotlinx.coroutines.flow.collectLatest
 import java.util.concurrent.TimeUnit
+import com.example.soar.util.showBlockingToast
 
 
 class Step3Fragment : Fragment(R.layout.step_email_info) {
@@ -137,7 +138,12 @@ class Step3Fragment : Fragment(R.layout.step_email_info) {
 
             EmailState.MailSent -> {
                 isCodeApiError = false
-                Snackbar.make(root, R.string.msg_mail_sent, Snackbar.LENGTH_SHORT).show()
+                requireActivity().showBlockingToast(
+                    message = "인증메일이 발송되었어요",
+                    long = false,
+                    hideCancel = true
+                )
+
                 inputField.isEnabled = true
                 codeUnderbar.isEnabled = true // 💡 추가: 언더바도 함께 활성화
                 inputField.requestFocus()
@@ -186,6 +192,12 @@ class Step3Fragment : Fragment(R.layout.step_email_info) {
         ObjectAnimator.ofFloat(target, "translationX", 0f, 12f, -12f, 9f, -9f, 6f, -6f, 0f).apply {
             duration = 400; interpolator = CycleInterpolator(1f)
         }.start()
+
+    override fun onStop() {
+        super.onStop()
+        // ✅ 화면 떠날 때 혹시 남아있을 차단뷰/토스트 정리 (안전장치)
+        TouchBlockingToast.clear(requireActivity())
+    }
 
     override fun onDestroyView() {
         super.onDestroyView(); _b = null

@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- item_popular_biz-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="27dp"
     android:orientation="horizontal"
     android:gravity="center"
-    android:background="@color/ref_white">
+    android:background="@color/ref_white"
+    android:layout_marginBottom="4dp">
+
     <TextView
+        android:id="@+id/policyName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:singleLine="true"
+        style="@style/Font_Body_Medium"
+        android:textColor="@color/ref_coolgray_800"
         android:ellipsize="marquee"
         android:text="@string/sample"/>
     <ImageView

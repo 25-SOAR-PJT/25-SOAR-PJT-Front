@@ -73,6 +73,8 @@ dependencies {
     //Kakao
     implementation("com.kakao.sdk:v2-user:2.21.6")
 
+    implementation("com.facebook.shimmer:shimmer:0.5.0")
+
 
 
 }

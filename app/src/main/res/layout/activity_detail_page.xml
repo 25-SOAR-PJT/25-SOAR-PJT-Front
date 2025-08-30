@@ -692,6 +692,83 @@
 
                 <LinearLayout
 
+                    android:id="@+id/applyStep"
+
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content"
+
+                    android:orientation="horizontal"
+
+                    android:layout_marginBottom="33dp">
+
+                    <ImageView
+
+                        android:layout_width="58dp"
+
+                        android:layout_height="58dp"
+
+                        android:src="@drawable/frame_1739332928"
+
+                        android:layout_marginEnd="15dp"/>
+
+                    <LinearLayout
+
+
+
+                        android:layout_width="0dp"
+
+                        android:layout_height="wrap_content"
+
+                        android:layout_weight="1"
+
+                        android:orientation="vertical">
+
+                        <TextView
+
+                            android:layout_width="match_parent"
+
+                            android:layout_height="wrap_content"
+
+                            android:layout_marginBottom="8dp"
+
+                            android:text="@string/process_detail1"
+
+                            style="@style/Font_Body_Semibold"
+
+                            android:textColor="@color/ref_coolgray_800"/>
+
+
+                        <TextView
+
+                            android:id="@+id/applyStepDescription"
+
+                            android:layout_width="match_parent"
+
+                            android:layout_height="wrap_content"
+
+                            android:breakStrategy="simple"
+
+                            android:hyphenationFrequency="none"
+
+                            android:ellipsize="end"
+
+                            android:text="@string/sample_long2"
+
+                            style="@style/Font_Body_Medium"
+
+                            android:textColor="@color/ref_coolgray_800"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+
+                <LinearLayout
+
+                    android:id="@+id/documentStep"
+
                     android:layout_width="match_parent"
 
                     android:layout_height="wrap_content"
@@ -728,119 +805,16 @@
 
                             android:layout_marginBottom="8dp"
 
-                            android:text="@string/process_detail1"
-
-                            style="@style/Font_Body_Semibold"
-
-                            android:textColor="@color/ref_coolgray_800"/>
-
-                        <TextView
-
-                            android:layout_width="match_parent"
-
-                            android:layout_height="wrap_content"
-
-                            android:layout_marginBottom="2dp"
-
-                            android:breakStrategy="simple"
-
-                            android:hyphenationFrequency="none"
-
-                            android:ellipsize="end"
-
-                            android:text="@string/date"
-
-                            style="@style/Font_Body_Medium"
-
-                            android:textColor="@color/ref_coolgray_800"/>
-
-                        <TextView
-
-                            android:layout_width="match_parent"
-
-                            android:layout_height="wrap_content"
-
-                            android:breakStrategy="simple"
-
-                            android:hyphenationFrequency="none"
-
-                            android:ellipsize="end"
-
-                            android:text="@string/sample_long2"
-
-                            style="@style/Font_Body_Medium"
-
-                            android:textColor="@color/ref_coolgray_800"/>
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-
-                    android:layout_width="match_parent"
-
-                    android:layout_height="wrap_content"
-
-                    android:orientation="horizontal"
-
-                    android:layout_marginBottom="33dp">
-
-                    <ImageView
-
-                        android:layout_width="58dp"
-
-                        android:layout_height="58dp"
-
-                        android:src="@drawable/frame_1739332927"
-
-                        android:layout_marginEnd="15dp"/>
-
-                    <LinearLayout
-
-                        android:layout_width="0dp"
-
-                        android:layout_height="wrap_content"
-
-                        android:layout_weight="1"
-
-                        android:orientation="vertical">
-
-                        <TextView
-
-                            android:layout_width="match_parent"
-
-                            android:layout_height="wrap_content"
-
-                            android:layout_marginBottom="8dp"
-
                             android:text="@string/process_detail2"
 
                             style="@style/Font_Body_Semibold"
 
                             android:textColor="@color/ref_coolgray_800"/>
 
-                        <TextView
-
-                            android:layout_width="match_parent"
-
-                            android:layout_height="wrap_content"
-
-                            android:layout_marginBottom="2dp"
-
-                            android:breakStrategy="simple"
-
-                            android:hyphenationFrequency="none"
-
-                            android:ellipsize="end"
-
-                            android:text="@string/date"
-
-                            style="@style/Font_Body_Medium"
-
-                            android:textColor="@color/ref_coolgray_800"/>
 
                         <TextView
+
+                            android:id="@+id/documentStepDescription"
 
                             android:layout_width="match_parent"
 
@@ -864,91 +838,7 @@
 
                 <LinearLayout
 
-                    android:layout_width="match_parent"
-
-                    android:layout_height="wrap_content"
-
-                    android:orientation="horizontal"
-
-                    android:layout_marginBottom="33dp">
-
-                    <ImageView
-
-                        android:layout_width="58dp"
-
-                        android:layout_height="58dp"
-
-                        android:src="@drawable/frame_1739332928"
-
-                        android:layout_marginEnd="15dp"/>
-
-                    <LinearLayout
-
-                        android:layout_width="0dp"
-
-                        android:layout_height="wrap_content"
-
-                        android:layout_weight="1"
-
-                        android:orientation="vertical">
-
-                        <TextView
-
-                            android:layout_width="match_parent"
-
-                            android:layout_height="wrap_content"
-
-                            android:layout_marginBottom="8dp"
-
-                            android:text="@string/process_detail3"
-
-                            style="@style/Font_Body_Semibold"
-
-                            android:textColor="@color/ref_coolgray_800"/>
-
-                        <TextView
-
-                            android:layout_width="match_parent"
-
-                            android:layout_height="wrap_content"
-
-                            android:layout_marginBottom="2dp"
-
-                            android:breakStrategy="simple"
-
-                            android:hyphenationFrequency="none"
-
-                            android:ellipsize="end"
-
-                            android:text="@string/date"
-
-                            style="@style/Font_Body_Medium"
-
-                            android:textColor="@color/ref_coolgray_800"/>
-
-                        <TextView
-
-                            android:layout_width="match_parent"
-
-                            android:layout_height="wrap_content"
-
-                            android:breakStrategy="simple"
-
-                            android:hyphenationFrequency="none"
-
-                            android:ellipsize="end"
-
-                            android:text="@string/sample_long2"
-
-                            style="@style/Font_Body_Medium"
-
-                            android:textColor="@color/ref_coolgray_800"/>
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
+                    android:id="@+id/noticeStep"
 
                     android:layout_width="match_parent"
 
@@ -986,33 +876,14 @@
 
                             android:layout_marginBottom="8dp"
 
-                            android:text="@string/process_detail4"
+                            android:text="@string/process_detail3"
 
                             style="@style/Font_Body_Semibold"
 
                             android:textColor="@color/ref_coolgray_800"/>
 
                         <TextView
-
-                            android:layout_width="match_parent"
-
-                            android:layout_height="wrap_content"
-
-                            android:layout_marginBottom="2dp"
-
-                            android:breakStrategy="simple"
-
-                            android:hyphenationFrequency="none"
-
-                            android:ellipsize="end"
-
-                            android:text="@string/date"
-
-                            style="@style/Font_Body_Medium"
-
-                            android:textColor="@color/ref_coolgray_800"/>
-
-                        <TextView
+                            android:id="@+id/noticeStepDescription"
 
                             android:layout_width="match_parent"
 

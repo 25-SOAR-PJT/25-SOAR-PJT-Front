@@ -23,35 +23,18 @@ import com.google.android.flexbox.FlexboxLayout
 sealed class Item {
     data class Document(val title: String, val subtitle: String) : Item()
     data class Keyword(val text: String) : Item()
-    data class Review (val username: String, val content: String) : Item()
 }
 
-// 더미데이터 (This will be replaced by live data)
-object DummyData {
-    val documentItems = listOf(
-        Item.Document( "신분증 사본", "정부24에서 발급"),
-        Item.Document( "개인정보 수집 동의서", "서울시청 양식"),
-        Item.Document( "통장사본", "주민센터 발급"),
-        Item.Document( "사업자등록증", "국세청 발급")
-    )
-
-    val reviewItems = listOf(
-        Item.Review("돈없는대학생19", "이걸로 많은 도움 받았어요! 추천합니다"),
-        Item.Review("배부른고양이", "다들 꼭 지원하세요!! 두 달에 한 번씩 40만원씩 지급되는데..."),
-        Item.Review("닉네임뭐하지", "지역마다 기간이 정해져있는 것 같아요. 내년 저희 지역 공고 올라오면..."),
-        Item.Review("쏘야짱", "이런 제도가 있는 줄 몰랐는데 쏘야 덕분에 알게 되었네요..."),
-        Item.Review("행복하자우리", "정말 유익한 정보였어요. 부모님도 같이 신청했어요."),
-        Item.Review("아쉬운점도있음", "조건이 까다로운 편이에요.")
-    )
-}
 
 class DetailPageActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailPageBinding
     private val viewModel: DetailViewModel by viewModels()
 
-    // 더미데이터
-    val docs = DummyData.documentItems
-    val reviews = DummyData.reviewItems
+    private val commentViewModel: CommentViewModel by viewModels() // CommentViewModel 추가
+    private lateinit var reviewAdapter: ReviewAdapter // 어댑터 타입 변경
+
+    private var policyId: String? = null // policyId를 멤버 변수로 저장
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,7 +42,7 @@ class DetailPageActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // Get policyId from Intent
-        val policyId = intent.getStringExtra("policyId")
+        policyId = intent.getStringExtra("policyId")
         if (policyId == null) {
             Toast.makeText(this, "정책 정보를 불러올 수 없습니다.", Toast.LENGTH_SHORT).show()
             finish()
@@ -67,14 +50,24 @@ class DetailPageActivity : AppCompatActivity() {
         }
 
         // ✨ 여기에 최근 본 정책으로 기록하는 코드를 추가합니다.
-        RecentViewManager.addPolicy(policyId)
+        RecentViewManager.addPolicy(policyId!!)
 
-        setupUI()
+        //setupUI()
+        setupUI(policyId!!)
         observeViewModel()
-        viewModel.loadPolicyDetail(policyId)
+        viewModel.loadPolicyDetail(policyId!!)
+        commentViewModel.loadComments(policyId!!)
+    }
+    override fun onResume() {
+        super.onResume()
+        // 화면에 다시 나타날 때마다 댓글을 새로고침
+        policyId?.let {
+            commentViewModel.loadComments(it)
+        }
     }
 
-    private fun setupUI() {
+
+    private fun setupUI(policyId: String) {
         // Appbar
         val textTitle = findViewById<TextView>(R.id.text_title)
         textTitle.text = getString(R.string.detailPage_title)
@@ -130,25 +123,19 @@ class DetailPageActivity : AppCompatActivity() {
             isExpanded = !isExpanded
         }
 
-        // Dummy review data setup
-        val top5 = reviews.take(5)
-        val reviewRecyclerview = binding.reviewRecyclerview
-        reviewRecyclerview.layoutManager = LinearLayoutManager(this)
-        reviewRecyclerview.adapter = ReviewAdapter(
-            top5,
-            onOptionsClick = null,
-            showOptions = false
-        )
-        val count = if (reviews.size > 999) "999+" else reviews.size.toString()
-        binding.textReviewCount.text = count
-        binding.textReviewCount2.text = count
+        reviewAdapter = ReviewAdapter { /* 미리보기에서는 옵션 버튼 동작 안 함 */ }
+        binding.reviewRecyclerview.layoutManager = LinearLayoutManager(this)
+        binding.reviewRecyclerview.adapter = reviewAdapter
 
-        binding.btnMore.setOnClickListener{
+
+        binding.btnMore.setOnClickListener {
             val intent = Intent(this, ReviewDetailActivity::class.java)
+            intent.putExtra("policyId", policyId) // ReviewDetailActivity에 policyId 전달
             startActivity(intent)
         }
-        binding.textInput.setOnClickListener{
+        binding.textInput.setOnClickListener {
             val intent = Intent(this, ReviewDetailActivity::class.java)
+            intent.putExtra("policyId", policyId) // ReviewDetailActivity에 policyId 전달
             intent.putExtra("FOCUS_INPUT", true)
             startActivity(intent)
         }
@@ -159,12 +146,28 @@ class DetailPageActivity : AppCompatActivity() {
             updateUIWithPolicyDetail(detail)
         }
 
+        viewModel.policyStepDetail.observe(this) { stepDetail ->
+            updateUIWithStepDetail(stepDetail)
+        }
+
+
         viewModel.error.observe(this) { errorMsg ->
             Toast.makeText(this, errorMsg, Toast.LENGTH_SHORT).show()
         }
 
         viewModel.isLoading.observe(this) { isLoading ->
             // TODO: Handle loading state (e.g., show/hide progress bar)
+        }
+
+        // CommentViewModel 옵저버 추가
+        commentViewModel.comments.observe(this) { comments ->
+            reviewAdapter.submitList(comments.take(5)) // 상위 5개만 표시
+            val count = if (comments.size > 999) "999+" else comments.size.toString()
+            binding.textReviewCount.text = count
+            binding.textReviewCount2.text = count
+        }
+        commentViewModel.toastEvent.observe(this) { event ->
+            event.getContentIfNotHandled()?.let { Toast.makeText(this, it, Toast.LENGTH_SHORT).show() }
         }
     }
 
@@ -194,6 +197,24 @@ class DetailPageActivity : AppCompatActivity() {
         // [수정] 키워드, 대분류, 중분류 데이터를 추출하여 updateFlexbox 함수에 전달합니다.
         val keywords = detail.policyKeyword?.split(",")?.map { it.trim() }?.filter { it.isNotEmpty() } ?: emptyList()
         updateFlexbox(detail.largeClassification, detail.mediumClassification, keywords)
+    }
+
+    private fun updateUIWithStepDetail(stepDetail: com.example.soar.Network.detail.PolicyStepDetail) {
+        // XML의 ID와 API 응답 데이터를 매핑합니다.
+        // applyStep, documentStep, noticeStep의 각 TextView에 ID를 부여해야 합니다.
+        // 예: applyStepDescription, documentStepDescription, noticeStepDescription
+
+        // 신청 접수
+        binding.applyStepDescription.text = stepDetail.applyStep ?: "정보 없음"
+
+        // 서류 검토
+        binding.documentStepDescription.text = stepDetail.documentStep ?: "정보 없음"
+
+        // 발표 및 안내
+        binding.noticeStepDescription.text = stepDetail.noticeStep ?: "정보 없음"
+
+        // 필요 서류 (별도 섹션이지만, step API에 포함되어 있다면 여기서 업데이트)
+        // binding.textSubmittedDocuments.text = stepDetail.submittedDocuments ?: "정보 없음"
     }
 
     fun selectTab(index: Int) {
@@ -286,4 +307,6 @@ class DetailPageActivity : AppCompatActivity() {
             flexLayout.addView(tagView)
         }
     }
+
+
 }

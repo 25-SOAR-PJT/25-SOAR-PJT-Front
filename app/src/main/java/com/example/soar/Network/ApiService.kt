@@ -7,10 +7,16 @@ import com.example.soar.Network.archiving.BookmarkedPolicy
 import com.example.soar.Network.archiving.BulkUnbookmarkRequest
 import com.example.soar.Network.archiving.BulkUnbookmarkResponse
 import com.example.soar.Network.archiving.ToggleApplyResponse
+import com.example.soar.Network.detail.CommentRequest
+import com.example.soar.Network.detail.CommentResponse
+import com.example.soar.Network.detail.PolicyStepDetail
 import com.example.soar.Network.detail.YouthPolicyDetail
 import com.example.soar.Network.explore.PolicyResponse
 import com.example.soar.Network.explore.RecentPoliciesRequest
 import com.example.soar.Network.explore.YouthPolicy
+import com.example.soar.Network.home.AgePopularPolicy
+import com.example.soar.Network.home.LatestPolicy
+import com.example.soar.Network.home.PopularPolicy
 import com.example.soar.Network.tag.TagResponse
 import com.example.soar.Network.user.*
 import com.example.soar.Network.tag.TagIdRequest
@@ -80,6 +86,16 @@ interface ApiService {
     @POST(ApiConfig.User.UPDATE_PW)
     suspend fun updatePW(@Body request: UpdatePwRequest): Response<ApiResponse<UpdatePwResponse>>
 
+    /* ───────────── Home ───────────── */
+    @GET("/api/youth-policy/latestOne")
+    suspend fun getLatestPolicy(): Response<ApiResponse<LatestPolicy?>>
+
+    @GET("/api/user-policies/popularName")
+    suspend fun getPopularPolicies(): Response<ApiResponse<List<PopularPolicy>>>
+
+    @GET("/api/user-policies/popular/age-user")
+    suspend fun getAgePopularPolicies(): Response<ApiResponse<List<AgePopularPolicy>>>
+
 
     /* ───────────── Tag ───────────── */
 
@@ -132,6 +148,11 @@ interface ApiService {
         @Path("policyId") policyId: String
     ): Response<ApiResponse<YouthPolicyDetail>>
 
+    @GET("/api/youth-policy/step/{policyId}")
+    suspend fun getPolicyStepDetail(
+        @Path("policyId") policyId: String
+    ): Response<ApiResponse<PolicyStepDetail>>
+
     /* ───────────── Archiving ───────────── */
 
     @GET("/api/user-policies/bookmarks/with-meta")
@@ -161,4 +182,32 @@ interface ApiService {
     suspend fun getPoliciesByIds(
         @Body request: RecentPoliciesRequest
     ): Response<ApiResponse<List<YouthPolicy>>>
+
+    @GET("/api/user-policies/applied/count")
+    suspend fun getAppliedPolicyCount(): Response<ApiResponse<Int>>
+
+    @GET("/api/comment/applied/count")
+    suspend fun getMyCommentCount(): Response<ApiResponse<Int>>
+
+
+
+    /* ───────────── Comment ───────────── */
+
+    @GET("/api/comment/policy/{policyId}")
+    suspend fun getCommentsByPolicy(@Path("policyId") policyId: String): Response<ApiResponse<List<CommentResponse>>>
+
+    @POST("/api/comment/")
+    suspend fun createComment(@Body request: CommentRequest): Response<ApiResponse<List<CommentResponse>>>
+
+    @PUT("/api/comment/{commentId}")
+    suspend fun updateComment(
+        @Path("commentId") commentId: Long,
+        @Body request: CommentRequest
+    ): Response<ApiResponse<CommentResponse>>
+
+    @DELETE("/api/comment/{commentId}")
+    suspend fun deleteComment(@Path("commentId") commentId: Long): Response<ApiResponse<Void>>
+
+    @GET("/api/comment/user")
+    suspend fun getMyComments(): Response<ApiResponse<List<CommentResponse>>>
 }

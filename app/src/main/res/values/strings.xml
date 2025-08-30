@@ -144,9 +144,8 @@
     <string name="detail_information" translatable="true">상세정보</string>
     <string name="review" translatable="true">리뷰</string>
     <string name="process_detail1" translatable="true">신청 접수</string>
-    <string name="process_detail2" translatable="true">심사 결과 발표</string>
-    <string name="process_detail3" translatable="true">이의 신청 접수</string>
-    <string name="process_detail4" translatable="true">최종 선정 발표</string>
+    <string name="process_detail2" translatable="true">서류 검토</string>
+    <string name="process_detail3" translatable="true">발표 및 안내</string>
     <string name="wth_soar" translatable="true">SOAR와 함께 준비하기</string>
     <string name="detail_more">상세정보 더보기</string>
     <string name="fold">접기</string>

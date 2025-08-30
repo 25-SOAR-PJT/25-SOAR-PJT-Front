@@ -129,7 +129,7 @@
                         android:hint="@string/hint_resident_birth"
                         style="@style/Font_Body_Regular"
                         android:textColor="@color/semantic_text_assistive"/>
-                    
+
                     <View
                         android:layout_width="8dp"
                         android:layout_height="1dp"

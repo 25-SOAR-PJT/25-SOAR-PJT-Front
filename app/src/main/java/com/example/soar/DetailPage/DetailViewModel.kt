@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.soar.Network.detail.DetailRepository
+import com.example.soar.Network.detail.PolicyStepDetail
 import com.example.soar.Network.detail.YouthPolicyDetail
 import kotlinx.coroutines.launch
 
@@ -14,6 +15,9 @@ class DetailViewModel : ViewModel() {
 
     private val _policyDetail = MutableLiveData<YouthPolicyDetail>()
     val policyDetail: LiveData<YouthPolicyDetail> = _policyDetail
+
+    private val _policyStepDetail = MutableLiveData<PolicyStepDetail>()
+    val policyStepDetail: LiveData<PolicyStepDetail> get() = _policyStepDetail
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
@@ -31,6 +35,11 @@ class DetailViewModel : ViewModel() {
                 .onFailure { e ->
                     _error.postValue(e.message ?: "정책 상세 정보를 불러오지 못했습니다.")
                 }
+
+            repository.getPolicyStepDetail(policyId)
+                .onSuccess { stepDetail -> _policyStepDetail.postValue(stepDetail) }
+                .onFailure { e -> _error.postValue(e.message ?: "신청 과정 정보를 불러오지 못했습니다.") }
+
             _isLoading.value = false
         }
     }
