@@ -6,9 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.soar.AlarmPage.AlarmActivity
 import com.example.soar.EntryPage.Onboarding.OnBoardingActivity
 import com.example.soar.MainActivity
+import com.example.soar.MyPage.Unsubscribe.UnsubscribeActivity
 import com.example.soar.Network.TokenManager
 import com.example.soar.databinding.FragmentMypageBinding
 
@@ -67,7 +67,8 @@ class MypageFragment : Fragment() {
             requireActivity().finish()
         }
         binding.btnUnsubscribe.setOnClickListener{
-           // 회원 탈퇴 로직
+            val intent = Intent(requireContext(), UnsubscribeActivity::class.java)
+            startActivity(intent)
         }
 
         val userViews = listOf(

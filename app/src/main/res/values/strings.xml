@@ -167,7 +167,6 @@
     <string name="app_version">버전 정보</string>
     <string name="version">v1.0</string>
     <string name="logout">로그아웃</string>
-    <string name="unsubscribe">회원 탈퇴</string>
     <string name="profile">프로필</string>
     <string name="record">기록</string>
     <string name="policy_title1">서비스 이용 약관</string>
@@ -199,6 +198,17 @@
     <string name="result1">님의 아이디는</string>
     <string name="result2">입니다</string>
     <string name="to_login2">로그인하러 가기</string>
+
+    <!-- 탈퇴 -->
+    <string name="unsubscribe">회원 탈퇴</string>
+    <string name="unsubscribe_title">정말 탈퇴하시겠어요?</string>
+    <string name="unsubscribe_content">회원 탈퇴 시 계정 데이터 및 지출 기록이 영구적으로 삭제되며, 재가입 시 이전 데이터는 복구되지 않아요</string>
+    <string name="no">아니요</string>
+    <string name="yes">탈퇴할래요</string>
+    <string name="unsubscribe_title2">본인 확인을 위해\n 비밀번호를 입력해주세요</string>
+    <string name="unsubscribe_yes">탈퇴하기</string>
+    <string name="unsubscribe_success">탈퇴가 완료되었습니다</string>
+    <string name="to_start">처음으로</string>
 
     <!-- 댓글 -->
     <string name="my_comment">내가 작성한 댓글</string>
