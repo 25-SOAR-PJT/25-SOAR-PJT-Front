@@ -1,21 +1,90 @@
-<?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory android:title="@string/alarm_setting_title1">
-        <SwitchPreferenceCompat
+    <!-- 1. 일정 리마인드 설정 -->
+    <PreferenceCategory
+        android:title="@string/alarm_setting_title1">
+
+        <androidx.preference.SwitchPreferenceCompat
             android:key="remind_start"
             android:title="@string/alarm_setting_detail1"
-            android:defaultValue="false"/>
-        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            app:useSimpleSummaryProvider="true" />
+
+        <androidx.preference.SwitchPreferenceCompat
             android:key="remind_result"
             android:title="@string/alarm_setting_detail2"
-            android:defaultValue="true"/>
+            android:defaultValue="true"
+            app:useSimpleSummaryProvider="true" />
+
+        <androidx.preference.SwitchPreferenceCompat
+            android:key="remind_deadline_day"
+            android:title="@string/alarm_setting_detail3"
+            android:defaultValue="true"
+            app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="어쩌구 대항목">
-        <SwitchPreferenceCompat android:key="cat1" android:title="어쩌구 소항목"/>
-        <SwitchPreferenceCompat android:key="cat2" android:title="어쩌구 소항목" android:defaultValue="true"/>
-        <SwitchPreferenceCompat android:key="cat3" android:title="어쩌구 소항목"/>
+    <!-- 2. 리뷰 -->
+    <PreferenceCategory
+        android:title="@string/alarm_setting_title2">
+
+        <androidx.preference.SwitchPreferenceCompat
+            android:key="review_request"
+            android:title="@string/alarm_setting_detail4"
+            android:defaultValue="true"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+
+    <!-- 3. 신청 확인 -->
+    <PreferenceCategory
+        android:title="@string/alarm_setting_title3">
+
+        <androidx.preference.SwitchPreferenceCompat
+            android:key="apply_check"
+            android:title="@string/alarm_setting_detail5"
+            android:defaultValue="true"
+            app:useSimpleSummaryProvider="true" />
+
+        <androidx.preference.SwitchPreferenceCompat
+            android:key="apply_complete"
+            android:title="@string/alarm_setting_detail6"
+            android:defaultValue="true"
+            app:useSimpleSummaryProvider="true" />
+
+        <androidx.preference.SwitchPreferenceCompat
+            android:key="personalized_notice"
+            android:title="@string/alarm_setting_detail7"
+            android:defaultValue="true"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+
+    <!-- 4. 큐레이션 -->
+    <PreferenceCategory
+        android:title="@string/alarm_setting_title4">
+
+        <androidx.preference.SwitchPreferenceCompat
+            android:key="policy_special"
+            android:title="@string/alarm_setting_detail8"
+            android:defaultValue="true"
+            app:useSimpleSummaryProvider="true" />
+
+        <androidx.preference.SwitchPreferenceCompat
+            android:key="policy_data_update"
+            android:title="@string/alarm_setting_detail9"
+            android:defaultValue="true"
+            app:useSimpleSummaryProvider="true" />
+
+        <androidx.preference.SwitchPreferenceCompat
+            android:key="app_activation"
+            android:title="@string/alarm_setting_detail10"
+            android:defaultValue="true"
+            app:useSimpleSummaryProvider="true" />
+
+        <androidx.preference.SwitchPreferenceCompat
+            android:key="important_notice"
+            android:title="@string/alarm_setting_detail11"
+            android:defaultValue="true"
+            app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 
 </PreferenceScreen>

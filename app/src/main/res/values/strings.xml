@@ -45,10 +45,35 @@
     <string name="dropdown5">큐레이션</string>
     <string name="dropdown6">기능</string>
     <string name="alarm_setting">알림 설정</string>
+    <string name="confirm">확인</string>
+
+    <!-- 일정 리마인드 -->
     <string name="alarm_setting_title1">일정 리마인드 설정</string>
     <string name="alarm_setting_detail1">신청 시작 알림</string>
     <string name="alarm_setting_detail2">결과발표 알림</string>
-    <string name="confirm">확인</string>
+    <string name="alarm_setting_detail3">신청 마감 당일 알림</string>
+
+    <!-- 리뷰 -->
+    <string name="alarm_setting_title2">리뷰</string>
+    <string name="alarm_setting_detail4">리뷰 및 피드백 요청 알림</string>
+
+    <!-- 신청 확인 -->
+    <string name="alarm_setting_title3">신청 확인</string>
+    <string name="alarm_setting_detail5">신청 여부 확인 알림</string>
+    <string name="alarm_setting_detail6">신청 완료 확인 알림</string>
+    <string name="alarm_setting_detail7">사용자 맞춤 알림</string>
+
+    <!-- 큐레이션 -->
+    <string name="alarm_setting_title4">큐레이션</string>
+    <string name="alarm_setting_detail8">정책 특별 알림</string>
+    <string name="alarm_setting_detail9">정책 데이터 업데이트 알림</string>
+    <string name="alarm_setting_detail10">앱 활성화 알림</string>
+    <string name="alarm_setting_detail11">중요 공지 알림</string>
+
+    <!-- 기능관련 -->
+    <string name="alarm_setting_title5">기능관련</string>
+    <string name="alarm_setting_detail12">알림 설정 추천</string>
+
 
 
     <!--nav-->
