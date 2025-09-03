@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_checked="true">
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 바운딩: 트랙 높이와 동일(30dp) -->
+    <item>
+        <shape>
+            <size android:width="30dp" android:height="30dp"/>
+            <solid android:color="@android:color/transparent"/>
+        </shape>
+    </item>
+    <!-- 실제 보이는 원: 26dp, 중앙 배치 -->
+    <item android:width="26dp" android:height="26dp" android:gravity="center">
         <shape android:shape="oval">
             <solid android:color="@color/ref_white"/>
-            <size android:width="26dp" android:height="26dp"/>
         </shape>
     </item>
-    <item>
-        <shape android:shape="oval">
-            <solid android:color="@color/ref_orange"/>
-            <size android:width="26dp" android:height="26dp"/>
-        </shape>
-    </item>
-</selector>
+</layer-list>

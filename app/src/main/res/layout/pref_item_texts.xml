@@ -2,20 +2,28 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingStart="?android:attr/listPreferredItemPaddingStart"
-    android:paddingEnd="?android:attr/listPreferredItemPaddingEnd">
+    android:orientation="horizontal"
+    android:paddingHorizontal="16dp"
+    android:minHeight="30dp"
+    android:layout_marginBottom="16dp"
+    android:gravity="center">
 
-    <TextView
-        android:id="@android:id/title"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/Soar.PreferenceTitle" />
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@android:id/summary"
+        <TextView
+            android:id="@android:id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Soar.PreferenceTitle"/>
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@android:id/widget_frame"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/Soar.PreferenceSummary" />
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>
