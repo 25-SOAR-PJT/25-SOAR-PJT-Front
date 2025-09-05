@@ -23,12 +23,12 @@ import com.example.soar.databinding.ActivityLoginPageBinding
 import com.example.soar.Network.user.AuthRepository
 import com.google.android.material.textfield.TextInputLayout
 import android.util.Log
-import android.widget.Toast
 import com.example.soar.MyPage.FindActivity
 import com.example.soar.Network.ApiResponse
 import com.example.soar.Network.TokenManager
 import com.example.soar.Network.user.KakaoLoginRequest
 import com.example.soar.Network.user.SignInResponse
+import com.example.soar.Utill.TermAgreeActivity
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.user.UserApiClient
 import kotlinx.coroutines.CoroutineScope
@@ -64,6 +64,15 @@ class LoginActivity : AppCompatActivity() {
                 finish()
             }
         }
+
+    // ✨ 1. 최초 소셜 로그인 시 TermAgreeActivity를 실행하고 결과를 받기 위한 Launcher 추가
+    private val termAgreementLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {
+        // 약관 동의 화면이 닫히면 (동의/비동의 무관) 메인 액티비티로 이동합니다.
+        startActivity(Intent(this, MainActivity::class.java))
+        finish()
+    }
 
     /* ───────────────────────── onCreate ───────────────────────── */
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -279,6 +288,21 @@ class LoginActivity : AppCompatActivity() {
                             TokenManager.saveUserId(data.userId)
 
                             Log.d("KakaoLoginActivity", "✅ 저장된 accessToken 확인용: ${TokenManager.getAccessToken()}")
+
+                            // ✨ 2. 최초 소셜 로그인 여부에 따라 분기 처리
+                            if (data.firstSocialLogin == true && data.socialProvider == "kakao") {
+                                // 최초 로그인 시 -> 약관 동의 화면으로 이동
+                                val intent = Intent(this@LoginActivity, TermAgreeActivity::class.java).apply {
+                                    // [선택] 민감정보 처리 동의의 ID는 3
+                                    putExtra("POLICY_ID", 3)
+                                }
+                                termAgreementLauncher.launch(intent)
+                            } else {
+                                // 최초 로그인이 아닐 시 -> 바로 메인 화면으로 이동
+                                showBlockingToast("로그인 성공", long = false, hideCancel = true)
+                                startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                                finish()
+                            }
 
                             TokenManager.saveIsKakaoUser(true)
                             showBlockingToast("로그인 성공", long = false, hideCancel = true)

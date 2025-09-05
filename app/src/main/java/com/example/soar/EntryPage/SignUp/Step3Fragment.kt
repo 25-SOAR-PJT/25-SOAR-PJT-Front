@@ -20,16 +20,20 @@ import com.example.soar.Utill.ErrorMessageHelper
 import com.example.soar.Utill.FocusErrorController
 import com.example.soar.databinding.StepEmailInfoBinding
 import com.example.soar.Network.user.AuthRepository
+import com.example.soar.Utill.LoadingSpinnerDialog
 import com.example.soar.util.TouchBlockingToast
 import kotlinx.coroutines.flow.collectLatest
 import java.util.concurrent.TimeUnit
 import com.example.soar.util.showBlockingToast
 
 
+
 class Step3Fragment : Fragment(R.layout.step_email_info) {
 
     private var _b: StepEmailInfoBinding? = null
     private val b get() = _b!!
+
+
 
     // 💡 1. 코드 관련 API 에러 발생 여부를 저장하는 플래그
     private var isCodeApiError = false
@@ -122,7 +126,14 @@ class Step3Fragment : Fragment(R.layout.step_email_info) {
 
         vm.canResend.observe(viewLifecycleOwner) { b.buttonNewcode.isEnabled = it }
         vm.canProceed.observe(viewLifecycleOwner) { b.btnNext.isEnabled = it }
-        vm.state.observe(viewLifecycleOwner) { render(it) }
+        vm.state.observe(viewLifecycleOwner) { st ->
+            render(st)
+            if (st is EmailState.Loading) {
+                LoadingSpinnerDialog.show(childFragmentManager)
+            } else {
+                LoadingSpinnerDialog.dismiss(childFragmentManager)
+            }
+        }
     }
 
 

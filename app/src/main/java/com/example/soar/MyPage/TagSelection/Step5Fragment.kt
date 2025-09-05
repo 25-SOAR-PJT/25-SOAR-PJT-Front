@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -15,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.soar.Network.tag.TagResponse
 import com.example.soar.R
 import com.example.soar.databinding.StepCsKeywordBinding
+import com.example.soar.util.showBlockingToast
 import com.google.android.flexbox.FlexboxLayout
 
 class Step5Fragment : Fragment(R.layout.step_cs_keyword) {
@@ -112,7 +112,7 @@ class Step5Fragment : Fragment(R.layout.step_cs_keyword) {
         // [추가] Toast 메시지 이벤트를 관찰
         viewModel.showToast.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let { message ->
-                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                showBlockingToast(message, hideCancel = true)
             }
         }
     }

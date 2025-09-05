@@ -1,5 +1,3 @@
-// com.example.soar.ArchivingPage/KeywordActivity.kt
-
 package com.example.soar.ArchivingPage
 
 import android.app.Activity
@@ -11,13 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.soar.CurationSequencePage.TagUiModel
 import com.example.soar.R
 import com.example.soar.databinding.ActivityKeywordBinding
+import com.example.soar.util.showBlockingToast // ✨ 1. 커스텀 토스트 import 추가
 import com.google.android.flexbox.FlexboxLayout
 
 class KeywordActivity : AppCompatActivity() {
@@ -25,7 +23,6 @@ class KeywordActivity : AppCompatActivity() {
     private lateinit var binding: ActivityKeywordBinding
     private val viewModel: KeywordViewModel by viewModels()
 
-    // fieldId와 FlexboxLayout을 매핑
     private lateinit var flexboxMap: Map<Int, FlexboxLayout>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,10 +35,8 @@ class KeywordActivity : AppCompatActivity() {
         setupListeners()
         setupObservers()
 
-        // ViewModel을 통해 태그 데이터 로드
         viewModel.loadTags()
 
-        // 이전 화면에서 전달받은 선택된 태그 ID로 ViewModel 초기화
         val initialSelectedTagIds = intent.getIntegerArrayListExtra("selectedTagIds")?.toSet() ?: emptySet()
         viewModel.initializeSelection(initialSelectedTagIds)
     }
@@ -59,7 +54,6 @@ class KeywordActivity : AppCompatActivity() {
 
     private fun setupListeners() {
         binding.appbar.btnBack.setOnClickListener {
-            // 현재 선택된 태그를 결과로 전달하고 종료
             returnResult()
         }
 
@@ -73,20 +67,20 @@ class KeywordActivity : AppCompatActivity() {
     }
 
     private fun setupObservers() {
-        // tagsUiModel이 변경될 때마다 전체 Flexbox UI를 다시 그림
         viewModel.tagsUiModel.observe(this) { allTags ->
             updateAllFlexboxUI(allTags)
         }
 
-        // selectedTagIds가 변경될 때마다 제출 버튼 상태 업데이트
         viewModel.selectedTagIds.observe(this) { selectedIds ->
             binding.btnTagSubmit.isEnabled = selectedIds.isNotEmpty()
         }
 
-        // Toast 메시지 이벤트 관찰
+        // ✨ 2. Toast 메시지 이벤트 관찰 로직 수정
         viewModel.showToast.observe(this) { event ->
             event.getContentIfNotHandled()?.let { message ->
-                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+                // ✨ 3. 기존 Toast.makeText 대신 커스텀 토스트를 호출합니다.
+                // 여기서는 단순 알림이므로 취소 버튼을 숨깁니다.
+                showBlockingToast(message, hideCancel = true)
             }
         }
     }

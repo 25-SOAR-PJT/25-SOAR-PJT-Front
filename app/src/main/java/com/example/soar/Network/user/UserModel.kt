@@ -103,5 +103,15 @@ data class UpdatePwResponse(
     @SerializedName("msg") val msg: String? = null
 )
 
+data class UserDetailInfoResponse(
+    @SerializedName("userId") val userId: Long,
+    @SerializedName("userName") val userName: String,
+    @SerializedName("userBirthDate") val userBirthDate: String?,
+    @SerializedName("userGender") val userGender: Boolean?
+)
+
+data class FindIdResponse(
+    @SerializedName("emails") val emails: List<String>
+)
 
 

@@ -12,28 +12,32 @@ import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
+// ✨ 1. 토스트에 메시지와 '되돌리기' 액션을 함께 전달하기 위한 데이터 클래스
+data class ToastInfo(
+    val message: String,
+    val cancelText: String? = null,
+    val onCancel: (() -> Unit)? = null
+)
+
 class CalendarViewModel : ViewModel() {
 
     private val repository = ArchivingRepository()
 
-    // 서버에서 가져온 전체 북마크 리스트
     private val _allPolicies = MutableLiveData<List<BookmarkedPolicy>>()
     val allPolicies: LiveData<List<BookmarkedPolicy>> get() = _allPolicies
 
-    // 현재 선택된 날짜
     private val _selectedDate = MutableLiveData<LocalDate>(LocalDate.now())
     val selectedDate: LiveData<LocalDate> get() = _selectedDate
 
-    // 날짜별로 그룹화된 정책 맵 (캘린더의 점 표시용)
     private val _eventsByDate = MutableLiveData<Map<LocalDate, List<BookmarkedPolicy>>>()
     val eventsByDate: LiveData<Map<LocalDate, List<BookmarkedPolicy>>> get() = _eventsByDate
 
-    // 선택된 날짜에 해당하는 정책 리스트
     private val _schedulesForSelectedDate = MutableLiveData<List<BookmarkedPolicy>>()
     val schedulesForSelectedDate: LiveData<List<BookmarkedPolicy>> get() = _schedulesForSelectedDate
 
-    private val _toastEvent = MutableLiveData<Event<String>>()
-    val toastEvent: LiveData<Event<String>> get() = _toastEvent
+    // ✨ 2. LiveData가 String 대신 ToastInfo 객체를 전달하도록 변경
+    private val _toastEvent = MutableLiveData<Event<ToastInfo>>()
+    val toastEvent: LiveData<Event<ToastInfo>> get() = _toastEvent
 
     fun fetchBookmarkedPolicies() {
         viewModelScope.launch {
@@ -49,18 +53,15 @@ class CalendarViewModel : ViewModel() {
         }
     }
 
-    // 날짜를 클릭했을 때 호출
     fun selectDate(date: LocalDate) {
         _selectedDate.value = date
         updateSchedulesForDate(date, _allPolicies.value ?: emptyList())
     }
 
-    // 서버에서 받은 데이터를 날짜별로 그룹화
     private fun updateEventsMap(policies: List<BookmarkedPolicy>) {
         val formatter = DateTimeFormatter.ofPattern("yyyyMMdd")
         _eventsByDate.value = policies.mapNotNull { policy ->
             try {
-                // businessPeriodEnd가 비어있지 않은 경우에만 파싱
                 if (policy.businessPeriodEnd.isNotBlank()) {
                     val date = LocalDate.parse(policy.businessPeriodEnd.trim(), formatter)
                     date to policy
@@ -68,28 +69,63 @@ class CalendarViewModel : ViewModel() {
                     null
                 }
             } catch (e: Exception) {
-                null // 날짜 형식이 잘못된 경우 무시
+                null
             }
         }.groupBy({ it.first }, { it.second })
     }
 
-    // 선택된 날짜에 맞는 스케줄 리스트 업데이트
     private fun updateSchedulesForDate(date: LocalDate, policies: List<BookmarkedPolicy>) {
         _schedulesForSelectedDate.value = eventsByDate.value?.get(date) ?: emptyList()
     }
 
-    // 신청 상태 토글 API 호출
+    // ✨ 3. '되돌리기' 로직을 처리하는 함수
+    fun undoApply(policyId: String) {
+        viewModelScope.launch {
+            repository.togglePolicyApply(policyId)
+                .onSuccess { response ->
+                    // 되돌리기 성공 시에는 토스트를 띄우지 않고 UI만 조용히 업데이트
+                    updateLocalPolicyState(response)
+                }
+                .onFailure {
+                    _toastEvent.value = Event(ToastInfo(it.message ?: "되돌리기에 실패했습니다."))
+                }
+        }
+    }
+
+    // ✨ 4. 신청 상태 토글 로직을 로컬 즉시 업데이트 및 '되돌리기' 기능 추가로 개선
     fun togglePolicyApplied(policyId: String) {
         viewModelScope.launch {
             repository.togglePolicyApply(policyId)
                 .onSuccess { response ->
-                    _toastEvent.value = Event(response.message)
-                    // API 호출 성공 후 전체 데이터를 다시 불러와 갱신
-                    fetchBookmarkedPolicies()
+                    // UI를 즉시 업데이트
+                    updateLocalPolicyState(response)
+
+                    // '되돌리기' 버튼이 포함된 토스트를 띄움
+                    _toastEvent.value = Event(ToastInfo(
+                        message = response.message,
+                        cancelText = "되돌리기",
+                        onCancel = { undoApply(response.policyId) }
+                    ))
                 }
                 .onFailure {
-                    _toastEvent.value = Event(it.message ?: "작업에 실패했습니다.")
+                    _toastEvent.value = Event(ToastInfo(it.message ?: "작업에 실패했습니다."))
                 }
+        }
+    }
+
+    // ✨ 5. API 호출 없이 로컬 데이터의 상태를 갱신하는 도우미 함수
+    private fun updateLocalPolicyState(toggleResponse: ToggleApplyResponse) {
+        val currentPolicies = _allPolicies.value?.toMutableList() ?: return
+        val index = currentPolicies.indexOfFirst { it.policyId == toggleResponse.policyId }
+
+        if (index != -1) {
+            val updatedPolicy = currentPolicies[index].copy(applied = toggleResponse.applied)
+            currentPolicies[index] = updatedPolicy
+
+            // 전체 정책 리스트를 갱신하면, 이를 관찰하는 다른 LiveData들도 자동으로 업데이트됨
+            _allPolicies.value = currentPolicies
+            updateEventsMap(currentPolicies)
+            updateSchedulesForDate(selectedDate.value!!, currentPolicies)
         }
     }
 }

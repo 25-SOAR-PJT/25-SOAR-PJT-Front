@@ -85,7 +85,7 @@ class BookmarkEditViewModel : ViewModel() {
                 .onSuccess { response ->
                     // API 호출 성공 시 UI 상태 업데이트
                     updatePoliciesAfterApply(selectedPolicyIds)
-                    _toastMessage.value = Event("${response.appliedCount}건의 신청이 완료되었습니다.")
+                    _toastMessage.value = Event("해당 정책들의 신청 변경이 완료되었습니다.")
                 }
                 .onFailure {
                     _toastMessage.value = Event("오류가 발생했습니다: ${it.message}")
@@ -102,7 +102,7 @@ class BookmarkEditViewModel : ViewModel() {
         val newModels = currentModels.map { uiModel ->
             if (appliedIdSet.contains(uiModel.policy.policyId)) {
                 uiModel.copy(
-                    policy = uiModel.policy.copy(applied = true),
+                    policy = uiModel.policy.copy(applied = !uiModel.policy.applied),
                     isSelected = false
                 )
             } else {

@@ -1,20 +1,15 @@
-// ArchivingPage/BookmarkEditActivity.kt
-
 package com.example.soar.ArchivingPage
 
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.soar.DetailPage.DetailPageActivity
 import com.example.soar.Network.archiving.BookmarkedPolicy
-import com.example.soar.Network.explore.YouthPolicy
 import com.example.soar.R
 import com.example.soar.databinding.ActivityBookmarkEditBinding
+import com.example.soar.util.showBlockingToast // ✨ 1. Import the custom toast utility
 
 class BookmarkEditActivity : AppCompatActivity() {
     private lateinit var binding: ActivityBookmarkEditBinding
@@ -31,7 +26,6 @@ class BookmarkEditActivity : AppCompatActivity() {
         setupListeners()
         setupObservers()
 
-        // Intent에서 데이터 받아 ViewModel에 설정
         val policies = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             intent.getParcelableArrayListExtra("ALL_POLICIES", BookmarkedPolicy::class.java)
         } else {
@@ -49,7 +43,6 @@ class BookmarkEditActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        // 어댑터 초기화 시 ViewModel의 함수를 람다로 전달
         adapter = BookmarkEditAdapter { policyId ->
             viewModel.toggleSelection(policyId)
         }
@@ -72,15 +65,11 @@ class BookmarkEditActivity : AppCompatActivity() {
     private fun setupObservers() {
         viewModel.uiModels.observe(this) { models ->
             adapter.submitList(models)
-            // 전체 항목 수 업데이트
             binding.num.text = models.size.toString()
         }
 
         viewModel.selectedCount.observe(this) { count ->
-            // 선택된 항목 수에 따라 하단 버튼 UI 업데이트
             updateBottomButtons(count > 0)
-
-            // 전체선택 텍스트 업데이트
             val allItemCount = viewModel.uiModels.value?.size ?: 0
             if (count > 0 && count == allItemCount) {
                 binding.selectAll.text = getString(R.string.deselect_all)
@@ -89,10 +78,12 @@ class BookmarkEditActivity : AppCompatActivity() {
             }
         }
 
-        // 추가: Toast 메시지 LiveData 관찰
+        // ✨ 2. Observe LiveData for toast messages
         viewModel.toastMessage.observe(this) { event ->
             event.getContentIfNotHandled()?.let { message ->
-                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+                // ✨ 3. Replace standard Toast with the custom TouchBlockingToast
+                // The cancel button is hidden because no undo action is needed here.
+                showBlockingToast(message, hideCancel = true)
             }
         }
     }
@@ -116,6 +107,4 @@ class BookmarkEditActivity : AppCompatActivity() {
             binding.btnText2.setTextColor(inactiveColor)
         }
     }
-
-
 }

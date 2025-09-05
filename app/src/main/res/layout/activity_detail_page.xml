@@ -183,7 +183,7 @@
 
                                 android:layout_height="wrap_content"
 
-                                android:singleLine="true"
+
 
                                 android:textColor="@color/ref_gray_800"
 
@@ -225,7 +225,7 @@
 
                                 android:layout_height="wrap_content"
 
-                                android:singleLine="true"
+
 
                                 android:textColor="@color/ref_gray_800"
 
@@ -347,6 +347,7 @@
                     android:gravity="center">
 
                     <LinearLayout
+                        android:id="@+id/btn_comment"
 
                         android:layout_width="0dp"
 
@@ -359,6 +360,8 @@
                         android:gravity="center">
 
                         <ImageView
+
+                            android:id="@+id/comment_icon"
 
                             android:layout_width="24dp"
 
@@ -471,6 +474,8 @@
                             android:layout_marginBottom="4dp"/>
 
                         <TextView
+
+                            android:id="@+id/text_bookmark"
 
                             android:layout_width="wrap_content"
 
@@ -1138,8 +1143,10 @@
             android:layout_gravity="center"
 
             style="@style/close_button"
+            android:text="@string/apply"
+            android:visibility="gone"
+            tools:visibility="visible" />
 
-            android:text="@string/apply"/>
 
     </LinearLayout>
 

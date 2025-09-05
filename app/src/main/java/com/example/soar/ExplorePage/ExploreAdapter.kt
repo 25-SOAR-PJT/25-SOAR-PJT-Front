@@ -1,9 +1,10 @@
 package com.example.soar.ExplorePage
 
+import android.app.Activity
+import android.graphics.drawable.Animatable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -11,6 +12,7 @@ import com.example.soar.Network.explore.YouthPolicy
 import com.example.soar.R
 import com.example.soar.databinding.ItemExploreBizBinding
 import com.example.soar.Network.TokenManager
+import com.example.soar.util.showBlockingToast
 
 // isBookmarkEnabled 파라미터 추가
 class ExploreAdapter(
@@ -39,6 +41,11 @@ class ExploreAdapter(
             binding.largeClassification.text = policy.largeClassification
             binding.mediumClassification.text = policy.mediumClassification
 
+            // ✨ 추가: 아이템이 바인딩될 때마다 스피너의 상태를 초기화합니다.
+            (binding.bookmarkSpinnerImage.drawable as? Animatable)?.stop()
+            binding.bookmarkSpinnerImage.visibility = View.GONE
+            binding.btnBookmark.visibility = View.VISIBLE
+
             if (!policy.dateLabel.isNullOrEmpty()) {
                 binding.textViewPolicyDeadline.visibility = View.VISIBLE
                 binding.textViewPolicyDeadline.text = policy.dateLabel
@@ -51,13 +58,9 @@ class ExploreAdapter(
             } else {
                 binding.btnBookmark.setImageResource(R.drawable.icon_bookmark)
             }
-            binding.bookmarkProgressBar.visibility = View.GONE
-            binding.btnBookmark.visibility = View.VISIBLE
-
             itemView.setOnClickListener {
                 listener.onPolicyItemClick(policy)
             }
-
             // isBookmarkEnabled 값에 따라 버튼의 클릭 리스너를 설정
             if (isBookmarkEnabled) {
                 binding.btnBookmark.isEnabled = true
@@ -66,12 +69,13 @@ class ExploreAdapter(
 
                     if (!accessToken.isNullOrEmpty()) {
                         binding.btnBookmark.visibility = View.GONE
-                        binding.bookmarkProgressBar.visibility = View.VISIBLE
+                        binding.bookmarkSpinnerImage.visibility = View.VISIBLE
+                        (binding.bookmarkSpinnerImage.drawable as? Animatable)?.start()
                         binding.btnBookmark.isEnabled = false
 
                         listener.onBookmarkClick(policy)
                     } else {
-                        Toast.makeText(binding.root.context, "로그인 후 이용할 수 있습니다.", Toast.LENGTH_SHORT).show()
+                        (itemView.context as? Activity)?.showBlockingToast("로그인 후 이용할 수 있습니다.", hideCancel = true)
                     }
                 }
             } else {

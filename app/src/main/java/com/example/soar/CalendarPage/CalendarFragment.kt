@@ -6,13 +6,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.soar.DetailPage.DetailPageActivity
+import com.example.soar.EntryPage.SignIn.LoginActivity
+import com.example.soar.MainActivity
+import com.example.soar.Network.TokenManager
 import com.example.soar.Network.archiving.BookmarkedPolicy
 import com.example.soar.databinding.FragmentCalendarBinding
+import com.example.soar.util.showBlockingToast // ✨ 1. 커스텀 토스트 import
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.TextStyle
@@ -46,20 +49,37 @@ class CalendarFragment : Fragment() {
         viewModel.fetchBookmarkedPolicies()
     }
 
+    override fun onResume() {
+        super.onResume()
+        updateUiForLoginState()
+    }
+
+    private fun updateUiForLoginState() {
+        val accessToken = TokenManager.getAccessToken()
+
+        if (accessToken.isNullOrEmpty()) {
+            binding.scheduleContainer.visibility = View.GONE
+            binding.btnZeroEntry.visibility = View.GONE
+            binding.btnLoginEntry.visibility = View.VISIBLE
+
+        } else {
+            binding.btnLoginEntry.visibility = View.GONE
+            viewModel.fetchBookmarkedPolicies()
+        }
+    }
+
     private fun setupRecyclerViews() {
         scheduleAdapter = CalendarScheduleAdapter(
             onPolicyClick = { policy ->
                 onPolicyItemClick(policy)
             },
             onApplyClick = { policy ->
-                // ViewModel의 API 호출 함수를 실행
                 viewModel.togglePolicyApplied(policy.policyId)
             }
         )
         binding.bizList.adapter = scheduleAdapter
         binding.bizList.layoutManager = LinearLayoutManager(requireContext())
 
-        // 어댑터 초기화 시 ViewModel에서 받은 올바른 타입의 데이터를 전달
         calendarDateAdapter = CalendarDateAdapter(
             dateList = emptyList(),
             recordTypeMap = emptyMap(),
@@ -85,6 +105,14 @@ class CalendarFragment : Fragment() {
             currentYearMonth = currentYearMonth.plusMonths(1)
             updateCalendarDisplay(currentYearMonth)
         }
+        binding.btnToLogin.setOnClickListener {
+            val intent = Intent(requireContext(), LoginActivity::class.java)
+            startActivity(intent)
+        }
+        binding.btnToExplore.setOnClickListener {
+            val mainActivity = activity as? MainActivity
+            mainActivity?.goToExploreTab()
+        }
     }
 
     private fun setupObservers() {
@@ -94,7 +122,6 @@ class CalendarFragment : Fragment() {
         }
 
         viewModel.eventsByDate.observe(viewLifecycleOwner) { eventsMap ->
-            // 올바른 타입의 Map을 어댑터에 전달
             calendarDateAdapter.updateEvents(eventsMap)
         }
 
@@ -102,14 +129,29 @@ class CalendarFragment : Fragment() {
             scheduleAdapter.submitList(schedules)
         }
 
+        // ✨ 2. toastEvent 옵저버를 커스텀 토스트를 사용하도록 수정
         viewModel.toastEvent.observe(viewLifecycleOwner) { event ->
-            event.getContentIfNotHandled()?.let { message ->
-                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+            event.getContentIfNotHandled()?.let { toastInfo ->
+                // '되돌리기' 액션을 포함하여 커스텀 토스트를 띄웁니다.
+                showBlockingToast(
+                    message = toastInfo.message,
+                    cancelText = toastInfo.cancelText,
+                    onCancel = toastInfo.onCancel
+                )
+            }
+        }
+
+        viewModel.allPolicies.observe(viewLifecycleOwner) { allPolicies ->
+            if (allPolicies.isEmpty()) {
+                binding.scheduleContainer.visibility = View.GONE
+                binding.btnZeroEntry.visibility = View.VISIBLE
+            } else {
+                binding.scheduleContainer.visibility = View.VISIBLE
+                binding.btnZeroEntry.visibility = View.GONE
             }
         }
     }
 
-    // 달력 UI를 업데이트하는 로직을 별도 함수로 분리
     private fun updateCalendarDisplay(yearMonth: YearMonth) {
         binding.calendarYearText.text = yearMonth.year.toString()
         binding.calendarMonthText.text = yearMonth.monthValue.toString().padStart(2, '0')
@@ -123,7 +165,6 @@ class CalendarFragment : Fragment() {
         binding.textToday.text = "${day}일 $dayOfWeekKorean"
     }
 
-    // 2. DetailPageActivity로 이동하는 함수를 추가합니다.
     private fun onPolicyItemClick(policy: BookmarkedPolicy) {
         val intent = Intent(requireContext(), DetailPageActivity::class.java).apply {
             putExtra("policyId", policy.policyId)

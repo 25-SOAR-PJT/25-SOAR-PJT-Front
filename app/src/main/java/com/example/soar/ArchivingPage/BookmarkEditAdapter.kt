@@ -55,7 +55,13 @@ class BookmarkEditAdapter(private val onItemClick: (String) -> Unit) :
         // ArchivingAdapter와 동일한 색상 로직 적용
         val colorRes = when (policy.dateType) {
             "ONGOING", "UPCOMING" -> R.color.semantic_accent_primary_based
-            "DEADLINE" -> if (policy.applied) R.color.semantic_accent_primary_based else R.color.semantic_accent_deadline_based
+            "DEADLINE" -> if (policy.applied) {
+                // ✨ 5. 'policy.applied'가 이제 true이므로,
+                // 이전에 선택했던 deadline 색상 대신 primary 색상이 선택됩니다. (색상 반전)
+                R.color.semantic_accent_primary_based
+            } else {
+                R.color.semantic_accent_deadline_based
+            }
             else -> R.color.ref_gray_400
         }
         val color = ContextCompat.getColor(context, colorRes)

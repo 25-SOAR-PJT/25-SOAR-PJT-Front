@@ -9,11 +9,9 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.activity.enableEdgeToEdge
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.activity.viewModels
 import androidx.lifecycle.MutableLiveData
@@ -23,23 +21,26 @@ import com.example.soar.Utill.FocusErrorController
 import com.example.soar.Utill.FocusErrorControllerGroup
 import com.example.soar.Utill.combineLatest
 import com.example.soar.databinding.ActivityChangePwBinding
-import com.example.soar.databinding.ActivityFind2Binding
+import com.example.soar.databinding.ActivityFindBinding
+import com.example.soar.util.showBlockingToast
 import com.google.android.material.textfield.TextInputLayout
 import kotlin.getValue
 
 class FindActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityFind2Binding
+    private lateinit var binding: ActivityFindBinding
 
     private val vm: FindViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityFind2Binding.inflate(layoutInflater)
+        binding = ActivityFindBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         binding.tilName.setErrorTextAppearance(R.style.Font_Caption_Regular)
         binding.tilResidentBirth.setErrorTextAppearance(R.style.Font_Caption_Regular)
+        binding.tilNamePw.setErrorTextAppearance(R.style.Font_Caption_Regular)
+        binding.tilEmailPw.setErrorTextAppearance(R.style.Font_Caption_Regular)
 
         binding.etResidentBirth.letterSpacing = 0f
 
@@ -58,10 +59,17 @@ class FindActivity : AppCompatActivity() {
         }
         binding.etResidentSex.doAfterTextChanged    { vm.sexDigit.value  = it.toString() }
 
+        binding.etNamePw.doAfterTextChanged    { vm.namePw.value  = it.toString() }
+        binding.etEmailPw.doAfterTextChanged    { vm.email.value  = it.toString() }
+
+
+
         /* ── touched flag ─────────────────────────────── */
         setTouchFlag(binding.tilName,          vm.nameTouched )
         setTouchFlag(binding.tilResidentBirth, vm.birthTouched)
         setTouchFlag(binding.tilResidentSex,   vm.sexTouched )
+        setTouchFlag(binding.tilNamePw,          vm.namePwTouched )
+        setTouchFlag(binding.tilEmailPw,          vm.emailTouched )
 
         /* ── maxLength ───────────────────────────────── */
         binding.etResidentBirth.filters = arrayOf(InputFilter.LengthFilter(6))
@@ -127,6 +135,22 @@ class FindActivity : AppCompatActivity() {
             clearError = ::clearResidentErr
         )
 
+
+        FocusErrorController(
+            binding.etNamePw, binding.tilNamePw,
+            isValid         = { vm.isNamePwValid.value == true },
+            getErrorMessage = { getString(R.string.error_name_format) },
+            showError       = { msg -> showErr(binding.tilNamePw, msg) }
+        )
+
+        FocusErrorController(
+            binding.etEmailPw, binding.tilEmailPw,
+            isValid         = { vm.isEmailValid.value == true },
+            getErrorMessage = { getString(R.string.error_email) },
+            showError       = { msg -> showErr(binding.tilEmailPw, msg) }
+        )
+
+
         /* ── ViewModel 상태 변경 감지 → UI 업데이트 ──────────────── */
         // LiveData를 관찰하여 유효성 상태가 변경될 때마다 실시간으로 에러 메시지를 제어합니다.
 
@@ -160,11 +184,74 @@ class FindActivity : AppCompatActivity() {
             }
         }.observe(this) { /* observe를 시작하기 위해 비워둠 */ }
 
+        vm.isNamePwValid.observe(this) { isValid ->
+            // 사용자가 터치한 적이 있고(touched), 현재 값이 유효하지 않을 때만 에러를 표시합니다.
+            if (vm.namePwTouched.value == true && !isValid) {
+                showNameErr(getString(R.string.error_name_format))
+            } else {
+                // 유효하다면 에러를 지웁니다.
+                binding.tilNamePw.error = null
+            }
+        }
+
+        vm.isEmailValid.observe(this) { isValid ->
+            // 사용자가 터치한 적이 있고(touched), 현재 값이 유효하지 않을 때만 에러를 표시합니다.
+            if (vm.emailTouched.value == true && !isValid) {
+                showNameErr(getString(R.string.error_email))
+            } else {
+                // 유효하다면 에러를 지웁니다.
+                binding.tilEmailPw.error = null
+            }
+        }
 
 
-        // TODO: 아이디(이메일) / 이름 / 주민 번호  부분 에러 핸들링 부탁드림 (회원 가입이랑 동일)
-        // TODO : 제대로 다 입력 받으면 버튼 활성화 + FindResultActivity로 넘어가기
-        // TODO : 비번 찾기는 버튼 클릭 시 토스트 메세지 띄우기.
+
+        // *** 추가: 버튼 활성화 상태 관찰 ***
+        vm.isIdButtonEnabled.observe(this) { isEnabled ->
+            binding.btnFindId.isEnabled = isEnabled
+        }
+
+
+        // *** 추가: 아이디 찾기 버튼 클릭 리스너 ***
+        binding.btnFindId.setOnClickListener {
+            vm.findId()
+        }
+
+        // *** 추가: 비밀번호 찾기 버튼 활성화 상태 관찰 ***
+        vm.isFindPwButtonEnabled.observe(this) { isEnabled ->
+            binding.btnSendPwEmail.isEnabled = isEnabled
+        }
+
+        // *** 추가: 비밀번호 찾기 버튼 클릭 리스너 ***
+        binding.btnSendPwEmail.setOnClickListener {
+            vm.findPassword()
+        }
+
+
+        // *** 추가: API 결과 관찰 및 처리 ***
+        vm.findIdResult.observe(this) { event ->
+            event.getContentIfNotHandled()?.let { result ->
+                result.onSuccess { response ->
+                    // 성공 시: 결과 화면으로 이동
+                    val intent = Intent(this, FindResultActivity::class.java).apply {
+                        putExtra("USER_NAME", vm.name.value)
+                        putStringArrayListExtra("EMAIL_LIST", ArrayList(response.emails))
+                    }
+                    startActivity(intent)
+                }.onFailure { error ->
+                    // 실패 시: 에러 메시지 표시
+                    showBlockingToast(error.message.toString(), hideCancel = true)
+                }
+            }
+        }
+
+
+        vm.findPwResult.observe(this) { event ->
+            event.getContentIfNotHandled()?.let { message ->
+                // 결과 메시지를 토스트로 표시
+                showBlockingToast(message, hideCancel = true)
+            }
+        }
 
         // 앱바
         findViewById<TextView>(R.id.text_title).text = ""

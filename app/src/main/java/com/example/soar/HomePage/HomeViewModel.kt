@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.soar.Network.explore.ExploreRepository
 import com.example.soar.Network.home.AgePopularPolicy
+import com.example.soar.Network.home.BannerResponse
 import com.example.soar.Network.user.AuthRepository
 import com.example.soar.Network.user.UserInfoResponse
 import com.example.soar.Network.home.LatestPolicy
@@ -28,6 +29,9 @@ class HomeViewModel : ViewModel() {
 
     private val _error = MutableLiveData<String>()
     val error: LiveData<String> get() = _error
+
+    private val _banners = MutableLiveData<List<BannerResponse>>()
+    val banners: LiveData<List<BannerResponse>> get() = _banners
 
     private val _latestPolicy = MutableLiveData<LatestPolicy?>()
     val latestPolicy: LiveData<LatestPolicy?> get() = _latestPolicy
@@ -81,6 +85,14 @@ class HomeViewModel : ViewModel() {
 
             // 모두 실패 → Fragment에 '로그아웃 해' 신호
             _shouldForceLogout.value = true
+        }
+    }
+
+    fun fetchBanners() {
+        viewModelScope.launch {
+            homeRepository.getBanners()
+                .onSuccess { _banners.value = it }
+                .onFailure { _error.value = it.message ?: "배너를 불러오는 데 실패했습니다." }
         }
     }
 

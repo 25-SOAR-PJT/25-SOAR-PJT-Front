@@ -23,3 +23,8 @@ data class AgePopularPolicy(
     @SerializedName("bookmarked") val bookmarked: Boolean,
     @SerializedName("ageGroup") val ageGroup: String
 )
+
+data class BannerResponse(
+    @SerializedName("base64Image") val base64Image: String,
+    @SerializedName("url") val url: String
+)

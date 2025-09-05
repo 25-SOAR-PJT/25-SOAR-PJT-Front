@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        TokenManager.init(this) // 토큰 초기화. 스플래시에 있으니 나중에 스플래시 적용 후 이 코드 제거
+
         RecentViewManager.init(this)
 
 
@@ -90,6 +90,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun goToExploreTab() {
+        updateNavSelection(binding.navExplore)
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.container, ExploreFragment())
+            .commit()
+    }
+
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         setIntent(intent)
@@ -103,6 +110,13 @@ class MainActivity : AppCompatActivity() {
                 updateNavSelection(binding.navExplore)
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.container, ExploreFragment())
+                    .commit()
+            }
+
+            "archiving" -> {
+                updateNavSelection(binding.navArchiving)
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.container, ArchivingFragment())
                     .commit()
             }
             else -> {

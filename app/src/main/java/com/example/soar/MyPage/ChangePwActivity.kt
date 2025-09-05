@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -22,6 +21,7 @@ import com.example.soar.Utill.ErrorMessageHelper
 import com.example.soar.Utill.FocusErrorController
 import com.example.soar.Utill.PasswordToggleHelper
 import com.example.soar.databinding.ActivityChangePwBinding
+import com.example.soar.util.showBlockingToast
 import com.google.android.material.textfield.TextInputLayout
 
 class ChangePwActivity : AppCompatActivity() {
@@ -119,11 +119,11 @@ class ChangePwActivity : AppCompatActivity() {
                     Log.d("ChangePwActivity", "비밀번호 변경 중...")
                 }
                 is UiState.Success -> {
-                    Toast.makeText(this, "비밀번호가 성공적으로 변경되었습니다.", Toast.LENGTH_SHORT).show()
+                    showBlockingToast("비밀번호가 성공적으로 변경되었습니다.", hideCancel = true)
                     finish()
                 }
                 is UiState.Failure -> {
-                    Toast.makeText(this, state.msg, Toast.LENGTH_SHORT).show()
+                    showBlockingToast(state.msg, hideCancel = true)
                 }
                 else -> {
                     // Idle

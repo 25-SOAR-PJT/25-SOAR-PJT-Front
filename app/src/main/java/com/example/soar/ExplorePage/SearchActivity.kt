@@ -13,7 +13,6 @@ import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,6 +22,7 @@ import com.example.soar.databinding.ActivitySearchBinding
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.example.soar.DetailPage.DetailPageActivity
+import com.example.soar.util.showBlockingToast
 
 // [수정] ExploreAdapter.OnItemClickListener 인터페이스 구현
 class SearchActivity : AppCompatActivity(), ExploreAdapter.OnItemClickListener {
@@ -90,7 +90,7 @@ class SearchActivity : AppCompatActivity(), ExploreAdapter.OnItemClickListener {
         }
 
         viewModel.error.observe(this) { error ->
-            Toast.makeText(this, error, Toast.LENGTH_SHORT).show()
+            showBlockingToast(error, hideCancel = true)
         }
     }
 
@@ -230,7 +230,7 @@ class SearchActivity : AppCompatActivity(), ExploreAdapter.OnItemClickListener {
 
             viewModel.toggleBookmark(policy)
         } else {
-            Toast.makeText(this, "로그인 후 이용할 수 있습니다.", Toast.LENGTH_SHORT).show()
+            showBlockingToast("로그인 후 이용할 수 있습니다.", hideCancel = true)
         }
     }
 

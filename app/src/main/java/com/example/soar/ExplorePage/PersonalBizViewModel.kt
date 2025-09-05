@@ -1,19 +1,28 @@
 package com.example.soar.ExplorePage
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.soar.CurationSequencePage.Event
 import com.example.soar.Network.explore.ExploreRepository
+import com.example.soar.Network.user.AuthRepository
 import com.example.soar.Network.explore.YouthPolicy
 import com.example.soar.Network.tag.TagResponse
 import com.example.soar.Network.user.UserTagRepository
 import kotlinx.coroutines.launch
 
+
+// ✨ 1. ViewModel에서 Activity로 전달할 화면 이동 이벤트를 정의
+sealed class CurationNavigationEvent {
+    object ProceedToCuration : CurationNavigationEvent()
+    object ShowTermsAgreement : CurationNavigationEvent()
+}
+
 class PersonalBizViewModel(
     private val exploreRepository: ExploreRepository = ExploreRepository(),
-    private val userTagRepository: UserTagRepository = UserTagRepository()
+    private val userTagRepository: UserTagRepository = UserTagRepository(),
+    private val userRepository: AuthRepository = AuthRepository() // ✨ 2. UserRepository 주입
 ) : ViewModel() {
 
     private val _policies = MutableLiveData<List<YouthPolicy>>()
@@ -27,6 +36,34 @@ class PersonalBizViewModel(
 
     private val _error = MutableLiveData<String>()
     val error: LiveData<String> = _error
+
+    // ✨ 3. 화면 이동 이벤트를 전달할 LiveData 추가
+    private val _navigationEvent = MutableLiveData<Event<CurationNavigationEvent>>()
+    val navigationEvent: LiveData<Event<CurationNavigationEvent>> = _navigationEvent
+
+    /**
+     * ✨ 4. '태그 수정' 버튼 클릭 시 호출될 함수
+     * 약관 동의 여부를 확인하고, 그 결과에 따라 내비게이션 이벤트를 발생시킴
+     */
+    fun onModifyTagsClicked() {
+        viewModelScope.launch {
+            userRepository.getTermAgreement()
+                .onSuccess { hasAgreed ->
+                    if (hasAgreed) {
+                        // 이미 동의했다면, 큐레이션으로 바로 진행
+                        _navigationEvent.value = Event(CurationNavigationEvent.ProceedToCuration)
+                    } else {
+                        // 동의하지 않았다면, 약관 동의 화면을 보여주도록 요청
+                        _navigationEvent.value = Event(CurationNavigationEvent.ShowTermsAgreement)
+                    }
+                }
+                .onFailure {
+                    _error.value = it.message ?: "약관 동의 정보를 확인하지 못했습니다."
+                }
+        }
+    }
+
+
 
     /**
      * 사용자의 태그를 불러온 후, 해당 태그에 맞는 정책을 불러오는 함수

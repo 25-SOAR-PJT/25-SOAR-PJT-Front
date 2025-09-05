@@ -32,6 +32,8 @@ class ExploreViewModel : ViewModel() {
     private val _selectedKeywords = MutableLiveData<List<TagResponse>>(emptyList())
     val selectedKeywords: LiveData<List<TagResponse>> = _selectedKeywords
 
+    private var initialTagIds: List<Int>? = null
+
     private var currentPage = 0
     private var isLastPage = false
     private var isDataLoading = false
@@ -43,7 +45,15 @@ class ExploreViewModel : ViewModel() {
 
     private fun loadAllTags() {
         viewModelScope.launch {
-            tagRepository.getTags().onSuccess { _allTags.value = it }
+            tagRepository.getTags().onSuccess { allTagsList ->
+                _allTags.value = allTagsList
+
+                // [추가] 전체 태그 로드가 완료된 후, 임시 저장된 ID가 있다면 키워드 선택 실행
+                initialTagIds?.let { ids ->
+                    updateKeywordsByIds(ids)
+                    initialTagIds = null // 처리 후 초기화
+                }
+            }
         }
     }
 
@@ -120,10 +130,18 @@ class ExploreViewModel : ViewModel() {
     }
 
     fun updateKeywordsByIds(selectedIds: List<Int>) {
-        val selectedTags = _allTags.value?.filter { it.tagId in selectedIds } ?: emptyList()
-        _selectedKeywords.value = selectedTags
-    }
+        val allTagsList = _allTags.value
 
+        // [수정] 전체 태그 목록이 로드되었는지 확인
+        if (allTagsList.isNullOrEmpty()) {
+            // 아직 로드되지 않았다면, 전달받은 ID를 임시 변수에 저장
+            initialTagIds = selectedIds
+        } else {
+            // 태그 목록이 있으면, 정상적으로 필터링하여 LiveData 업데이트
+            val selectedTags = allTagsList.filter { it.tagId in selectedIds }
+            _selectedKeywords.value = selectedTags
+        }
+    }
     fun updatePoliciesBookmarks(changes: HashMap<String, Boolean>) {
         val currentList = _policies.value?.toMutableList() ?: return
         var listModified = false

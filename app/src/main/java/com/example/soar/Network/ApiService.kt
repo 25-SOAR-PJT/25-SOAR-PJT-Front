@@ -17,6 +17,7 @@ import com.example.soar.Network.explore.YouthPolicy
 import com.example.soar.Network.home.AgePopularPolicy
 import com.example.soar.Network.home.LatestPolicy
 import com.example.soar.Network.home.PopularPolicy
+import com.example.soar.Network.home.BannerResponse
 import com.example.soar.Network.tag.TagResponse
 import com.example.soar.Network.user.*
 import com.example.soar.Network.tag.TagIdRequest
@@ -52,16 +53,38 @@ interface ApiService {
     @GET(ApiConfig.User.FIND_ID)
     suspend fun findId(
         @Query("userName") userName: String,
-        @Query("userBirthdate") userBirthdate: String
-    ): Response<ApiResponse<List<String>>>
+        @Query("userBirthdate") userBirthdate: String // "yyyy-MM-dd" 형식
+    ): Response<ApiResponse<FindIdResponse>> // 반환 타입 수정
 
     @POST(ApiConfig.User.FIND_PASSWORD)
     suspend fun findPassword(
         @Body request: FindPasswordRequest
-    ): Response<ApiResponse<String>>
+    ): Response<ApiResponse<Unit>> // 응답 본문에 data 필드가 없으므로 Unit 또는 Void 사용
+
 
     @GET(ApiConfig.User.USER_INFO)
     suspend fun getUserInfo(): Response<ApiResponse<UserInfoResponse>>
+
+    @GET("/api/auth/get-detailinfo")
+    suspend fun getUserDetailInfo(): Response<ApiResponse<UserDetailInfoResponse>>
+
+    // ✨ 추가: 사용자 이름 변경 API
+    @POST("/api/auth/update-name")
+    suspend fun updateUserName(
+        @Query("userName") userName: String
+    ): Response<ApiResponse<String>>
+
+    // ✨ 추가: 사용자 생년월일 변경 API
+    @POST("/api/auth/update-birth")
+    suspend fun updateUserBirth(
+        @Query("userBirth") userBirth: String // "yyyy-MM-dd" 형식
+    ): Response<ApiResponse<String>>
+
+    // ✨ 추가: 사용자 성별 변경 API
+    @POST("/api/auth/update-gender")
+    suspend fun updateUserGender(
+        @Query("userGender") userGender: Boolean?
+    ): Response<ApiResponse<String>>
 
 
     @POST(ApiConfig.User.RESET_PASSWORD)
@@ -69,6 +92,7 @@ interface ApiService {
         @Body request: Map<String, String>
     ): Response<ApiResponse<String>>
 
+    @Headers("Skip-Auth: true") // ⬅️ 이 호출에는 Authorization 붙이지 않도록
     @POST(ApiConfig.User.KAKAO_LOGIN)
     suspend fun kakaoLogin(
         @Header("Authorization") kakaoAccessToken: String
@@ -86,7 +110,27 @@ interface ApiService {
     @POST(ApiConfig.User.UPDATE_PW)
     suspend fun updatePW(@Body request: UpdatePwRequest): Response<ApiResponse<UpdatePwResponse>>
 
+    @POST("/api/auth/delete")
+    suspend fun deleteUser(@Body request: Map<String, String>): Response<ApiResponse<Unit>>
+
+    @POST("/api/auth/kakao/delete")
+    suspend fun deleteKakaoUser(): Response<ApiResponse<Unit>>
+
+    @GET("api/auth/get-term")
+    suspend fun getTermAgreement(): Response<ApiResponse<Boolean>>
+
+    @POST("/api/auth/add-term")
+    suspend fun agreeToTerm(): Response<ApiResponse<Unit>> // 응답 본문에 data가 없으므로 Unit 사용
+
+
+
+
+
     /* ───────────── Home ───────────── */
+
+    @GET("/api/banner/{id}")
+    suspend fun getBanner(@Path("id") id: Int): Response<ApiResponse<BannerResponse>>
+
     @GET("/api/youth-policy/latestOne")
     suspend fun getLatestPolicy(): Response<ApiResponse<LatestPolicy?>>
 
@@ -153,12 +197,19 @@ interface ApiService {
         @Path("policyId") policyId: String
     ): Response<ApiResponse<PolicyStepDetail>>
 
+    /** ✨ 추가: 특정 정책의 북마크 상태를 조회하는 API */
+    @GET("/api/user-policies/{policyId}/bookmarks/status")
+    suspend fun getBookmarkStatus(
+        @Path("policyId") policyId: String
+    ): Response<ApiResponse<Boolean>>
+
+
     /* ───────────── Archiving ───────────── */
 
     @GET("/api/user-policies/bookmarks/with-meta")
     suspend fun getBookmarkedPolicies(): Response<ApiResponse<List<BookmarkedPolicy>>>
 
-    @POST("/api/user-policies/apply/bulk")
+    @POST("/api/user-policies/apply/toggle/bulk")
     suspend fun applyForPolicies(
         @Body request: ApplyPolicyRequest
     ): Response<ApiResponse<ApplyPolicyResponse>>

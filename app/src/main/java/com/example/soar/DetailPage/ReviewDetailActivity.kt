@@ -5,12 +5,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.activity.viewModels
 import com.example.soar.Network.detail.CommentResponse
 import com.example.soar.R
 import com.example.soar.databinding.ActivityReviewDetailBinding
+import com.example.soar.util.showBlockingToast
 
 class ReviewDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityReviewDetailBinding
@@ -27,7 +27,7 @@ class ReviewDetailActivity : AppCompatActivity() {
 
         policyId = intent.getStringExtra("policyId")
         if (policyId == null) {
-            Toast.makeText(this, "정책 정보가 없습니다.", Toast.LENGTH_SHORT).show()
+            showBlockingToast("정책 정보가 없습니다.", hideCancel = true)
             finish()
             return
         }
@@ -77,7 +77,7 @@ class ReviewDetailActivity : AppCompatActivity() {
             if (commentText.isNotEmpty()) {
                 viewModel.addComment(policyId!!, commentText)
             } else {
-                Toast.makeText(this, "댓글 내용을 입력해주세요.", Toast.LENGTH_SHORT).show()
+                showBlockingToast("댓글 내용을 입력해주세요.", hideCancel = true)
             }
         }
 
@@ -89,7 +89,7 @@ class ReviewDetailActivity : AppCompatActivity() {
                     // policyId를 함께 전달하도록 수정
                     viewModel.editComment(commentToEdit.commentId, commentToEdit.policyId, updatedText)
                 } else {
-                    Toast.makeText(this, "댓글 내용을 입력해주세요.", Toast.LENGTH_SHORT).show()
+                    showBlockingToast("댓글 내용을 입력해주세요.", hideCancel = true)
                 }
             }
         }
@@ -103,7 +103,7 @@ class ReviewDetailActivity : AppCompatActivity() {
         }
         viewModel.toastEvent.observe(this) { event ->
             event.getContentIfNotHandled()?.let { message ->
-                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+                showBlockingToast(message, hideCancel = true)
                 // API 호출 성공 메시지일 경우, 입력창과 키보드를 숨김
                 if (message.contains("등록") || message.contains("수정") || message.contains("삭제")) {
                     hideKeyboardAndResetInput()

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme_MyApp_MaterialDialog" parent="Theme.MaterialComponents.DayNight.Dialog">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowCloseOnTouchOutside">false</item>
+        <!-- 창 자체를 투명하게 -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!-- Material 표면색도 투명 처리(혹시 내부 컴포넌트가 참조 시) -->
+        <item name="colorSurface">@android:color/transparent</item>
+    </style>
+
+
+</resources>

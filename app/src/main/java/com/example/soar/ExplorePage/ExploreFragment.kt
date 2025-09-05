@@ -1,5 +1,3 @@
-
-
 package com.example.soar.ExplorePage
 
 import android.app.Activity
@@ -14,21 +12,23 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.soar.ArchivingPage.KeywordActivity
 import com.example.soar.Network.explore.YouthPolicy
 import com.example.soar.Network.tag.TagResponse
 import com.example.soar.R
 import com.example.soar.databinding.FragmentExploreBinding
 import com.example.soar.DetailPage.DetailPageActivity
-import com.example.soar.MainActivity
 import com.example.soar.Network.TokenManager
+import com.example.soar.Utill.showSpinner
+import com.example.soar.Utill.hideSpinner
+import com.example.soar.util.showBlockingToast
+import kotlinx.coroutines.launch
 
 class ExploreFragment : Fragment(), ExploreAdapter.OnItemClickListener {
     private var _binding: FragmentExploreBinding? = null
@@ -37,17 +37,34 @@ class ExploreFragment : Fragment(), ExploreAdapter.OnItemClickListener {
     private val exploreViewModel: ExploreViewModel by viewModels()
     private lateinit var bizAdapter: ExploreAdapter
 
+
+
     private var fieldId: Int? = null
 
     private lateinit var categories: List<LinearLayout>
     private var selectedCategoryId: Int? = null
     private val categoryNames = listOf("일자리", "주거", "교육", "복지문화")
 
+    // ✨ ActivityResultLauncher 선언
+    private val detailPageLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val policyId = result.data?.getStringExtra("policyId")
+            val newStatus = result.data?.getBooleanExtra("newBookmarkStatus", false) ?: false
+            if (policyId != null) {
+                // ViewModel을 통해 목록의 북마크 상태 업데이트
+                exploreViewModel.updatePoliciesBookmarks(hashMapOf(policyId to newStatus))
+            }
+        }
+    }
+
     private val searchActivityLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
-            val changedBookmarks = result.data?.getSerializableExtra("changedBookmarks") as? HashMap<String, Boolean>
+            val changedBookmarks =
+                result.data?.getSerializableExtra("changedBookmarks") as? HashMap<String, Boolean>
             if (changedBookmarks != null && changedBookmarks.isNotEmpty()) {
                 exploreViewModel.updatePoliciesBookmarks(changedBookmarks)
             }
@@ -58,7 +75,8 @@ class ExploreFragment : Fragment(), ExploreAdapter.OnItemClickListener {
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
-            val changedBookmarks = result.data?.getSerializableExtra("changedBookmarks") as? HashMap<String, Boolean>
+            val changedBookmarks =
+                result.data?.getSerializableExtra("changedBookmarks") as? HashMap<String, Boolean>
             if (changedBookmarks != null && changedBookmarks.isNotEmpty()) {
                 exploreViewModel.updatePoliciesBookmarks(changedBookmarks)
             }
@@ -69,7 +87,8 @@ class ExploreFragment : Fragment(), ExploreAdapter.OnItemClickListener {
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
-            val selectedTagIds = result.data?.getIntegerArrayListExtra("selectedTagIds") ?: arrayListOf()
+            val selectedTagIds =
+                result.data?.getIntegerArrayListExtra("selectedTagIds") ?: arrayListOf()
             exploreViewModel.updateKeywordsByIds(selectedTagIds)
 
             val currentCategory = categoryNames.getOrNull(selectedCategoryId ?: -1)
@@ -87,12 +106,34 @@ class ExploreFragment : Fragment(), ExploreAdapter.OnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.spinnerImage.setImageResource(R.drawable.spinner_loop_keyframes)
+
         setupRecyclerView()
         setupCategories()
         observeViewModel()
 
+        // [수정] HomeFragment의 Ad에서 전달된 필터 값을 먼저 확인
+        val adCategory = arguments?.getString("ad_category")
+        val adTagId = arguments?.getInt("ad_tag_id", -1) ?: -1 // 기본값 -1
+
         fieldId = arguments?.getInt("category_id")
-        if (fieldId != null) {
+
+        if (adCategory != null && adTagId != -1) {
+            // --- 1. Ad에서 넘어온 필터가 있을 경우 ---
+            // ViewModel에 선택된 키워드(태그) ID를 먼저 업데이트
+            exploreViewModel.updateKeywordsByIds(listOf(adTagId))
+
+            // 카테고리 이름으로 ID를 찾아 UI를 업데이트하고 데이터를 로드
+            val categoryIndex = categoryNames.indexOf(adCategory)
+            if (categoryIndex != -1) {
+                categoryPressed(categoryIndex)
+            } else {
+                // 일치하는 카테고리 이름이 없으면 키워드로만 검색
+                exploreViewModel.loadPolicies(isNewQuery = true)
+            }
+
+        } else if (fieldId != null) {
             categoryPressed(fieldId!!)
         } else {
             exploreViewModel.loadPolicies(isNewQuery = true)
@@ -110,10 +151,12 @@ class ExploreFragment : Fragment(), ExploreAdapter.OnItemClickListener {
             binding.btnPersonalBiz.setOnClickListener {
                 val intent = Intent(requireContext(), PersonalBizActivity::class.java)
                 personalBizLauncher.launch(intent)
-                requireActivity().overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_down)
+                requireActivity().overridePendingTransition(
+                    R.anim.slide_in_up,
+                    R.anim.slide_out_down
+                )
             }
-        }
-        else {
+        } else {
             binding.btnPersonalBiz.visibility = View.GONE
         }
 
@@ -121,7 +164,8 @@ class ExploreFragment : Fragment(), ExploreAdapter.OnItemClickListener {
 
         binding.openKeywordPage.setOnClickListener {
             val intent = Intent(requireContext(), KeywordActivity::class.java).apply {
-                val currentSelectedIds = exploreViewModel.selectedKeywords.value?.map { it.tagId } ?: emptyList()
+                val currentSelectedIds =
+                    exploreViewModel.selectedKeywords.value?.map { it.tagId } ?: emptyList()
                 putIntegerArrayListExtra("selectedTagIds", ArrayList(currentSelectedIds))
             }
             keywordLauncher.launch(intent)
@@ -157,6 +201,7 @@ class ExploreFragment : Fragment(), ExploreAdapter.OnItemClickListener {
     private fun observeViewModel() {
         exploreViewModel.policies.observe(viewLifecycleOwner) { policies ->
             bizAdapter.submitList(policies)
+
             if (exploreViewModel.isLoading.value == false && policies.isEmpty()) {
                 binding.textSample.visibility = View.VISIBLE
                 binding.textSample.text = "관련 정책이 없습니다."
@@ -171,20 +216,26 @@ class ExploreFragment : Fragment(), ExploreAdapter.OnItemClickListener {
 
         exploreViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             if (isLoading) {
-                binding.loadingProgressBar.visibility = View.VISIBLE
-                binding.bizList.visibility = View.GONE
+                binding.loadingSpinner.visibility = View.VISIBLE
+                showSpinner(binding.spinnerImage, binding.bizList, binding.textSample)
             } else {
-                binding.loadingProgressBar.visibility = View.GONE
-                binding.bizList.visibility = View.VISIBLE
+                viewLifecycleOwner.lifecycleScope.launch {
+                    binding.loadingSpinner.visibility = View.GONE
+                    hideSpinner(binding.spinnerImage, binding.bizList)
+                }
             }
         }
+
         exploreViewModel.error.observe(viewLifecycleOwner) { errorMsg ->
-            Toast.makeText(context, errorMsg, Toast.LENGTH_SHORT).show()
+            showBlockingToast(errorMsg, hideCancel = true)
         }
     }
 
+
+
     private fun setupCategories() {
-        categories = listOf(binding.category1, binding.category2, binding.category3, binding.category4)
+        categories =
+            listOf(binding.category1, binding.category2, binding.category3, binding.category4)
         categories.forEachIndexed { index, category ->
             category.setOnClickListener {
                 categoryPressed(index)
@@ -209,7 +260,8 @@ class ExploreFragment : Fragment(), ExploreAdapter.OnItemClickListener {
     private fun updateCategoryViews() {
         categories.forEachIndexed { index, categoryView ->
             val color = if (index == selectedCategoryId) R.color.ref_gray_100 else R.color.ref_white
-            categoryView.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), color))
+            categoryView.backgroundTintList =
+                ColorStateList.valueOf(ContextCompat.getColor(requireContext(), color))
         }
     }
 
@@ -238,8 +290,14 @@ class ExploreFragment : Fragment(), ExploreAdapter.OnItemClickListener {
                 textView.text = tag.tagName
                 btnClose.visibility = View.GONE
 
-                keywordView.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.ref_blue_150)
-                textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.ref_blue_600))
+                keywordView.backgroundTintList =
+                    ContextCompat.getColorStateList(requireContext(), R.color.ref_blue_150)
+                textView.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.ref_blue_600
+                    )
+                )
 
                 val params = (keywordView.layoutParams as ViewGroup.MarginLayoutParams).apply {
                     setMargins(0, 0, margin, margin)
@@ -259,10 +317,24 @@ class ExploreFragment : Fragment(), ExploreAdapter.OnItemClickListener {
         val intent = Intent(requireContext(), DetailPageActivity::class.java).apply {
             putExtra("policyId", policy.policyId)
         }
-        startActivity(intent)
+        detailPageLauncher.launch(intent)
     }
 
     override fun onBookmarkClick(policy: YouthPolicy) {
         exploreViewModel.toggleBookmark(policy)
     }
+
+
+    override fun onResume() {
+        super.onResume()
+        if (binding.spinnerImage.visibility == View.VISIBLE) {
+            (binding.spinnerImage.drawable as? android.graphics.drawable.Animatable)?.start()
+        }
+    }
+
+    override fun onPause() {
+        (binding.spinnerImage.drawable as? android.graphics.drawable.Animatable)?.stop()
+        super.onPause()
+    }
+
 }

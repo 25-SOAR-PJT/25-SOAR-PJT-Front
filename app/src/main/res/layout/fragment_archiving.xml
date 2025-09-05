@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/ref_white"
     android:orientation="vertical"
     tools:context=".ArchivingPage.ArchivingFragment">
@@ -102,14 +102,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:scrollbars="none">
+                    android:scrollbars="none"
+                    android:visibility="gone">
 
                     <LinearLayout
                         android:id="@+id/keyword_chips_container"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="4dp"
-                        android:orientation="horizontal" />
+                        android:orientation="horizontal"
+                        android:visibility="gone"/>
 
 
                 </HorizontalScrollView>
@@ -124,9 +126,118 @@
                     android:id="@+id/biz_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="14dp" />
+                    android:paddingTop="14dp"
+                    android:visibility="gone"/>
 
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btn_login_entry"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:visibility="gone">
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/login_entry_title"
+                        style="@style/Font_Heading400_Semibold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/login_entry"
+                        android:textColor="@color/ref_coolgray_600"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/login_entry_desc"
+                        style="@style/Font_Label_Medium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="@string/login_entry_desc"
+                        android:textColor="#7C7B7B"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/login_entry_title" />
+
+                    <Button
+                        android:id="@+id/btn_to_login"
+                        style="@style/close_button"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:text="@string/to_login"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@id/login_entry_desc"
+                        app:layout_constraintStart_toStartOf="@id/login_entry_desc"
+                        app:layout_constraintTop_toBottomOf="@id/login_entry_desc" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/btn_zero_entry"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:visibility="gone">
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/zero_entry_title"
+                        style="@style/Font_Heading400_Semibold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/zero_entry"
+                        android:textColor="@color/ref_coolgray_600"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/zero_entry_desc"
+                        style="@style/Font_Label_Medium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="@string/zero_entry_desc"
+                        android:textColor="#7C7B7B"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/zero_entry_title" />
+
+                    <Button
+                        android:id="@+id/btn_to_explore"
+                        style="@style/close_button"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:text="@string/to_explore"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@id/zero_entry_desc"
+                        app:layout_constraintStart_toStartOf="@id/zero_entry_desc"
+                        app:layout_constraintTop_toBottomOf="@id/zero_entry_desc" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
         </LinearLayout>
+
     </androidx.core.widget.NestedScrollView>
 </LinearLayout>

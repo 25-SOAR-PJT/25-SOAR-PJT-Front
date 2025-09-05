@@ -1,3 +1,5 @@
+// com/example/soar/EntryPage/Splash/SplashPageActivity.kt
+
 package com.example.soar.EntryPage.Splash
 
 import android.content.Intent
@@ -6,6 +8,7 @@ import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.motion.widget.MotionLayout
+import com.example.soar.EntryPage.Onboarding.OnBoardingActivity
 import com.example.soar.MainActivity
 import com.example.soar.R
 import com.example.soar.Network.TokenManager
@@ -16,17 +19,31 @@ class SplashPageActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_page)
 
+        TokenManager.init(this)
+        validateTokenOnStart()
+
         val motion = findViewById<MotionLayout>(R.id.motionSplash)
 
-        // 애니메이션 시작
-        motion.post { motion.transitionToEnd() }
-
-        // 애니메이션 완료 시 0.2초 후 MainActivity로 이동
         motion.addTransitionListener(object : MotionLayout.TransitionListener {
             override fun onTransitionCompleted(layout: MotionLayout, currentId: Int) {
                 if (currentId == layout.endState) {
                     Handler(Looper.getMainLooper()).postDelayed({
-                        startActivity(Intent(this@SplashPageActivity, MainActivity::class.java))
+                        // ✅ 온보딩 완료 여부를 체크할 SharedPreferences를 가져옵니다.
+                        val onboardingPrefs = getSharedPreferences("pref_onboarding", MODE_PRIVATE)
+
+                        // ✅ 'completed' 키 값을 읽어옵니다. 처음 실행 시에는 false가 됩니다.
+                        val isOnboardingCompleted = onboardingPrefs.getBoolean("completed", false)
+
+                        // ✅ 조건에 따라 다음 화면(메인 or 온보딩)으로 보낼 Intent를 결정합니다.
+                        val nextIntent = if (isOnboardingCompleted) {
+                            // 온보딩을 이미 완료했다면 MainActivity로 이동
+                            Intent(this@SplashPageActivity, MainActivity::class.java)
+                        } else {
+                            // 온보딩을 아직 완료하지 않았다면 OnBoardingActivity로 이동
+                            Intent(this@SplashPageActivity, OnBoardingActivity::class.java)
+                        }
+
+                        startActivity(nextIntent)
                         finish()
                     }, 200)
                 }
@@ -37,19 +54,7 @@ class SplashPageActivity : AppCompatActivity() {
             override fun onTransitionTrigger(layout: MotionLayout?, triggerId: Int, positive: Boolean, progress: Float) {}
         })
 
-
-        TokenManager.init(this) // SharedPreferences 초기화
-        validateTokenOnStart()
-
-        Handler(Looper.getMainLooper()).postDelayed({
-            val nextActivity = if (TokenManager.getAccessToken().isNullOrBlank()) {
-                Intent(this, MainActivity::class.java) // 로그인 안 된 상태
-            } else {
-                Intent(this, MainActivity::class.java) // 로그인 유지
-            }
-            startActivity(nextActivity)
-            finish()
-        }, 3000) // 3초 후 전환
+        motion.post { motion.transitionToEnd() }
     }
 
     private fun validateTokenOnStart() {
@@ -67,18 +72,15 @@ class SplashPageActivity : AppCompatActivity() {
                 val matchResult = regex.find(payload)
                 val exp = matchResult?.groupValues?.get(1)?.toLong() ?: 0L
 
-                val currentTime = System.currentTimeMillis() / 1000 // 현재 시간 (초 단위)
+                val currentTime = System.currentTimeMillis() / 1000
 
                 if (exp < currentTime) {
-                    // 🔥 만료됨: 토큰 제거
                     TokenManager.clearTokens()
                 }
 
             } catch (e: Exception) {
-                // 🔥 토큰 파싱 오류 시 토큰 제거
                 TokenManager.clearTokens()
             }
         }
     }
 }
-

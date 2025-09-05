@@ -3,14 +3,12 @@ package com.example.soar.ExplorePage
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,7 +19,10 @@ import com.example.soar.Network.tag.TagResponse
 import com.example.soar.R
 import com.example.soar.Utill.SwipeToDismissUtil
 import com.example.soar.databinding.ActivityPersonalBizBinding
-import com.google.android.flexbox.FlexboxLayout
+import com.example.soar.util.showBlockingToast
+import androidx.activity.result.contract.ActivityResultContracts // ✨ 1. ActivityResultLauncher import
+import com.example.soar.Utill.TermAgreeActivity // ✨ 2. TermActivity import
+
 
 class PersonalBizActivity : AppCompatActivity(), ExploreAdapter.OnItemClickListener {
     private lateinit var binding: ActivityPersonalBizBinding
@@ -30,6 +31,19 @@ class PersonalBizActivity : AppCompatActivity(), ExploreAdapter.OnItemClickListe
     private lateinit var bizAdapter: ExploreAdapter
 
     private val changedBookmarks = mutableMapOf<String, Boolean>()
+
+    // ✨ 3. TermActivity 결과를 받기 위한 ActivityResultLauncher 선언
+    private val termAgreementLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            // 사용자가 약관에 동의했으므로, 큐레이션을 시작
+            startCurationActivity()
+        } else {
+            // 동의하지 않고 뒤로가기 등을 누른 경우
+            showBlockingToast("민감정보 처리 약관에 동의해야 맞춤 추천을 받을 수 있습니다.", hideCancel = true)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,8 +92,7 @@ class PersonalBizActivity : AppCompatActivity(), ExploreAdapter.OnItemClickListe
 
     private fun setupListeners() {
         binding.modifyTags.setOnClickListener {
-            val intent = Intent(this, CurationSequenceActivity::class.java)
-            startActivity(intent)
+            viewModel.onModifyTagsClicked()
         }
     }
 
@@ -99,10 +112,39 @@ class PersonalBizActivity : AppCompatActivity(), ExploreAdapter.OnItemClickListe
 
         viewModel.error.observe(this) { errorMsg ->
             if (errorMsg.isNotBlank()) {
-                Toast.makeText(this, errorMsg, Toast.LENGTH_SHORT).show()
+                showBlockingToast(errorMsg, hideCancel = true)
+            }
+        }
+
+        // ✨ 5. ViewModel의 내비게이션 이벤트를 관찰하여 화면 이동 처리
+        viewModel.navigationEvent.observe(this) { event ->
+            event.getContentIfNotHandled()?.let { navEvent ->
+                when (navEvent) {
+                    is CurationNavigationEvent.ProceedToCuration -> {
+                        startCurationActivity()
+                    }
+                    is CurationNavigationEvent.ShowTermsAgreement -> {
+                        startTermActivityForAgreement()
+                    }
+                }
             }
         }
     }
+    // ✨ 6. 큐레이션 액티비티를 시작하는 로직을 별도 함수로 분리
+    private fun startCurationActivity() {
+        val intent = Intent(this, CurationSequenceActivity::class.java)
+        startActivity(intent)
+    }
+
+    // ✨ 7. 약관 동의 액티비티를 시작하는 로직을 별도 함수로 분리
+    private fun startTermActivityForAgreement() {
+        val intent = Intent(this, TermAgreeActivity::class.java).apply {
+            // [선택] 민감정보 처리 동의의 ID는 3
+            putExtra("POLICY_ID", 3)
+        }
+        termAgreementLauncher.launch(intent)
+    }
+
 
     private fun updateSelectedTagsUI(selectedTags: List<TagResponse>) {
         val tagsContainer = binding.tagLauncher.findViewById<LinearLayout>(R.id.tag_launcher_container)
@@ -135,6 +177,7 @@ class PersonalBizActivity : AppCompatActivity(), ExploreAdapter.OnItemClickListe
     // 뒤로가기 버튼 클릭 시 호출
     override fun onBackPressed() {
         dismissWithResult()
+        super.onBackPressed()
     }
 
     // Activity를 종료하면서 결과를 반환하는 공통 함수

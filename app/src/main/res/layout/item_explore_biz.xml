@@ -89,11 +89,11 @@
             android:src="@drawable/icon_bookmark"
             android:layout_gravity="center"/>
 
-        <ProgressBar
-            android:id="@+id/bookmark_progress_bar"
-            style="?android:attr/progressBarStyleSmall"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:visibility="gone" /> </FrameLayout>
+        <ImageView
+        android:id="@+id/bookmark_spinner_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:src="@drawable/spinner_loop_keyframes"
+        android:visibility="gone" /> </FrameLayout>
 </LinearLayout>

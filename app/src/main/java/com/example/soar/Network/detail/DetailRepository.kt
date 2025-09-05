@@ -34,4 +34,16 @@ class DetailRepository(
             else error(parseError(response.errorBody()))
         }
     }
+
+    suspend fun getBookmarkStatus(policyId: String): Result<Boolean> = withContext(Dispatchers.IO) {
+        runCatching {
+            api.getBookmarkStatus(policyId).let { response ->
+                if (response.isSuccessful) {
+                    response.body()?.data ?: false // 성공 시 data(true/false) 반환, null이면 false
+                } else {
+                    error(parseError(response.errorBody()))
+                }
+            }
+        }
+    }
 }

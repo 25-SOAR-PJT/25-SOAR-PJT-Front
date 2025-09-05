@@ -5,7 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.soar.databinding.ItemHomeAdBinding
 
-class HomeAdAdapter(private val items: List<adItem>) : RecyclerView.Adapter<HomeAdAdapter.AdViewHolder>() {
+// [수정] 생성자에 클릭 리스너 람다 함수 추가
+class HomeAdAdapter(
+    private val items: List<adItem>,
+    private val onItemClick: (adItem) -> Unit
+) : RecyclerView.Adapter<HomeAdAdapter.AdViewHolder>() {
 
     inner class AdViewHolder(val binding: ItemHomeAdBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -19,7 +23,10 @@ class HomeAdAdapter(private val items: List<adItem>) : RecyclerView.Adapter<Home
         with(holder.binding) {
             textLabel.text = item.label
             textTitle.text = item.tile.replace("\\n", "\n")
-            // imageView.setImageResource(...) ← 필요 시 이미지 동적 설정 가능
+        }
+        // [추가] 아이템 뷰에 클릭 리스너 설정
+        holder.itemView.setOnClickListener {
+            onItemClick(item)
         }
     }
 

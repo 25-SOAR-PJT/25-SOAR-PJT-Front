@@ -3,16 +3,16 @@ package com.example.soar.MyPage
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.soar.DetailPage.DetailPageActivity
 import com.example.soar.ExplorePage.ExploreAdapter
+import com.example.soar.MainActivity
 import com.example.soar.Network.RecentViewManager
 import com.example.soar.Network.explore.YouthPolicy
-import com.example.soar.R
 import com.example.soar.databinding.ActivityRecordBinding
+import com.example.soar.util.showBlockingToast
 
 class RecordActivity : AppCompatActivity(), ExploreAdapter.OnItemClickListener {
     private lateinit var binding: ActivityRecordBinding
@@ -33,13 +33,19 @@ class RecordActivity : AppCompatActivity(), ExploreAdapter.OnItemClickListener {
 
         if (recentPolicyIds.isEmpty()) {
             // 기록이 없을 경우: 안내 문구 표시
-            binding.tvTitle.visibility = View.VISIBLE
-            binding.tvSubtitle.visibility = View.VISIBLE
+            binding.btnZeroEntry.visibility = View.VISIBLE
             binding.bizList.visibility = View.GONE
+            binding.btnToExplore.setOnClickListener {
+                // MainActivity로 이동하기 위한 Intent 생성
+                val intent = Intent(this, MainActivity::class.java).apply {
+                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                    putExtra("start_destination", "explore")
+                }
+                startActivity(intent)
+            }
         } else {
             // 기록이 있을 경우: 안내 문구 숨기고, ViewModel을 통해 데이터 로드
-            binding.tvTitle.visibility = View.GONE
-            binding.tvSubtitle.visibility = View.GONE
+            binding.btnZeroEntry.visibility = View.GONE
             binding.bizList.visibility = View.VISIBLE
             viewModel.loadRecentPolicies(recentPolicyIds)
         }
@@ -64,7 +70,7 @@ class RecordActivity : AppCompatActivity(), ExploreAdapter.OnItemClickListener {
             adapter.submitList(policies)
         }
         viewModel.error.observe(this) { error ->
-            Toast.makeText(this, error, Toast.LENGTH_SHORT).show()
+            showBlockingToast(error, hideCancel = true)
         }
         // TODO: isLoading 상태에 따라 ProgressBar 표시/숨김 처리
     }

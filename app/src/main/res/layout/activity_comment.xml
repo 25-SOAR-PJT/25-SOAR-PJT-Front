@@ -42,7 +42,67 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/my_comment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+
+        <LinearLayout
+            android:id="@+id/btn_zero_entry"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:visibility="gone"
+            >
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/zero_entry_title"
+                    style="@style/Font_Heading400_Semibold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/zero_comment"
+                    android:textColor="@color/ref_coolgray_600"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
+
+                <TextView
+                    android:id="@+id/zero_entry_desc"
+                    style="@style/Font_Label_Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="@string/zero_comment_desc"
+                    android:textColor="#7C7B7B"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/zero_entry_title" />
+
+
+
+                <TextView
+                    android:id="@+id/space"
+                    style="@style/Font_Label_Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="200dp"
+                    android:text="@string/zero_entry_desc"
+                    android:textColor="@color/ref_white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/zero_entry_desc" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
     </LinearLayout>
+
+
 
 </LinearLayout>

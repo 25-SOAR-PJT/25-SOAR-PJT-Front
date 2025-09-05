@@ -54,6 +54,21 @@ object TokenManager {
         }
     }
 
+    // ✨ 추가: SharedPreferences에 저장된 사용자 이름 업데이트 함수
+    fun updateUserName(newName: String) {
+        // SignInInfo 업데이트
+        getSignInInfo()?.let { currentInfo ->
+            val updatedInfo = currentInfo.copy(userName = newName)
+            saveSignInInfo(updatedInfo)
+        }
+
+        // UserInfo 업데이트
+        getUserInfo()?.let { currentUserInfo ->
+            val updatedUserInfo = currentUserInfo.copy(userName = newName)
+            saveUserInfo(updatedUserInfo)
+        }
+    }
+
 
 
     fun getUserInfo(): UserInfoResponse? {

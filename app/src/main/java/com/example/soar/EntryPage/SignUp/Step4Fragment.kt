@@ -125,7 +125,7 @@ class Step4Fragment : Fragment(R.layout.step_pw_info) {
             when (st) {
                 UiState.Idle    -> showLoading(false)
                 UiState.Loading -> showLoading(true)
-                UiState.Success -> (requireActivity() as SignUpActivity).navigateToMainAndFinish()
+                UiState.Success -> (requireActivity() as SignUpActivity).onSignUpSuccess()
                 is UiState.Failure -> {
                     shake(b.btnNext)
                     helper.showError(b.tilPwCheck, false, true, st.msg)

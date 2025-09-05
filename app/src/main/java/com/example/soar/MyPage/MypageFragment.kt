@@ -6,14 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.soar.AlarmPage.AlarmActivity
 import com.example.soar.EntryPage.Onboarding.OnBoardingActivity
 import com.example.soar.EntryPage.SignIn.LoginActivity
 import com.example.soar.MainActivity
 import com.example.soar.Network.TokenManager
 import com.example.soar.databinding.FragmentMypageBinding
 import androidx.fragment.app.viewModels // viewModels import 추가
-import android.widget.Toast // Toast import 추가
+import com.example.soar.util.showBlockingToast
+import com.example.soar.MyPage.Unsubscribe.UnsubscribeActivity
 
 class MypageFragment : Fragment() {
 
@@ -105,7 +105,8 @@ class MypageFragment : Fragment() {
             }
         }
         binding.btnUnsubscribe.setOnClickListener{
-           // 회원 탈퇴 로직
+            val intent = Intent(requireContext(), UnsubscribeActivity::class.java)
+            startActivity(intent)
         }
 
         val userViews = listOf(
@@ -158,7 +159,7 @@ class MypageFragment : Fragment() {
         }
 
         viewModel.error.observe(viewLifecycleOwner) { errorMessage ->
-            Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
+            showBlockingToast(errorMessage, hideCancel = true)
         }
     }
 

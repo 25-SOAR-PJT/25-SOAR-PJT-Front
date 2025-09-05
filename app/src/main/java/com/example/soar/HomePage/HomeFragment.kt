@@ -19,7 +19,6 @@ import com.example.soar.R
 import com.example.soar.databinding.FragmentHomeBinding
 import java.time.LocalDate
 import androidx.fragment.app.viewModels // 추가
-import android.widget.Toast // 추가
 import com.example.soar.DetailPage.DetailPageActivity
 import java.time.format.DateTimeFormatter
 import android.util.TypedValue
@@ -34,19 +33,12 @@ import com.example.soar.util.TouchBlockingToast
 import com.example.soar.util.showBlockingToast
 
 
-data class SwipeCardItem(
-    val title: String,
-    val imageResId: Int,
-    val url: String
-)
-
 data class adItem(
     val label: String,
     val tile: String,
     val category: String,
     val keyword: String
 )
-
 
 
 class HomeFragment : Fragment() {
@@ -59,6 +51,9 @@ class HomeFragment : Fragment() {
     private lateinit var popularPolicyAdapter: PopularPolicyAdapter
     private lateinit var shimmer: ShimmerFrameLayout
 
+    private lateinit var swipeAdapter: SwipeCardAdapter
+    private var loadedBanners = false // ✨ 배너 로딩 상태 플래그
+
     private val jankRunnables = mutableListOf<Runnable>()
 
 
@@ -68,7 +63,7 @@ class HomeFragment : Fragment() {
     private var loadedAge = false
 
     private var firstShowAt = 0L
-    private val minSkeletonMs = 190L   //
+    private val minSkeletonMs = 0L   //
     private var isSkeletonHidden = false
     private var hideRunnable: Runnable? = null
 
@@ -78,6 +73,15 @@ class HomeFragment : Fragment() {
     private val contentDimAlpha = 0.08f          // 로딩 중 컨텐츠 디밍 정도
     private val revealTranslateDp = 12f          // 위로 살짝 올라오는 거리
     private val overshoot = OvershootInterpolator(1.05f) // 카드 반동감
+
+    // [수정] adKeywordToTagIdMap을 클래스의 멤버 속성으로 이동
+    private val adKeywordToTagIdMap = mapOf(
+        "취·창업 컨설팅" to 1,
+        "신혼부부를 위한 지원" to 7,
+        "안전 교육" to 12,
+        "면접 지원" to 2,
+        "IT·마케팅 교육" to 14
+    )
 
 
     override fun onCreateView(
@@ -96,8 +100,8 @@ class HomeFragment : Fragment() {
 
         // 1) 구간별 ShimmerFrameLayout 참조
         val skelHeader = requireView().findViewById<ShimmerFrameLayout>(R.id.skel_header)
-        val skelPager  = requireView().findViewById<ShimmerFrameLayout>(R.id.skel_viewpager)
-        val skelMain   = requireView().findViewById<ShimmerFrameLayout>(R.id.skel_main)
+        val skelPager = requireView().findViewById<ShimmerFrameLayout>(R.id.skel_viewpager)
+        val skelMain = requireView().findViewById<ShimmerFrameLayout>(R.id.skel_main)
 
         // 2) 빌더로 "각기 다른" 쉬머 만들기 (속도/방향/강도 다르게)
         fun shimmerHeader() = com.facebook.shimmer.Shimmer.AlphaHighlightBuilder()
@@ -159,7 +163,11 @@ class HomeFragment : Fragment() {
 //    - 메인은 빠름/느림을 번갈아가며, 무작위 지연으로 재시작
         val jankRunnables = mutableListOf<Runnable>()
 
-        fun scheduleJank(frame: ShimmerFrameLayout, modes: List<() -> com.facebook.shimmer.Shimmer>, baseDelay: LongRange) {
+        fun scheduleJank(
+            frame: ShimmerFrameLayout,
+            modes: List<() -> com.facebook.shimmer.Shimmer>,
+            baseDelay: LongRange
+        ) {
             val r = object : Runnable {
                 override fun run() {
                     // 4-1) 잠깐 멈춤
@@ -216,16 +224,7 @@ class HomeFragment : Fragment() {
             startActivity(intent)
         }
 
-        val cardList = listOf(
-            SwipeCardItem(
-                getString(R.string.home_swipe),
-                R.drawable.swipe_img1,
-                "https://www.naver.com/"
-            ),
-            SwipeCardItem("이건 제목 2", R.drawable.swipe_img2, "https://example.com/2"),
-            SwipeCardItem("이건 제목 3", R.drawable.swipe_img3, "https://example.com/3"),
-            SwipeCardItem("이건 제목 4", R.drawable.swipe_img4, "https://example.com/4")
-        )
+
         val adList = listOf(
             adItem("당신의 시작을 응원합니다", "취업 준비에 필요한\\n정보를 한눈에 확인해보세요", "일자리", "취·창업 컨설팅"),
             adItem("신혼부부를 위한 지원", "새로운 보금자리 마련을\\n지금 바로 시작해보세요", "주거", "신혼부부 주거지원"),
@@ -234,15 +233,18 @@ class HomeFragment : Fragment() {
             adItem("내 삶을 바꾸는 공부", "IT·마케팅 실무 교육으로\\n새로운 기회를 만들어보세요", "교육", "IT·마케팅 교육")
         )
 
-
-        val swipeAdapter = SwipeCardAdapter(cardList)
+        swipeAdapter = SwipeCardAdapter(mutableListOf())
         binding.section2.adapter = swipeAdapter
         binding.section2.orientation = ViewPager2.ORIENTATION_HORIZONTAL
         binding.dotsIndicator.attachTo(binding.section2)
 
         val randomItem = adList.random()
         val randomList = listOf(randomItem)
-        val adapter = HomeAdAdapter(randomList)
+
+        val adapter = HomeAdAdapter(randomList) { clickedAdItem ->
+            openExploreWithAdFilter(clickedAdItem)
+        }
+
         binding.section4.layoutManager = LinearLayoutManager(requireContext())
         binding.section4.adapter = adapter
 
@@ -342,6 +344,26 @@ class HomeFragment : Fragment() {
         observeViewModel()
     }
 
+    // [추가] Ad 클릭 시 ExploreFragment를 열고 필터를 적용하는 함수
+    private fun openExploreWithAdFilter(ad: adItem) {
+        // 키워드에 해당하는 태그 ID를 Map에서 찾음
+        val tagId = adKeywordToTagIdMap[ad.keyword] ?: return // 해당하는 ID가 없으면 함수 종료
+
+        val bundle = Bundle().apply {
+            putString("ad_category", ad.category)
+            putInt("ad_tag_id", tagId)
+        }
+
+        val exploreFragment = ExploreFragment().apply {
+            arguments = bundle
+        }
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.container, exploreFragment)
+            .commit()
+        // 하단 네비게이션 아이콘을 '탐색'으로 변경
+        (activity as? MainActivity)?.updateNavByTag("explore")
+    }
+
     private fun openExplore(id: Int) {
         val bundle = Bundle().apply {
             putInt("category_id", id)
@@ -389,6 +411,22 @@ class HomeFragment : Fragment() {
             // 2. UI 업데이트
             binding.tvUserNameGreeting.text = newInfo.userName
 
+        }
+
+        homeViewModel.banners.observe(viewLifecycleOwner) { banners ->
+            if (!loadedBanners) {
+                loadedBanners = true
+                checkAndHideSkeleton()
+            }
+
+            if (banners.isNotEmpty()) {
+                binding.section2.visibility = View.VISIBLE
+                // 새로운 데이터로 어댑터를 다시 생성하여 설정
+                swipeAdapter.updateData(banners)
+            } else {
+                // 배너가 없을 경우 ViewPager 숨김
+                binding.section2.visibility = View.GONE
+            }
         }
 
         homeViewModel.latestPolicy.observe(viewLifecycleOwner) { latestPolicy ->
@@ -493,9 +531,11 @@ class HomeFragment : Fragment() {
     private fun setupLoginStateUI() {
         val accessToken = TokenManager.getAccessToken()
 
+        Log.d("accessToken", "Bearer $accessToken")
+
         showSkeleton()
 
-        loadedLatest = false; loadedPopular = false; loadedAge = false
+        loadedLatest = false; loadedPopular = false; loadedAge = false; loadedBanners = false
 
         if (!accessToken.isNullOrEmpty()) {
             // --- 로그인 상태일 때 ---
@@ -514,8 +554,13 @@ class HomeFragment : Fragment() {
                 maxAttempts = 3,
                 initialBackoffMs = 600L
             )
+            homeViewModel.fetchBanners() // ✨ 배너 데이터 요청
             homeViewModel.fetchLatestPolicy() // ✨ 마감 임박 정책 API 호출
             homeViewModel.fetchAgePopularPolicies()
+
+            homeViewModel.fetchPopularPolicy()
+            loadedLatest = true
+            loadedAge = true
 
         } else {
             // --- 비로그인 상태일 때 ---
@@ -533,9 +578,12 @@ class HomeFragment : Fragment() {
             }
             loadedLatest = true
             loadedAge = true
+
+            homeViewModel.fetchBanners() // ✨ 배너 데이터 요청
+            homeViewModel.fetchPopularPolicy()
         }
 
-        homeViewModel.fetchPopularPolicy()
+
     }
 
     // personal_card RecyclerView 설정 함수
@@ -619,11 +667,18 @@ class HomeFragment : Fragment() {
     private fun checkAndHideSkeleton() {
         // 필요한 것만 충족하면 감춤.
         // 로그인 상태별로 조건을 달리해도 됩니다.
-        if (loadedLatest && loadedPopular) {
-            hideSkeleton()
+        val isLoggedIn = !TokenManager.getAccessToken().isNullOrEmpty()
+
+        val allDataLoaded = if (isLoggedIn) {
+            // 로그인 시: 모든 데이터가 로드되어야 함
+            loadedLatest && loadedPopular && loadedAge && loadedBanners
+        } else {
+            // 비로그인 시: 인기 정책과 배너만 로드되면 됨
+            loadedPopular && loadedBanners
         }
-        if(!loadedAge){
-            binding.sectionPopularTitle.visibility = View.GONE
+
+        if (allDataLoaded) {
+            hideSkeleton()
         }
     }
 
@@ -660,9 +715,6 @@ class HomeFragment : Fragment() {
 
     private fun dp(dp: Float): Float =
         TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, resources.displayMetrics)
-
-
-
 
 
     override fun onStop() {

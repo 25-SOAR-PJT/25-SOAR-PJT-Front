@@ -1,16 +1,11 @@
-
 package com.example.soar.MyPage
 
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.soar.R
-import com.example.soar.databinding.ActivityDetailPageBinding
 import com.example.soar.databinding.ActivityPolicyBinding
 
 data class PolicySet(
@@ -36,6 +31,7 @@ class PolicyActivity : AppCompatActivity() {
             onBackPressedDispatcher.onBackPressed()
         }
 
+        // Initialize all five policy sets
         policySets = listOf(
             PolicySet(
                 binding.policy1Title,
@@ -54,14 +50,26 @@ class PolicyActivity : AppCompatActivity() {
                 binding.policy3DetailContainer,
                 binding.policy3Arrow,
                 binding.line3
+            ),
+            PolicySet(
+                binding.policy4Title,
+                binding.policy4DetailContainer,
+                binding.policy4Arrow,
+                binding.line4
+            ),
+            PolicySet(
+                binding.policy5Title,
+                binding.policy5DetailContainer,
+                binding.policy5Arrow,
+                binding.line5
             )
         )
 
-        setuppolicyListeners()
+        setupPolicyListeners() // Changed function name for clarity
     }
 
     // 클릭 시 약관 펼치기/접기
-    private fun setuppolicyListeners() {
+    private fun setupPolicyListeners() { // Changed function name for clarity
         policySets.forEach { policy ->
             policy.title.setOnClickListener {
                 if (policy.content.visibility == View.VISIBLE) {

@@ -20,6 +20,9 @@ data class YouthPolicyDetail(
     @SerializedName("businessPeriodEtc") val businessPeriodEtc: String?,
     @SerializedName("businessPeriodStart") val businessPeriodStart: String?,
     @SerializedName("businessPeriodEnd") val businessPeriodEnd: String?,
+    @SerializedName("applyUrl") val applyUrl: String?,
+    @SerializedName("referenceUrl1") val referenceUrl1: String?,
+    @SerializedName("referenceUrl2") val referenceUrl2: String?,
     @SerializedName("dateType") val dateType: String?
 )
 
