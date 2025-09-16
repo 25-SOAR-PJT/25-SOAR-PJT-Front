@@ -3,14 +3,18 @@ package com.example.soar.AlarmPage
 import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Intent
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresPermission
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import com.example.soar.MainActivity
 import com.example.soar.R
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import kotlin.jvm.java
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
 
@@ -22,7 +26,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     @RequiresPermission(Manifest.permission.POST_NOTIFICATIONS)
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
-        Log.d("FCM", "Message received from: ${remoteMessage.from}")
 
         // 1. notification-only 메시지도 data 형태로 변환
         val title = remoteMessage.notification?.title ?: remoteMessage.data["title"] ?: "No title"
@@ -30,6 +33,16 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         Log.d("FCM", "Title: $title")
         Log.d("FCM", "Body: $body")
+
+        //클릭 시 이동할 Activity 설정
+        val intent = Intent(this, MainActivity::class.java).apply{
+            putExtra("openFragment", "archivingFragment")
+        }
+
+        // TaskStackBuilder를 사용해 Activity의 back stack을 생성
+        val pendingIntent = PendingIntent.getActivity(
+            this, 0, intent, PendingIntent.FLAG_IMMUTABLE
+        )
 
         // 2. 알림 생성
         val notificationManager = NotificationManagerCompat.from(applicationContext)
@@ -50,11 +63,12 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         builder.setContentTitle(title)
             .setContentText(body)
-            .setSmallIcon(R.drawable.ic_launcher_background)
+            .setSmallIcon(R.drawable.logo_small)
+            .setContentIntent(pendingIntent)
+            .setAutoCancel(true)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
 
         notificationManager.notify(1, builder.build())
-        Log.d("FCM", "Notification shown")
-
     }
 
     companion object {
