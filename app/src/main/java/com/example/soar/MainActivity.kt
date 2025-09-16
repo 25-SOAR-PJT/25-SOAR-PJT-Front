@@ -2,6 +2,7 @@ package com.example.soar
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -23,8 +24,18 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-        RecentViewManager.init(this)
+        val openFragment = intent.getStringExtra("openFragment")
+        Log.d("MainActivity", "openFragment value: $openFragment")
+        if (openFragment == "archivingFragment") {
+            Log.d("MainActivity", "Opening ArchivingFragment")
+            // ArchivingFragment를 여는 코드
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.container, ArchivingFragment())
+                .addToBackStack(null)
+                .commit()
+        }else{
+            RecentViewManager.init(this)
+        }
 
 
         chooseStartDestination(intent)

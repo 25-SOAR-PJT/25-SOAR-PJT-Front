@@ -8,6 +8,7 @@ import android.app.Activity
 import android.content.Intent
 
 import android.os.Bundle
+import android.util.Log
 
 import android.util.TypedValue
 
@@ -94,7 +95,7 @@ class ArchivingFragment : Fragment() {
     ): View {
 
         _binding = FragmentArchivingBinding.inflate(inflater, container, false)
-
+        Log.d("ArchivingFragment", "onCreated called")
         return binding.root
 
     }
@@ -111,7 +112,7 @@ class ArchivingFragment : Fragment() {
         setupObservers()
 
 
-
+        Log.d("ArchivingFragment", "onViewCreated called")
         updateSelectedKeywordsUI(emptyList())
 
     }
