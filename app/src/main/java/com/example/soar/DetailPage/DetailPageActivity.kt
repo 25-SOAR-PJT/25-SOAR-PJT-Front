@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.text.Html
 import android.text.Spanned
 import android.text.TextUtils
+import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
@@ -18,14 +19,17 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.soar.Network.RecentViewManager
+import com.example.soar.Network.RetrofitClient.apiService
 import com.example.soar.Network.TokenManager
 import com.example.soar.R
 import com.example.soar.databinding.ActivityDetailPageBinding
 import com.example.soar.Network.detail.YouthPolicyDetail
 import com.example.soar.util.showBlockingToast
 import com.google.android.flexbox.FlexboxLayout
+import kotlinx.coroutines.launch
 import java.net.URLEncoder
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -312,11 +316,22 @@ class DetailPageActivity : AppCompatActivity() {
                 } catch (e: ActivityNotFoundException) {
                     showBlockingToast("URL을 열 수 있는 앱이 없습니다.", hideCancel = true)
                 }
+                // suspend 함수는 coroutine scope 안에서 실행
+                lifecycleScope.launch {
+                    try {
+                        callAttendanceCheck()
+                    } catch (e: Exception) {
+                        Log.e("FCM", "failed", e)
+                    }
+                }
             }
         } else {
             // 비로그인 상태이면 버튼을 숨김
             binding.btnSticky.visibility = View.GONE
         }
+    }
+    suspend fun callAttendanceCheck() {
+        apiService.attendanceCheck()
     }
 
     private fun updateUIWithStepDetail(stepDetail: com.example.soar.Network.detail.PolicyStepDetail) {

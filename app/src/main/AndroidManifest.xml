@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.soar">
 
     <uses-permission
         android:name="android.permission.requestLegacyExternalStorage"
         android:maxSdkVersion="29" />
     <uses-permission android:name="android.permission.INTERNET" /> <!-- network 연결 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <application
         android:name=".EntryPage.SignIn.KakaoApplication"
         android:allowBackup="true"
@@ -128,6 +129,15 @@
         <activity android:name=".Utill.TermAgreeActivity" />
 
         <activity android:name=".MyPage.TagSelection.TagSelectionActivity" />
+        <service
+            android:name=".AlarmPage.MyFirebaseMessagingService"
+            android:enabled="true"
+            android:exported="false"
+            >
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

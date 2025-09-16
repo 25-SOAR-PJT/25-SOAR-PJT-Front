@@ -1,5 +1,7 @@
 package com.example.soar.Network
 
+import ApplicationPolicyNoticeRequest
+import FcmTokenRequest
 import com.example.soar.Network.archiving.AppliedPolicy
 import com.example.soar.Network.archiving.ApplyPolicyRequest
 import com.example.soar.Network.archiving.ApplyPolicyResponse
@@ -103,6 +105,14 @@ interface ApiService {
 
     @GET(ApiConfig.User.TAG)
     suspend fun getUserTags(): Response<ApiResponse<UserTagData>>
+    /* ───────────── Alarm ───────────── */
+    @POST(ApiConfig.Alarm.APPLICATION_FCMTOKEN)
+    suspend fun registerToken(
+        @Body request: FcmTokenRequest
+    )
+
+    @POST(ApiConfig.Alarm.APPLICATION_ATTENDANCE)
+    suspend fun attendanceCheck():Response<ApiResponse<Unit>>
 
     @POST(ApiConfig.User.TAG_MODIFY)
     suspend fun modifyUserTags(@Body request: TagIdRequest): Response<ApiResponse<UserTagData>>
@@ -261,4 +271,10 @@ interface ApiService {
 
     @GET("/api/comment/user")
     suspend fun getMyComments(): Response<ApiResponse<List<CommentResponse>>>
+    @POST(ApiConfig.Alarm.APPLICATION_POLICY_NOTICE)
+    suspend fun applicationPolicyNotice(
+        @Body request: ApplicationPolicyNoticeRequest
+    )
+
+
 }

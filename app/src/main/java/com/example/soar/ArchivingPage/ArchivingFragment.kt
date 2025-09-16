@@ -51,6 +51,7 @@ import com.example.soar.Network.tag.TagResponse
 import com.example.soar.util.showBlockingToast
 
 import com.example.soar.util.TouchBlockingToast
+import kotlin.collections.mapNotNull
 
 
 class ArchivingFragment : Fragment() {
@@ -260,17 +261,15 @@ class ArchivingFragment : Fragment() {
 
 
     private fun launchKeywordActivity() {
+        val intent = Intent(requireContext(), KeywordActivity::class.java)
 
-        val intent = Intent(requireContext(), KeywordActivity::class.java).apply {
+        val selectedTags: List<TagResponse> = viewModel.selectedTags.value ?: emptyList()
+        val selectedTagIds: ArrayList<Int> = ArrayList(
+            selectedTags.mapNotNull { it.tagId }
+        )
 
-            val currentSelectedIds = viewModel.selectedTags.value?.map { it.tagId } ?: emptyList()
-
-            putIntegerArrayListExtra("selectedTagIds", ArrayList(currentSelectedIds))
-
-        }
-
+        intent.putIntegerArrayListExtra("selectedTagIds", selectedTagIds)
         keywordLauncher.launch(intent)
-
     }
 
 

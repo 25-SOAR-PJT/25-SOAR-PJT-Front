@@ -1,9 +1,13 @@
 package com.example.soar.Network.user
 
+import FcmTokenRequest
+import android.util.Log
 import com.example.soar.Network.ApiService
-import com.example.soar.Network.RetrofitClient
+import com.example.soar.Network.RetrofitClient.apiService
 import com.example.soar.Network.TokenManager
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import okhttp3.ResponseBody
 import org.json.JSONObject
@@ -14,7 +18,7 @@ private fun parseError(body: ResponseBody?): String =
         .getOrDefault("예기치 못한 오류가 발생했습니다")
 
 class AuthRepository(
-    private val api: ApiService = RetrofitClient.apiService   // DI 로 교체 가능
+    private val api: ApiService = apiService   // DI 로 교체 가능
 ) {
 
     /** 회원가입 */
@@ -65,7 +69,13 @@ class AuthRepository(
                     TokenManager.saveRefreshToken(signInData.refreshToken ?: "")
                     TokenManager.saveUserId(signInData.userId)
                     TokenManager.saveSignInInfo(signInData) // 로그인 응답 전체 저장
-
+                    try{
+                        val token = FirebaseMessaging.getInstance().token.await()
+                        Log.d("FCM", token)
+                        sendTokenToServer(token)
+                    } catch (e: Exception){
+                        Log.e("FCM","token fetch failed", e)
+                    }
                     signInData // 성공 결과 반환
                 } else {
                     // API 호출 실패 (예: 400 Bad Request)
@@ -85,7 +95,14 @@ class AuthRepository(
                     TokenManager.saveRefreshToken(signInData.refreshToken ?: "")
                     TokenManager.saveUserId(signInData.userId)
                     TokenManager.saveSignInInfo(signInData)
-                    signInData
+                    try{
+                        val token = FirebaseMessaging.getInstance().token.await()
+                        Log.d("FCM", token)
+                        sendTokenToServer(token)
+                    } catch (e: Exception){
+                        Log.e("FCM","token fetch failed", e)
+                    }
+                    signInData // 성공 결과 반환
                 } else {
                     error(parseError(response.errorBody()))
                 }
@@ -253,5 +270,11 @@ class AuthRepository(
                 error(parseError(response.errorBody()))
             }
         }
+    }
+    suspend fun sendTokenToServer(token: String) {
+        val request = FcmTokenRequest(
+            fcmToken = token
+        )
+        apiService.registerToken(request)
     }
 }

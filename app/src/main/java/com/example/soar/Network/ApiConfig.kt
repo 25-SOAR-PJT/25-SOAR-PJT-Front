@@ -10,6 +10,9 @@ object ApiConfig {
         const val APPLICATION_START = "/api/alarm/application/start"
         const val APPLY_CHECK = "/api/alarm/apply/check"
         const val APPLY_FINISH = "/api/alarm/apply/finish"
+        const val APPLICATION_FCMTOKEN = "/api/fcm/apply/token"
+        const val APPLICATION_POLICY_NOTICE = "/api/alarm/notice/policy"
+        const val APPLICATION_ATTENDANCE = "/api/alarm/attendance_check"
     }
 
     // Calendar 관련
