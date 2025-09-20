@@ -1,0 +1,6 @@
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/spinner_vector">
+
+    <target android:name="arc" android:animation="@animator/arc_length_keyframes"/>
+    <target android:name="arc" android:animation="@animator/arc_offset_keyframes"/>
+</animated-vector>

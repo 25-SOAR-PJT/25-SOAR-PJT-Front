@@ -1,0 +1,31 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="40dp"
+    android:height="40dp"
+    android:viewportWidth="40"
+    android:viewportHeight="40">
+
+    <!-- 회색 링 (고정) -->
+    <path
+        android:name="ring"
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#FFD7E4FF"
+        android:strokeWidth="4"
+        android:pathData="M20,2
+                          A18,18 0 1,0 20,38
+                          A18,18 0 1,0 20,2" />
+
+    <!-- 파란 호 (trim 으로 잘라서 그림). 시계방향이 되도록 sweep=1 로 구성 -->
+    <path
+        android:name="arc"
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#FF2485FF"
+        android:strokeWidth="4"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:trimPathStart="0"
+        android:trimPathEnd="0"
+        android:trimPathOffset="0"
+        android:pathData="M20,2
+                          A18,18 0 1,1 20,38
+                          A18,18 0 1,1 20,2"/>
+</vector>

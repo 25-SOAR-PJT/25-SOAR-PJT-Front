@@ -59,7 +59,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/search_suggestions_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -96,19 +96,35 @@
         android:id="@+id/after_search_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingHorizontal="16dp"
-        android:paddingTop="20dp"
         android:orientation="vertical"
         android:visibility="gone">
-        <TextView
-            android:id="@+id/after_search_text"
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="검색완료"/>
+            android:layout_gravity="center"
+            android:layout_marginTop="50dp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/text_no_results"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="50dp"
+            android:text="검색 결과가 없습니다."
+            style="@style/Font_Body_Medium"
+            android:textColor="@color/ref_gray_500"
+            android:visibility="gone" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/biz_list"
+            android:paddingTop="12dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"
+            tools:listitem="@layout/item_explore_biz" />
     </LinearLayout>
 
 </LinearLayout>

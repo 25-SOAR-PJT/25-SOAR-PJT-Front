@@ -1,29 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ArchivingPage.ArchivingFragment"
     android:background="@color/ref_white"
-    android:orientation="vertical">
-
-    <Button
-        android:id="@+id/btn1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="상세페이지로 이동"/>
-
-    <Button
-        android:id="@+id/btn2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="온보딩으로 이동"/>
-
-    <Button
-        android:id="@+id/btn3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="큐레이션으로 이동"/>
+    android:orientation="vertical"
+    tools:context=".ArchivingPage.ArchivingFragment">
 
     <LinearLayout
         android:id="@+id/logo"
@@ -59,6 +42,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:fillViewport="true">
+
         <LinearLayout
             android:id="@+id/main_content"
             android:layout_width="match_parent"
@@ -68,86 +52,192 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:background="@color/semantic_surface_primary_lightest"
-                android:paddingTop="14dp"
+                android:orientation="horizontal"
                 android:paddingStart="28.7dp"
-                android:paddingBottom="12dp"
-                android:paddingEnd="12dp">
+                android:paddingTop="14dp"
+                android:paddingEnd="12dp"
+                android:paddingBottom="12dp">
+
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:layout_gravity="center">
+                    android:orientation="vertical">
+
                     <TextView
+                        style="@style/Font_Title_Semibold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="6dp"
                         android:text="@string/archiving_label1"
-                        style="@style/Font_Title_Semibold"
-                        android:textColor="@color/semantic_text_strongest"/>
+                        android:textColor="@color/semantic_text_strongest" />
+
                     <TextView
+                        android:id="@+id/applied_per_bookmark"
+                        style="@style/Font_Heading300_Bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/sample"
-                        style="@style/Font_Heading300_Bold"
-                        android:textColor="@color/ref_blue_600"/>
+                        android:text=" "
+                        android:textColor="@color/ref_blue_600" />
                 </LinearLayout>
+
                 <ImageView
                     android:layout_width="132dp"
                     android:layout_height="74dp"
-                    android:src="@drawable/image_archive"/>
+                    android:src="@drawable/image_archive" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingTop="14dp"
-                android:paddingHorizontal="16dp">
+                android:paddingHorizontal="16dp"
+                android:paddingTop="14dp">
 
-                <LinearLayout
-                    android:id="@+id/btn_select_keyword"
-                    android:layout_width="wrap_content"
+
+                <HorizontalScrollView
+                    android:id="@+id/keyword_scroll_view"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingStart="12dp"
-                    android:paddingEnd="4dp"
-                    android:paddingVertical="6dp"
-                    android:background="@drawable/round_background4"
-                    android:layout_marginBottom="14dp">
-                    <TextView
+                    android:layout_weight="1"
+                    android:scrollbars="none"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:id="@+id/keyword_chips_container"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/select_keyword"
-                        style="@style/Font_Body_Medium"
-                        android:textColor="@color/semantic_text_secondary"
-                        android:layout_marginEnd="4dp"/>
-                    <ImageView
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:src="@drawable/icon_arrow_small"/>
-                </LinearLayout>
+                        android:layout_marginBottom="4dp"
+                        android:orientation="horizontal"
+                        android:visibility="gone"/>
+
+
+                </HorizontalScrollView>
+
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/ref_gray_200"/>
+                    android:background="@color/ref_gray_200" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/biz_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="14dp"/>
-
-                <TextView
-                    android:id="@+id/sample_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:paddingTop="14dp"
+                    android:visibility="gone"/>
 
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/btn_login_entry"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:visibility="gone">
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/login_entry_title"
+                        style="@style/Font_Heading400_Semibold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/login_entry"
+                        android:textColor="@color/ref_coolgray_600"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/login_entry_desc"
+                        style="@style/Font_Label_Medium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="@string/login_entry_desc"
+                        android:textColor="#7C7B7B"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/login_entry_title" />
+
+                    <Button
+                        android:id="@+id/btn_to_login"
+                        style="@style/close_button"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:text="@string/to_login"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@id/login_entry_desc"
+                        app:layout_constraintStart_toStartOf="@id/login_entry_desc"
+                        app:layout_constraintTop_toBottomOf="@id/login_entry_desc" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/btn_zero_entry"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:visibility="gone">
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/zero_entry_title"
+                        style="@style/Font_Heading400_Semibold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/zero_entry"
+                        android:textColor="@color/ref_coolgray_600"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/zero_entry_desc"
+                        style="@style/Font_Label_Medium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="@string/zero_entry_desc"
+                        android:textColor="#7C7B7B"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/zero_entry_title" />
+
+                    <Button
+                        android:id="@+id/btn_to_explore"
+                        style="@style/close_button"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:text="@string/to_explore"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@id/zero_entry_desc"
+                        app:layout_constraintStart_toStartOf="@id/zero_entry_desc"
+                        app:layout_constraintTop_toBottomOf="@id/zero_entry_desc" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
         </LinearLayout>
+
     </androidx.core.widget.NestedScrollView>
 </LinearLayout>

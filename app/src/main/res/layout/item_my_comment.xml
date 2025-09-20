@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--item_my_comment-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -15,6 +16,7 @@
         android:gravity="center_vertical"
         android:layout_marginBottom="2dp">
         <TextView
+            android:id="@+id/policy_name"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -39,7 +41,7 @@
             android:textColor="@color/ref_coolgray_400"
             android:layout_marginEnd="2dp"/>
         <TextView
-            android:id="@+id/comment_num"
+            android:id="@+id/policy_comment_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/num"
@@ -54,6 +56,7 @@
         android:background="@color/ref_gray_200"/>
 
     <TextView
+        android:id="@+id/my_comment_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/sample"

@@ -88,7 +88,7 @@
     <string name="dead_line">마감일:</string>
     <string name="recently_viewed">최근 본 지원 사업</string>
     <string name="closing_soon">마감 임박 지원 사업</string>
-    <string name="age_popular">대 인기 지원 사업</string>
+    <string name="age_popular"> 인기 지원 사업</string>
     <string name="home_login1">와 함께</string>
     <string name="home_login2">적합한 지원 사업을 찾아볼까요?</string>
     <string name="to_login">로그인하기</string>
@@ -140,6 +140,7 @@
 
     <string name="edit_title">전체 > 북마크한 정책</string>
     <string name="select_all">전체 선택</string>
+    <string name="deselect_all">전체 해제</string>
     <string name="apply_complete">신청 완료</string>
 
     <!-- 캘린더 -->
@@ -169,9 +170,8 @@
     <string name="detail_information" translatable="true">상세정보</string>
     <string name="review" translatable="true">리뷰</string>
     <string name="process_detail1" translatable="true">신청 접수</string>
-    <string name="process_detail2" translatable="true">심사 결과 발표</string>
-    <string name="process_detail3" translatable="true">이의 신청 접수</string>
-    <string name="process_detail4" translatable="true">최종 선정 발표</string>
+    <string name="process_detail2" translatable="true">서류 검토</string>
+    <string name="process_detail3" translatable="true">발표 및 안내</string>
     <string name="wth_soar" translatable="true">SOAR와 함께 준비하기</string>
     <string name="detail_more">상세정보 더보기</string>
     <string name="fold">접기</string>
@@ -194,12 +194,11 @@
     <string name="logout">로그아웃</string>
     <string name="profile">프로필</string>
     <string name="record">기록</string>
-    <string name="policy_title1">서비스 이용 약관</string>
-    <string name="policy_title2">개인 정보 처리 방침</string>
-    <string name="policy_title3">기타</string>
-    <string name="policy_detail1">임시 텍스트</string>
-    <string name="policy_detail2">임시 텍스트</string>
-    <string name="policy_detail3">임시 텍스트</string>
+    <string name="birth">생일</string>
+    <string name="gender">성별</string>
+    <string name="male">남자</string>
+    <string name="female">여자</string>
+    <string name="unknown">미설정</string>
 
     <!-- 프로필 -->
     <string name="profile_title">프로필 수정</string>
@@ -236,7 +235,7 @@
     <string name="to_start">처음으로</string>
 
     <!-- 댓글 -->
-    <string name="my_comment">내가 작성한 댓글</string>
+    <string name="my_comment">댓글</string>
 
     <!--스플래시-->
     <string name="soar_logo">SOAR 로고</string>
@@ -326,15 +325,97 @@
     <string name="cs_keyword_tv">관심있는 키워드를 선택해주세요</string>
     <string name="cs_keyword_description">최대 5개까지 선택 가능해요</string>
     <string name="cs_summary_tv">입력하신 내용들을 확인해주세요!</string>
+    <string name="cs_loading_tv">%1$s님과 맞는 지원사업을\n찾고있어요"</string>
+    <string name="cs_suggestion_tv">%1$d건 찾기 성공!</string>
+    <string name="cs_suggestion_description">이제부터 %1$s님께\n맞춤화된 지원 사업 리스트를 받아보실 수 있어요</string>
+    <string name="move_user_policies">지원 사업 확인하러 가기</string>
+    <string name="cs_suggestion_description_empty">관련 정책이 없습니다.</string>
+
+    <string name="pb_suggestion_count">%1$d건</string>
+
+    <string name="applied_count_format">%1$d/%2$d개</string>
 
     <!--kakao-->
-    <!--
-    먼저 내가 테스트용으로 사용하는 키
-    <string name="kakao_native_app_key">80d7e06a50cc895bc7bfe51ebceb5ae2</string>
-    <string name="kakao_scheme">kakao80d7e06a50cc895bc7bfe51ebceb5ae2</string> -->
-    <string name="kakao_native_app_key">6bd868dc4dfc4411b3ed036307340a65</string>
-    <string name="kakao_scheme">kakao6bd868dc4dfc4411b3ed036307340a65</string>
+
+    <string name="kakao_native_app_key">1f43096207325bbb93ef070f8389d0cc</string>
+    <string name="kakao_scheme">kakao1f43096207325bbb93ef070f8389d0cc</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <!--데이터 없을 때 뜨는 멘트-->
+
+    <string name="login_entry">로그인 후 이용해주세요</string>
+    <string name="login_entry_desc">SOAR의 더욱 다양한 서비스를 이용할 수 있어요</string>
+    <string name="zero_entry">저장된 지원 사업이 없어요</string>
+    <string name="zero_entry_desc">둘러보기에서 딱맞는 지원 사업을 저장해보세요</string>
+    <string name="to_explore">둘러보기 바로가기</string>
+    <string name="zero_comment">아직 댓글이 없습니다</string>
+    <string name="zero_comment_desc">댓글을 달아서 지원 사업 정보를 공유해주세요</string>
+    <string name="zero_applied">신청 완료한 지원 사업이 없습니다</string>
+    <string name="zero_applied_desc">관심있는 지원 사업을 신청하고 아카이빙 페이지에서 체크해주세요</string>
+    <string name="to_archiving">아카이빙 바로가기</string>
+    <string name="zero_record">최근에 둘러보신 지원 사업이 없습니다</string>
+    <string name="zero_reocord_desc">핸드폰 기준 가장 최근에 본 지원 사업 5건이 뜰거에요</string>
+
+    <!--약관-->
+    <string name="agree">동의하기</string>
+
+    <string name="policy1_desc_title">[필수] 이용약관 동의</string>
+    <string name="policy1_desc_main">SOAR 서비스의 기본적인 이용 조건과 권리, 의무에 대한 약관입니다</string>
+    <string name="policy1_desc_main2">서비스 목적과 정의, 회원가입 조건, 이용자의 권리와 의무, 금지행위, 서비스 제공 범위, 서비스 중단 시 책임 제한 등 이용 전 반드시 확인하셔야 할 사항이 포함되어 있습니다</string>
+
+    <string name="policy2_desc_title">[필수] 개인정보 수집 및 이용 동의</string>
+    <string name="policy2_desc_main">SOAR는 서비스 제공을 위해 아래와 같은 개인정보를 수집·이용합니다</string>
+    <string name="policy2_desc_2">· 수집 항목: 이름, 생년월일, 거주지(시/구), 소득 구간 등</string>
+    <string name="policy2_desc_3">· 수집 목적: 청년 정책 매칭 및 개인 맞춤형 정보 제공</string>
+    <string name="policy2_desc_4">· 보유 및 이용 기간: 수집일로부터 서비스 이용 종료 시까지</string>
+    <string name="policy2_explanation">※ 본 동의를 거부할 경우, 정책 매칭 서비스를 이용하실 수 없습니다</string>
+
+    <string name="policy3_desc_title">[선택] 마케팅 정보 수신 동의</string>
+    <string name="policy3_desc_main">SOAR는 이벤트, 신규 정책 정보, 만족도 조사 등 다양한 소식을 아래 채널을 통해 안내드릴 수 있습니다</string>
+    <string name="policy3_desc_2">· 수신 항목: 이벤트 안내, 신규 지원 사업 정보, 설문 요청 등</string>
+    <string name="policy3_desc_3">· 발송 수단: 앱 푸시 알림, 이메일 등</string>
+    <string name="policy3_desc_4">· 보유 및 이용 기간 : 서비스 이용 종료 시까지</string>
+    <string name="policy3_explanation">※ 동의하지 않으셔도 서비스 이용에는 제한이 없습니다</string>
+
+    <string name="policy4_desc_title">[선택] 민감정보 처리 동의</string>
+    <string name="policy4_desc_main">더 정교한 정책 큐레이션을 위해 일부 민감정보에 대한 수집·이용에 동의해 주실 수 있습니다</string>
+    <string name="policy4_desc_2">· 수집 항목: 소득 구간, 주거 유형, 가족 구성 등</string>
+    <string name="policy4_desc_3">· 수집 목적: 개인 상황에 최적화된 정책 추천 및 필터링</string>
+    <string name="policy4_desc_4">· 보유 및 이용 기간: 서비스 이용 종료 시까지</string>
+    <string name="policy4_explanation">※ 이 항목은 초기에는 선택사항으로 안내되며, 큐레이션 시작 단계에서 필수 항목으로 재확인될 수 있습니다</string>
+
+    <string name="policy5_desc_title">[필수] 제3자 정보 제공 동의</string>
+    <string name="policy5_desc_main">공공데이터 API 및 외부 시스템과의 연계를 위해 다음과 같은 정보 제공이 필요합니다</string>
+    <string name="policy5_desc_2">· 제공받는 자: 공공기관 및 API 운영기관</string>
+    <string name="policy5_desc_3">· 제공 항목: 이름, 거주지 등 최소한의 식별 정보</string>
+    <string name="policy5_desc_4">· 제공 목적: 정책 정보 제공, 서비스 기능 구현 등</string>
+    <string name="policy5_desc_5">· 보유 및 이용 기간: 제공일로부터 관련 법령이 정한 기간까지</string>
+    <string name="policy5_explanation">※ 현재 외부 전송이 없는 경우, 본 항목은 비활성화됩니다.</string>
+
+    <string name="policy_desc_title">[필수] 민감정보 처리 동의</string>
+    <string name="policy_desc_main">더 정교한 정책 큐레이션을 위해 일부 민감정보에 대한 수집·이용에 동의해 주실 수 있습니다</string>
+    <string name="policy_desc_2">· 수집 항목 : 소득 구간, 주거 유형, 가족 구성 등</string>
+    <string name="policy_desc_3">· 수집 목적 : 개인 상황에 최적화된 정책 추천 및 필터링</string>
+    <string name="policy_desc_4">· 보유 및 이용 기간 : 서비스 이용 종료 시까지</string>
+    <string name="policy_explanation">※ 이 항목은 초기에는 선택사항으로 안내되었으며, 큐레이션 기능을 사용하기 위해서 필수 항목으로 재확인 되었습니다.</string>
+    <string name="pw">비밀번호</string>
+    <string name="input_pw">비밀번호를 입력해주세요</string>
+    <string name="tv_pw1_error">비밀번호를 다시 한번 확인해주세요</string>
+
+    <string name="policy_title1">[필수] 이용약관 동의</string>
+    <string name="policy_title2">[필수] 개인정보 수집 및 이용 동의</string>
+    <string name="policy_title3">[선택] 마케팅 정보 수신 동의</string>
+    <string name="policy_title4">[선택] 민감정보 처리 동의</string>
+    <string name="policy_title5">[필수] 제3자 정보 제공 동의</string>
+
+    <string name="policy_detail1">SOAR 서비스의 기본적인 이용 조건과 권리, 의무에 대한 약관입니다.\n\n서비스 목적과 정의, 회원가입 조건, 이용자의 권리와 의무, 금지행위, 서비스 제공 범위, 서비스 중단 시 책임 제한 등 이용 전 반드시 확인하셔야 할 사항이 포함되어 있습니다.</string>
+    <string name="policy_detail2">SOAR는 서비스 제공을 위해 아래와 같은 개인정보를 수집·이용합니다.\n\n· 수집 항목: 이름, 생년월일, 거주지(시/구), 소득 구간 등\n· 수집 목적: 청년 정책 매칭 및 개인 맞춤형 정보 제공\n· 보유 및 이용 기간: 수집일로부터 서비스 이용 종료 시까지\n\n※ 본 동의를 거부할 경우, 정책 매칭 서비스를 이용하실 수 없습니다.</string>
+    <string name="policy_detail3">SOAR는 이벤트, 신규 정책 정보, 만족도 조사 등 다양한 소식을 아래 채널을 통해 안내드릴 수 있습니다.\n\n· 수신 항목: 이벤트 안내, 신규 지원 사업 정보, 설문 요청 등\n· 발송 수단: 앱 푸시 알림, 이메일 등\n· 보유 및 이용 기간 : 서비스 이용 종료 시까지\n\n※ 동의하지 않으셔도 서비스 이용에는 제한이 없습니다.</string>
+    <string name="policy_detail4">더 정교한 정책 큐레이션을 위해 일부 민감정보에 대한 수집·이용에 동의해 주실 수 있습니다.\n\n· 수집 항목: 소득 구간, 주거 유형, 가족 구성 등\n· 수집 목적: 개인 상황에 최적화된 정책 추천 및 필터링\n· 보유 및 이용 기간: 서비스 이용 종료 시까지\n\n※ 이 항목은 초기에는 선택사항으로 안내되며, 큐레이션 시작 단계에서 필수 항목으로 재확인될 수 있습니다.</string>
+    <string name="policy_detail5">공공데이터 API 및 외부 시스템과의 연계를 위해 다음과 같은 정보 제공이 필요합니다.\n\n· 제공받는 자: 공공기관 및 API 운영기관\n· 제공 항목: 이름, 거주지 등 최소한의 식별 정보\n· 제공 목적: 정책 정보 제공, 서비스 기능 구현 등\n· 보유 및 이용 기간: 제공일로부터 관련 법령이 정한 기간까지\n\n※ 현재 외부 전송이 없는 경우, 본 항목은 비활성화됩니다.</string>
+
+
 
 </resources>

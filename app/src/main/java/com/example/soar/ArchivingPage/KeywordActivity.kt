@@ -1,238 +1,152 @@
 package com.example.soar.ArchivingPage
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.example.soar.ApiResponse
+import com.example.soar.CurationSequencePage.TagUiModel
 import com.example.soar.R
-import com.example.soar.TagResponse
 import com.example.soar.databinding.ActivityKeywordBinding
+import com.example.soar.util.showBlockingToast // ✨ 1. 커스텀 토스트 import 추가
 import com.google.android.flexbox.FlexboxLayout
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 
 class KeywordActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivityKeywordBinding
-    private var selectedTagIds = mutableSetOf<Int>()
+    private val viewModel: KeywordViewModel by viewModels()
+
+    private lateinit var flexboxMap: Map<Int, FlexboxLayout>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityKeywordBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val initialSelectedTagIds = intent.getIntegerArrayListExtra("selectedTagIds")
-        if (initialSelectedTagIds != null) {
-            selectedTagIds = initialSelectedTagIds.toMutableSet()
-            updateSubmitButtonState()
-        }
+        initializeFlexboxMap()
+        setupUI()
+        setupListeners()
+        setupObservers()
 
-        // 앱 바
-        val textTitle = findViewById<TextView>(R.id.text_title)
-        textTitle.text = getString(R.string.keyword)
-        findViewById<ImageView>(R.id.btn_back).setOnClickListener {
-            Log.d("KeywordActivity", "뒤로가기 클릭, 선택된 태그 = $selectedTagIds")
+        viewModel.loadTags()
 
-            val resultIntent = Intent().apply {
-                putIntegerArrayListExtra("selectedTagIds", ArrayList(selectedTagIds))
-            }
-            setResult(RESULT_OK, resultIntent)
-            finish()
-        }
+        val initialSelectedTagIds = intent.getIntegerArrayListExtra("selectedTagIds")?.toSet() ?: emptySet()
+        viewModel.initializeSelection(initialSelectedTagIds)
+    }
 
-        // fieldId별 FlexboxLayout 매핑
-        val flexboxMap = mapOf(
+    private fun initializeFlexboxMap() {
+        flexboxMap = mapOf(
             1 to binding.flexLayout1, 2 to binding.flexLayout2,
             3 to binding.flexLayout3, 4 to binding.flexLayout4
         )
-        val sampleTextMap = mapOf(
-            1 to getString(R.string.job_all),
-            2 to getString(R.string.dwelling_all),
-            3 to getString(R.string.education_all),
-            4 to getString(R.string.welfare_all)
-        )
+    }
 
-        // 더미 태그 데이터 로드
-        val tagList = loadDummyTagData()  // JSON에서 로드한다고 가정
-        val groupedTags = groupTagsByField(tagList)
+    private fun setupUI() {
+        binding.appbar.textTitle.text = getString(R.string.keyword)
+    }
 
-        // fieldId별 Flexbox에 태그 표시
-        groupedTags.forEach { (fieldId, tags) ->
-            val flexboxLayout = flexboxMap[fieldId] ?: return@forEach
-            val sampleText = sampleTextMap[fieldId] ?: ""
-            updateFlexbox(fieldId, sampleText, tags, flexboxLayout)
+    private fun setupListeners() {
+        binding.appbar.btnBack.setOnClickListener {
+            returnResult()
         }
 
-        // btn_tag_submit 클릭 리스너
         binding.btnTagSubmit.setOnClickListener {
-            Log.d("KeywordActivity", "제출 클릭, 선택된 태그 = $selectedTagIds")
-
-            val resultIntent = Intent().apply {
-                putIntegerArrayListExtra("selectedTagIds", ArrayList(selectedTagIds))
-            }
-            setResult(RESULT_OK, resultIntent)
-            finish()
+            returnResult()
         }
 
         binding.btnReset.setOnClickListener {
-            resetAllTags()
+            viewModel.resetSelection()
         }
     }
 
-    private fun groupTagsByField(items: List<TagResponse>): Map<Int, List<TagResponse>> {
-        return items.groupBy { it.fieldId }
+    private fun setupObservers() {
+        viewModel.tagsUiModel.observe(this) { allTags ->
+            updateAllFlexboxUI(allTags)
+        }
+
+        viewModel.selectedTagIds.observe(this) { selectedIds ->
+            binding.btnTagSubmit.isEnabled = selectedIds.isNotEmpty()
+        }
+
+        // ✨ 2. Toast 메시지 이벤트 관찰 로직 수정
+        viewModel.showToast.observe(this) { event ->
+            event.getContentIfNotHandled()?.let { message ->
+                // ✨ 3. 기존 Toast.makeText 대신 커스텀 토스트를 호출합니다.
+                // 여기서는 단순 알림이므로 취소 버튼을 숨깁니다.
+                showBlockingToast(message, hideCancel = true)
+            }
+        }
     }
 
-    private fun updateFlexbox(
-        fieldId: Int,
-        sampleText: String,
-        tags: List<TagResponse>,
-        flexboxLayout: FlexboxLayout
-    ) {
+    private fun updateAllFlexboxUI(tags: List<TagUiModel>) {
+        val groupedTags = tags.groupBy { it.fieldId }
+
+        flexboxMap.forEach { (fieldId, flexboxLayout) ->
+            val tagsForField = groupedTags[fieldId] ?: emptyList()
+            updateFlexboxForCategory(flexboxLayout, tagsForField)
+        }
+    }
+
+    private fun updateFlexboxForCategory(flexboxLayout: FlexboxLayout, tags: List<TagUiModel>) {
         flexboxLayout.removeAllViews()
 
         val margin = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP, 12f, resources.displayMetrics
+            TypedValue.COMPLEX_UNIT_DIP, 6f, resources.displayMetrics
         ).toInt()
 
-        // 1. 샘플 태그를 다른 태그들과 동일하게 처리하기 위해 TagResponse 객체로 생성합니다.
-        // 샘플 태그임을 구분하기 위해 tagId에 특별한 값(-1)을 부여합니다.
-        val sampleTagResponse = TagResponse(
-            tagId = -1,
-            tagName = sampleText,
-            fieldId = fieldId
-        )
-
-        val tagsToShow = if (tags.isNotEmpty()) {
-            tags.subList(0, tags.size - 1)
-        } else {
-            emptyList()
-        }
-
-        // 2. 샘플 태그와 일반 태그 목록을 하나의 리스트로 합칩니다.
-        val allTags = listOf(sampleTagResponse) + tagsToShow
-
-        // 3. 통합된 리스트를 순회하며 모든 태그를 생성하고 설정합니다.
-        allTags.forEach { tag ->
-            val tagLayout = LayoutInflater.from(this)
+        tags.forEach { tag ->
+            val keywordView = LayoutInflater.from(this)
                 .inflate(R.layout.item_keyword, flexboxLayout, false)
+            val textView = keywordView.findViewById<TextView>(R.id.text_keyword)
+            textView.text = tag.tagName
 
-            val tagText = tagLayout.findViewById<TextView>(R.id.text_keyword)
-            val btnClose = tagLayout.findViewById<ImageView>(R.id.btn_close)
-
-            val params = tagLayout.layoutParams as ViewGroup.MarginLayoutParams
-            params.setMargins(0, 0, margin, margin)
-            tagLayout.layoutParams = params
-
-            tagText.text = tag.tagName
-
-            // 4. 태그가 선택되었는지 여부에 따라 UI를 업데이트합니다.
-            tagLayout.isSelected = selectedTagIds.contains(tag.tagId)
-            btnClose.visibility = if (tagLayout.isSelected) View.VISIBLE else View.GONE
-
-            // 초기 UI 상태를 설정하는 헬퍼 함수를 호출하여 코드를 깔끔하게 만듭니다.
-            if (tagLayout.isSelected) {
-                setSelectedUI(tagLayout)
+            if (tag.isSelected) {
+                setSelectedUI(keywordView)
             } else {
-                setDefaultUI(tagLayout)
+                setDefaultUI(keywordView)
             }
 
-            // 5. 클릭 이벤트를 처리합니다.
-            tagLayout.setOnClickListener {
-                // 샘플 태그(-1)가 클릭된 경우
-                if (tag.tagId == -1) {
-                    selectAllTagIds(fieldId)
-                    if (selectedTagIds.isEmpty()) {
-                        setDefaultUI(tagLayout)
-                        btnClose.visibility = View.GONE
-                    } else {
-                        setSelectedUI(tagLayout)
-                        btnClose.visibility = View.VISIBLE
-                    }
-                } else {
-                    if (selectedTagIds.contains(tag.tagId)) {
-                        selectedTagIds.remove(tag.tagId)
-                        setDefaultUI(tagLayout)
-                        btnClose.visibility = View.GONE
-                    } else {
-                        selectedTagIds.add(tag.tagId)
-                        setSelectedUI(tagLayout)
-                        btnClose.visibility = View.VISIBLE
-                    }
-                }
-
-                updateSubmitButtonState()
+            keywordView.setOnClickListener {
+                viewModel.toggleTagSelection(tag.tagId)
             }
 
-            flexboxLayout.addView(tagLayout)
-        }
-    }
-
-    private fun selectAllTagIds(fieldId: Int) {
-        val tagsInField = loadDummyTagData().filter { it.fieldId == fieldId }
-        val isAllSelected = tagsInField.all { selectedTagIds.contains(it.tagId) }
-
-        if (isAllSelected) {
-            tagsInField.forEach { tag -> selectedTagIds.remove(tag.tagId) }
-        } else {
-            tagsInField.forEach { tag -> selectedTagIds.add(tag.tagId) }
+            val params = (keywordView.layoutParams as ViewGroup.MarginLayoutParams).apply {
+                setMargins(0, 0, margin, margin)
+            }
+            keywordView.layoutParams = params
+            flexboxLayout.addView(keywordView)
         }
     }
 
     private fun setDefaultUI(tagView: View) {
         tagView.backgroundTintList = ContextCompat.getColorStateList(this, R.color.ref_coolgray_100)
-        tagView.findViewById<TextView>(R.id.text_keyword)
-            .setTextColor(ContextCompat.getColor(this, R.color.ref_gray_800))
+        val textView = tagView.findViewById<TextView>(R.id.text_keyword)
+        val btnClose = tagView.findViewById<ImageView>(R.id.btn_close)
+        textView.setTextColor(ContextCompat.getColor(this, R.color.ref_gray_800))
+        btnClose.visibility = View.GONE
     }
 
     private fun setSelectedUI(tagView: View) {
         tagView.backgroundTintList = ContextCompat.getColorStateList(this, R.color.ref_blue_150)
-        tagView.findViewById<TextView>(R.id.text_keyword)
-            .setTextColor(ContextCompat.getColor(this, R.color.ref_blue_600))
+        val textView = tagView.findViewById<TextView>(R.id.text_keyword)
+        val btnClose = tagView.findViewById<ImageView>(R.id.btn_close)
+        textView.setTextColor(ContextCompat.getColor(this, R.color.ref_blue_600))
+        btnClose.visibility = View.VISIBLE
     }
 
-    private fun resetAllTags() {
-        // 모든 선택된 태그 ID를 초기화
-        selectedTagIds.clear()
-
-        val flexboxMap = mapOf(
-            1 to binding.flexLayout1, 2 to binding.flexLayout2,
-            3 to binding.flexLayout3, 4 to binding.flexLayout4
-        )
-
-        flexboxMap.values.forEach { flexboxLayout ->
-            for (i in 0 until flexboxLayout.childCount) {
-                val tagView = flexboxLayout.getChildAt(i)
-                tagView.isSelected = false
-
-                setDefaultUI(tagView)
-                tagView.findViewById<ImageView>(R.id.btn_close)?.visibility = View.GONE
-            }
+    private fun returnResult() {
+        val selectedIds = viewModel.selectedTagIds.value ?: emptySet()
+        val resultIntent = Intent().apply {
+            putIntegerArrayListExtra("selectedTagIds", ArrayList(selectedIds))
         }
-
-        updateSubmitButtonState()
-    }
-
-    private fun updateSubmitButtonState() {
-        binding.btnTagSubmit.isEnabled = selectedTagIds.isNotEmpty()
-    }
-
-
-    // 추후 삭제
-    private fun loadDummyTagData(): List<TagResponse> {
-        val json = assets.open("response_tags.json")
-            .bufferedReader().use { it.readText() }
-
-        val gson = Gson()
-        val type = object : TypeToken<ApiResponse>() {}.type
-        val response: ApiResponse = gson.fromJson(json, type)
-        return response.data
+        setResult(Activity.RESULT_OK, resultIntent)
+        finish()
     }
 }

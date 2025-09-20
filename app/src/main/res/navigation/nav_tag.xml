@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_tag"
+    app:startDestination="@id/step1Fragment">
+
+
+    <fragment
+        android:id="@+id/step1Fragment"
+        android:name="com.example.soar.MyPage.TagSelection.Step1Fragment"
+        android:label="Step1Fragment"
+        tools:layout="@layout/step_cs_location">
+
+        <action
+            android:id="@+id/action_step1_to_locationSelectionFragment"
+            app:destination="@id/locationSelectionFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/locationSelectionFragment"
+        android:name="com.example.soar.MyPage.TagSelection.LocationSelectionFragment"
+        android:label="LocationSelectionFragment"
+        tools:layout="@layout/dialog_location_selection" />
+
+    <fragment
+        android:id="@+id/step2Fragment"
+        android:name="com.example.soar.MyPage.TagSelection.Step2Fragment" >
+
+    </fragment>
+    <fragment
+        android:id="@+id/step3Fragment"
+        android:name="com.example.soar.MyPage.TagSelection.Step3Fragment" >
+    </fragment>
+    <fragment
+        android:id="@+id/step4Fragment"
+        android:name="com.example.soar.MyPage.TagSelection.Step4Fragment" >
+    </fragment>
+    <fragment
+        android:id="@+id/step5Fragment"
+        android:name="com.example.soar.MyPage.TagSelection.Step5Fragment" >
+    </fragment>
+
+
+</navigation>

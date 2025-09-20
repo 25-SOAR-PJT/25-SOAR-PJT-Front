@@ -5,82 +5,215 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MyPage.ProfileActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".MyPage.ProfileActivity">
 
     <include
         android:id="@+id/appbar"
-        layout="@layout/appbar"/>
+        layout="@layout/appbar_profile" />
+
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_marginBottom="4dp"
             android:background="@color/ref_gray_100"
-            android:layout_marginBottom="4dp">
+            android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
-                android:orientation="vertical"
                 android:background="@color/ref_white"
-                android:paddingTop="24dp"
-                android:paddingHorizontal="16dp">
+                android:orientation="vertical"
+                android:paddingHorizontal="16dp"
+                android:paddingTop="24dp">
+
                 <TextView
+                    style="@style/Font_Body_Semibold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
                     android:text="@string/profile_title"
-                    style="@style/Font_Body_Semibold"
-                    android:textColor="@color/ref_coolgray_600"/>
+                    android:textColor="@color/ref_coolgray_600" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginBottom="20dp">
+                    android:layout_marginBottom="20dp"
+                    android:orientation="vertical">
+
                     <TextView
+                        style="@style/Font_Label_Semibold"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="6dp"
                         android:text="@string/name"
-                        style="@style/Font_Label_Semibold"
-                        android:textColor="@color/ref_coolgray_600"
-                        android:layout_marginBottom="6dp"/>
-                    <TextView
+                        android:textColor="@color/ref_coolgray_600" />
+
+                    <EditText
+                        android:id="@+id/name"
+                        style="@style/Font_Body_Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/round_background"
                         android:backgroundTint="@color/semantic_surface_assistive_based"
-                        android:paddingVertical="10dp"
+                        android:enabled="false"
                         android:paddingHorizontal="16dp"
+                        android:paddingVertical="10dp"
                         android:text="@string/sample"
-                        style="@style/Font_Body_Medium"
-                        android:textColor="@color/ref_coolgray_700"/>
+                        android:textColor="@color/ref_coolgray_700" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/Font_Label_Semibold"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="6dp"
+                        android:text="@string/birth"
+                        android:textColor="@color/ref_coolgray_600" />
+
+                    <LinearLayout
+                        android:id="@+id/birth_date_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/year"
+                            style="@style/Font_Body_Medium"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="5dp"
+                            android:background="@drawable/round_background"
+                            android:backgroundTint="@color/semantic_surface_assistive_based"
+                            android:enabled="false"
+                            android:maxLength="4"
+                            android:paddingHorizontal="12dp"
+                            android:paddingVertical="10dp"
+                            android:text="0000"
+                            android:textColor="@color/ref_coolgray_700"
+                            android:focusable="false"/>
+
+                        <TextView
+                            style="@style/Font_Label_Semibold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="16dp"
+                            android:layout_marginBottom="6dp"
+                            android:text="년"
+                            android:textColor="@color/ref_coolgray_600" />
+
+                        <EditText
+                            android:id="@+id/month"
+                            style="@style/Font_Body_Medium"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="5dp"
+                            android:background="@drawable/round_background"
+                            android:backgroundTint="@color/semantic_surface_assistive_based"
+                            android:maxLength="2"
+                            android:enabled="false"
+                            android:paddingHorizontal="12dp"
+                            android:paddingVertical="10dp"
+                            android:text="00"
+                            android:textColor="@color/ref_coolgray_700"
+                            android:focusable="false"/>
+
+                        <TextView
+                            style="@style/Font_Label_Semibold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="16dp"
+                            android:layout_marginBottom="6dp"
+                            android:text="월"
+                            android:textColor="@color/ref_coolgray_600" />
+
+                        <EditText
+                            android:id="@+id/day"
+                            style="@style/Font_Body_Medium"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="5dp"
+                            android:background="@drawable/round_background"
+                            android:backgroundTint="@color/semantic_surface_assistive_based"
+                            android:maxLength="2"
+                            android:enabled="false"
+                            android:paddingHorizontal="12dp"
+                            android:paddingVertical="10dp"
+                            android:text="00"
+                            android:textColor="@color/ref_coolgray_700"
+                            android:focusable="false"/>
+
+                        <TextView
+                            style="@style/Font_Label_Semibold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="6dp"
+                            android:text="일"
+                            android:textColor="@color/ref_coolgray_600" />
+                    </LinearLayout>
+
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/Font_Label_Semibold"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="6dp"
+                        android:text="@string/gender"
+                        android:textColor="@color/ref_coolgray_600" />
+
+                    <com.google.android.flexbox.FlexboxLayout
+                        android:id="@+id/flexbox_gender"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:flexDirection="row"
+                        app:flexWrap="wrap"
+                        app:justifyContent="flex_start" />
+
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/btn_change_pw"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:layout_marginBottom="32dp"
                     android:gravity="center"
-                    android:layout_marginBottom="32dp">
+                    android:orientation="horizontal">
+
                     <TextView
+                        style="@style/Font_Label_Semibold"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="@string/change_pw"
-                        style="@style/Font_Label_Semibold"
-                        android:textColor="@color/ref_coolgray_500"/>
+                        android:textColor="@color/ref_coolgray_500" />
+
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/icon_arrow_small"
-                        app:tint="@color/ref_coolgray_300"/>
+                        app:tint="@color/ref_coolgray_300" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -88,125 +221,138 @@
                 android:id="@+id/ll_summary_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="@color/ref_white"
                 android:orientation="vertical"
                 android:paddingHorizontal="24dp"
                 android:paddingTop="24dp">
 
                 <TextView
+                    style="@style/Font_Body_Semibold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
                     android:text="@string/change_curation_inform"
-                    style="@style/Font_Body_Semibold"
-                    android:textColor="@color/ref_coolgray_600"
-                    android:layout_marginBottom="16dp"/>
+                    android:textColor="@color/ref_coolgray_600" />
 
                 <LinearLayout
                     android:id="@+id/section_region"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginBottom="16dp">
+                    android:layout_marginBottom="16dp"
+                    android:orientation="vertical">
+
                     <TextView
+                        style="@style/Font_Body_Semibold"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
                         android:text="지역"
-                        style="@style/Font_Body_Semibold"
-                        android:textColor="@color/ref_coolgray_500"
-                        android:layout_marginBottom="16dp"/>
+                        android:textColor="@color/ref_coolgray_500" />
+
                     <com.google.android.flexbox.FlexboxLayout
                         android:id="@+id/flexbox_location"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:flexWrap="wrap"
                         app:flexDirection="row"
-                        app:justifyContent="flex_start"/>
+                        app:flexWrap="wrap"
+                        app:justifyContent="flex_start" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/section_job"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginBottom="16dp">
+                    android:layout_marginBottom="16dp"
+                    android:orientation="vertical">
+
                     <TextView
+                        style="@style/Font_Body_Semibold"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
                         android:text="직업"
-                        style="@style/Font_Body_Semibold"
-                        android:textColor="@color/ref_coolgray_500"
-                        android:layout_marginBottom="16dp"/>
+                        android:textColor="@color/ref_coolgray_500" />
+
                     <com.google.android.flexbox.FlexboxLayout
                         android:id="@+id/flexbox_job"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:flexWrap="wrap"
                         app:flexDirection="row"
-                        app:justifyContent="flex_start"/>
+                        app:flexWrap="wrap"
+                        app:justifyContent="flex_start" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/section_education"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginBottom="16dp">
+                    android:layout_marginBottom="16dp"
+                    android:orientation="vertical">
+
                     <TextView
+                        style="@style/Font_Body_Semibold"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
                         android:text="학력"
-                        style="@style/Font_Body_Semibold"
-                        android:textColor="@color/ref_coolgray_500"
-                        android:layout_marginBottom="16dp"/>
+                        android:textColor="@color/ref_coolgray_500" />
+
                     <com.google.android.flexbox.FlexboxLayout
                         android:id="@+id/flexbox_education"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:flexWrap="wrap"
                         app:flexDirection="row"
-                        app:justifyContent="flex_start"/>
+                        app:flexWrap="wrap"
+                        app:justifyContent="flex_start" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/section_extra"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginBottom="16dp">
+                    android:layout_marginBottom="16dp"
+                    android:orientation="vertical">
+
                     <TextView
+                        style="@style/Font_Body_Semibold"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
                         android:text="추가 조건"
-                        style="@style/Font_Body_Semibold"
-                        android:textColor="@color/ref_coolgray_500"
-                        android:layout_marginBottom="16dp"/>
+                        android:textColor="@color/ref_coolgray_500" />
+
                     <com.google.android.flexbox.FlexboxLayout
                         android:id="@+id/flexbox_extra"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:flexWrap="wrap"
                         app:flexDirection="row"
-                        app:justifyContent="flex_start"/>
+                        app:flexWrap="wrap"
+                        app:justifyContent="flex_start" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/section_keyword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginBottom="16dp">
+                    android:layout_marginBottom="16dp"
+                    android:orientation="vertical">
+
                     <TextView
+                        style="@style/Font_Body_Semibold"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
                         android:text="관심 키워드"
-                        style="@style/Font_Body_Semibold"
-                        android:textColor="@color/ref_coolgray_500"
-                        android:layout_marginBottom="16dp"/>
+                        android:textColor="@color/ref_coolgray_500" />
+
                     <com.google.android.flexbox.FlexboxLayout
                         android:id="@+id/flexbox_keyword"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:flexWrap="wrap"
                         app:flexDirection="row"
-                        app:justifyContent="flex_start"/>
+                        app:flexWrap="wrap"
+                        app:justifyContent="flex_start" />
                 </LinearLayout>
 
             </LinearLayout>

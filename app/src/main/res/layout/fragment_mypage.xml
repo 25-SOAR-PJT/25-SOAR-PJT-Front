@@ -92,6 +92,7 @@
                         android:orientation="vertical"
                         android:gravity="center">
                         <TextView
+                            android:id="@+id/applied_count"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/num"
@@ -116,6 +117,7 @@
                         android:orientation="vertical"
                         android:gravity="center">
                         <TextView
+                            android:id="@+id/comment_count"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/num"
@@ -316,6 +318,7 @@
                     android:layout_marginStart="4dp"
                     android:layout_marginEnd="14dp">
                     <TextView
+                        android:id="@+id/btn_login_text"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"

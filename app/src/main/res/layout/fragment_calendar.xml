@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CalendarPage.CalendarFragment"
-    android:fitsSystemWindows="true"
     android:background="@color/ref_gray_100"
-    android:orientation="vertical">
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context=".CalendarPage.CalendarFragment">
 
     <LinearLayout
         android:id="@+id/logo"
         android:layout_width="match_parent"
         android:layout_height="56dp"
+        android:background="@color/ref_white"
         android:paddingHorizontal="16dp"
-        android:paddingVertical="12dp"
-        android:background="@color/ref_white">
+        android:paddingVertical="12dp">
+
         <TextView
+            style="@style/Font_Heading400_Semibold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/calendar"
-            style="@style/Font_Heading400_Semibold"
-            android:textColor="@color/ref_coolgray_600"/>
+            android:textColor="@color/ref_coolgray_600" />
     </LinearLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -29,176 +30,204 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:fillViewport="true">
+
         <LinearLayout
             android:id="@+id/main_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="16dp">
+
                 <LinearLayout
                     android:id="@+id/calendar_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:background="@drawable/round_background2"
                     android:backgroundTint="@color/ref_white"
+                    android:orientation="vertical"
                     android:paddingTop="24dp">
+
                     <LinearLayout
                         android:id="@+id/calendar_header"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
                         android:gravity="center"
+                        android:orientation="horizontal"
                         android:paddingHorizontal="16dp">
+
                         <ImageView
                             android:id="@+id/left_arrow"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@drawable/icon_arrow_left" />
+
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content">
+
                             <TextView
                                 android:id="@+id/calendar_year_text"
+                                style="@style/Font_Title_Semibold"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/num"
-                                style="@style/Font_Title_Semibold"
-                                android:textColor="@color/semantic_text_secondary"/>
+                                android:textColor="@color/semantic_text_secondary" />
+
                             <TextView
+                                style="@style/Font_Title_Semibold"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/year"
                                 android:layout_marginRight="4dp"
-                                style="@style/Font_Title_Semibold"
-                                android:textColor="@color/semantic_text_secondary"/>
+                                android:text="@string/year"
+                                android:textColor="@color/semantic_text_secondary" />
+
                             <TextView
                                 android:id="@+id/calendar_month_text"
+                                style="@style/Font_Title_Semibold"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/num"
-                                style="@style/Font_Title_Semibold"
-                                android:textColor="@color/semantic_text_secondary"/>
+                                android:textColor="@color/semantic_text_secondary" />
+
                             <TextView
+                                style="@style/Font_Title_Semibold"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/month"
-                                style="@style/Font_Title_Semibold"
-                                android:textColor="@color/semantic_text_secondary"/>
+                                android:textColor="@color/semantic_text_secondary" />
                         </LinearLayout>
+
                         <ImageView
                             android:id="@+id/right_arrow"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:src="@drawable/icon_arrow_left"
-                            android:rotation="180"/>
+                            android:rotation="180"
+                            android:src="@drawable/icon_arrow_left" />
+
                         <Space
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="1"/>
+                            android:layout_weight="1" />
+
                         <ImageView
                             android:id="@+id/btn_today"
                             android:layout_width="54dp"
                             android:layout_height="match_parent"
-                            android:src="@drawable/button_calendar_today"/>
+                            android:src="@drawable/button_calendar_today" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/calendar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="24dp"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:padding="24dp">
+
                         <LinearLayout
                             android:id="@+id/day_container"
-                            android:layout_height="wrap_content"
                             android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:orientation="horizontal">
+
                             <TextView
+                                style="@style/Font_Body_Medium"
                                 android:layout_width="37dp"
                                 android:layout_height="20dp"
                                 android:gravity="center"
                                 android:text="@string/mon"
-                                style="@style/Font_Body_Medium"
-                                android:textColor="@color/ref_gray_500"/>
+                                android:textColor="@color/ref_gray_500" />
+
                             <Space
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
-                                android:layout_weight="1"/>
+                                android:layout_weight="1" />
+
                             <TextView
+                                style="@style/Font_Body_Medium"
                                 android:layout_width="37dp"
                                 android:layout_height="20dp"
                                 android:gravity="center"
                                 android:text="@string/tue"
-                                style="@style/Font_Body_Medium"
-                                android:textColor="@color/ref_gray_500"/>
+                                android:textColor="@color/ref_gray_500" />
+
                             <Space
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
-                                android:layout_weight="1"/>
+                                android:layout_weight="1" />
+
                             <TextView
+                                style="@style/Font_Body_Medium"
                                 android:layout_width="37dp"
                                 android:layout_height="20dp"
                                 android:gravity="center"
                                 android:text="@string/wed"
-                                style="@style/Font_Body_Medium"
-                                android:textColor="@color/ref_gray_500"/>
+                                android:textColor="@color/ref_gray_500" />
+
                             <Space
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
-                                android:layout_weight="1"/>
+                                android:layout_weight="1" />
+
                             <TextView
+                                style="@style/Font_Body_Medium"
                                 android:layout_width="37dp"
                                 android:layout_height="20dp"
                                 android:gravity="center"
                                 android:text="@string/thu"
-                                style="@style/Font_Body_Medium"
-                                android:textColor="@color/ref_gray_500"/>
+                                android:textColor="@color/ref_gray_500" />
+
                             <Space
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
-                                android:layout_weight="1"/>
+                                android:layout_weight="1" />
+
                             <TextView
+                                style="@style/Font_Body_Medium"
                                 android:layout_width="37dp"
                                 android:layout_height="20dp"
                                 android:gravity="center"
                                 android:text="@string/fri"
-                                style="@style/Font_Body_Medium"
-                                android:textColor="@color/ref_gray_500"/>
+                                android:textColor="@color/ref_gray_500" />
+
                             <Space
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
-                                android:layout_weight="1"/>
+                                android:layout_weight="1" />
+
                             <TextView
+                                style="@style/Font_Body_Medium"
                                 android:layout_width="37dp"
                                 android:layout_height="20dp"
                                 android:gravity="center"
                                 android:text="@string/sat"
-                                style="@style/Font_Body_Medium"
-                                android:textColor="@color/ref_gray_500"/>
+                                android:textColor="@color/ref_gray_500" />
+
                             <Space
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
-                                android:layout_weight="1"/>
+                                android:layout_weight="1" />
+
                             <TextView
+                                style="@style/Font_Body_Medium"
                                 android:layout_width="37dp"
                                 android:layout_height="20dp"
                                 android:gravity="center"
                                 android:text="@string/sun"
-                                style="@style/Font_Body_Medium"
-                                android:textColor="@color/ref_gray_500"/>
+                                android:textColor="@color/ref_gray_500" />
                         </LinearLayout>
+
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/date"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:nestedScrollingEnabled="false"
-                            android:overScrollMode="never"/>
+                            android:overScrollMode="never" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -207,43 +236,163 @@
                 android:id="@+id/schedule_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:background="@color/ref_white"
+                android:orientation="vertical"
                 android:paddingHorizontal="16dp"
-                android:paddingTop="24dp">
+                android:paddingTop="24dp"
+                android:visibility="gone">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
                     android:orientation="vertical"
-                    android:layout_marginBottom="16dp">
+                    >
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginBottom="11dp">
+                        android:layout_marginBottom="11dp"
+                        android:orientation="vertical">
+
                         <TextView
                             android:id="@+id/text_today"
+                            style="@style/Font_Title_Bold"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/date3"
                             android:layout_marginRight="8dp"
-                            style="@style/Font_Title_Bold"
-                            android:textColor="@color/semantic_text_secondary"/>
+                            android:text="@string/date3"
+                            android:textColor="@color/semantic_text_secondary" />
+
                         <TextView
+                            style="@style/Font_Label_Semibold"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/calendar_label"
-                            style="@style/Font_Label_Semibold"
-                            android:textColor="@color/semantic_text_alternative"/>
+                            android:textColor="@color/semantic_text_alternative" />
                     </LinearLayout>
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/biz_list"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
                 </LinearLayout>
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btn_zero_entry"
+                android:layout_width="match_parent"
+                android:layout_height="312dp"
+                android:background="@color/ref_white"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingHorizontal="16dp"
+                android:paddingTop="24dp"
+                android:visibility="gone"
+                >
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/zero_entry_title"
+                        style="@style/Font_Body_Bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/zero_entry"
+                        android:textColor="@color/ref_coolgray_600"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/zero_entry_desc"
+                        style="@style/Font_Label_Medium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="@string/zero_entry_desc"
+                        android:textColor="#7C7B7B"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/zero_entry_title" />
+
+                    <Button
+                        android:id="@+id/btn_to_explore"
+                        style="@style/close_button"
+                        android:layout_width="308dp"
+                        android:layout_height="44dp"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/to_explore"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@id/zero_entry_desc"
+                        app:layout_constraintStart_toStartOf="@id/zero_entry_desc"
+                        app:layout_constraintTop_toBottomOf="@id/zero_entry_desc" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btn_login_entry"
+                android:layout_width="match_parent"
+                android:layout_height="312dp"
+                android:background="@color/ref_white"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingHorizontal="16dp"
+                android:paddingTop="24dp"
+                android:visibility="gone">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/login_entry_title"
+                        style="@style/Font_Body_Bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/login_entry"
+                        android:textColor="@color/ref_coolgray_600"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/login_entry_desc"
+                        style="@style/Font_Label_Medium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="@string/login_entry_desc"
+                        android:textColor="#7C7B7B"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/login_entry_title" />
+
+                    <Button
+                        android:id="@+id/btn_to_login"
+                        style="@style/close_button"
+                        android:layout_width="308dp"
+                        android:layout_height="44dp"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/to_login"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@id/login_entry_desc"
+                        app:layout_constraintStart_toStartOf="@id/login_entry_desc"
+                        app:layout_constraintTop_toBottomOf="@id/login_entry_desc" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
         </LinearLayout>
+
+
     </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>

@@ -39,6 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
+                android:text="@string/pw"
                 android:text="@string/new_pw"
                 style="@style/Font_Label_Medium"
                 android:textColor="@color/ref_coolgray_500"/>
@@ -48,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:padding="16dp"
                 android:background="@drawable/round_background4"
-                android:hint="@string/input_new_pw"
+                android:hint="@string/input_pw"
                 style="@style/Font_Body_Regular"
                 android:textColor="@color/semantic_text_assistive"
                 android:inputType="textPassword"/>
@@ -66,54 +67,10 @@
                     android:src="@drawable/ic_error"
                     android:layout_marginEnd="2dp"/>
                 <TextView
+                    android:id="@+id/pw1_error_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/error_pw_rule"
-                    style="@style/Font_Caption_Regular"
-                    android:textColor="@color/semantic_information_error"/>
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/container2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginBottom="8dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:text="@string/new_pw2"
-                style="@style/Font_Label_Medium"
-                android:textColor="@color/ref_coolgray_500"/>
-            <EditText
-                android:id="@+id/pw2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:background="@drawable/round_background4"
-                android:hint="@string/input_again"
-                style="@style/Font_Body_Regular"
-                android:textColor="@color/semantic_text_assistive"
-                android:inputType="textPassword"/>
-
-            <LinearLayout
-                android:id="@+id/pw2_error"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="4dp"
-                android:visibility="gone">
-                <ImageView
-                    android:layout_width="12dp"
-                    android:layout_height="12dp"
-                    android:src="@drawable/ic_error"
-                    android:layout_marginEnd="2dp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/error_pw_mismatch"
                     style="@style/Font_Caption_Regular"
                     android:textColor="@color/semantic_information_error"/>
             </LinearLayout>

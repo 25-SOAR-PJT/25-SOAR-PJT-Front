@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.example.soar.Network.tag.TagResponse
 import com.example.soar.R
 import com.example.soar.databinding.StepCsExtraBinding
 import com.google.gson.Gson
@@ -29,8 +30,10 @@ class Step4Fragment : Fragment(R.layout.step_cs_extra) {
         _binding = StepCsExtraBinding.bind(view)
 
         // 1. JSON에서 태그 데이터를 로드하여 ViewModel 초기화
-        val allTags = loadDummyTagData()
-        viewModel.loadInitialTags(allTags)
+        activityViewModel.allTags.observe(viewLifecycleOwner) { allTags ->
+            if (allTags.isNullOrEmpty()) return@observe
+            viewModel.loadInitialTags(allTags)
+        }
 
         // [추가] 수정 모드일 경우, 저장된 값으로 ViewModel 상태를 초기화합니다.
         if (activityViewModel.isEditMode.value == true) {
@@ -60,7 +63,7 @@ class Step4Fragment : Fragment(R.layout.step_cs_extra) {
             if (!selectedUiModels.isNullOrEmpty()) {
                 // [수정] List<TagUiModel>을 List<TagResponse>로 변환(map)합니다.
                 val selectedTags = selectedUiModels.map { uiModel ->
-                    TagResponse(uiModel.tagId, uiModel.tagName, uiModel.fieldId, "추가지원조건")
+                    TagResponse(uiModel.tagId, uiModel.tagName, uiModel.fieldId)
                 }
                 // [수정] 변환된 '리스트'를 전달합니다.
                 activityViewModel.setAdditionalConditions(selectedTags)
@@ -147,16 +150,6 @@ class Step4Fragment : Fragment(R.layout.step_cs_extra) {
         btnClose.visibility = View.VISIBLE // 'X' 아이콘 보이기
     }
 
-    // assets에서 JSON 데이터를 읽어오는 함수 (KeywordActivity 로직 적용)
-    private fun loadDummyTagData(): List<TagResponse> {
-        val json = requireContext().assets.open("response_tags.json")
-            .bufferedReader().use { it.readText() }
-
-        val gson = Gson()
-        val type = object : TypeToken<ApiResponse>() {}.type
-        val response: ApiResponse = gson.fromJson(json, type)
-        return response.data
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()

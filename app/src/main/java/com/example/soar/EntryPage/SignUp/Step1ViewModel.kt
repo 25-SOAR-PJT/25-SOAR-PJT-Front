@@ -7,12 +7,15 @@ import androidx.lifecycle.map      // ★ 이 한 줄만 있으면 OK
 
 class Step1ViewModel : ViewModel() {
 
-    private val _items = MutableLiveData<List<PolicyItem>>(listOf(
-        PolicyItem(0, "[필수] 서비스 이용약관",        required = true),
-        PolicyItem(1, "[필수] 개인정보 수집 및 이용동의", required = true),
-        PolicyItem(2, "[선택] 마케팅 정보 수신동의",     required = false),
-        PolicyItem(3, "[선택] 필수 알림 동의",         required = false)
-    ))
+    private val _items = MutableLiveData<List<PolicyItem>>(
+        listOf(
+            PolicyItem(0, "[필수] 이용약관 동의", required = true),
+            PolicyItem(1, "[필수] 개인정보 수집 및 이용동의", required = true),
+            PolicyItem(2, "[선택] 마케팅 정보 수신 동의 (Push/이메일 등)", required = false),
+            PolicyItem(3, "[선택] 민감정보 처리 동의 (예: 소득정보, 주거유형 등)", required = false),
+            PolicyItem(4, "[필수] 제3자 제공 동의", required = true)
+        )
+    )
     val items: LiveData<List<PolicyItem>> get() = _items
 
     private val _allChecked = MutableLiveData(false)

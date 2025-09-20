@@ -10,7 +10,7 @@
     android:background="@color/ref_opacityBlack_100"
     android:paddingHorizontal="30dp"
     android:gravity="center">
-    
+  
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/unsubscribe_title"
-            style="Font_Heading500_Bold"
+            style="@style/Font_Heading500_Bold"
             android:textColor="@color/semantic_text_primary"
             android:layout_marginBottom="12dp"/>
 

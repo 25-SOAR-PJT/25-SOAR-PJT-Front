@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--ellipse_1869.xml-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="147dp"
+    android:height="146dp"
+    android:viewportWidth="147"
+    android:viewportHeight="146">
+    <path
+        android:fillAlpha="0.2"
+        android:strokeColor="#FFABCEFF"
+        android:strokeAlpha="0.2"
+        android:strokeWidth="1.81"
+        android:pathData="M73.45 0.96A71.99 71.99 0 1 0 73.45 144.94 71.99 71.99 0 1 0 73.45 0.96z"/>
+</vector>

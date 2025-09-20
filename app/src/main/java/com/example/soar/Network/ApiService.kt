@@ -1,9 +1,29 @@
 package com.example.soar.Network
 
-import com.example.soar.Network.notice.NoticeResponseDto
+import ApplicationPolicyNoticeRequest
+import FcmTokenRequest
+import com.example.soar.Network.archiving.AppliedPolicy
+import com.example.soar.Network.archiving.ApplyPolicyRequest
+import com.example.soar.Network.archiving.ApplyPolicyResponse
+import com.example.soar.Network.archiving.BookmarkedPolicy
+import com.example.soar.Network.archiving.BulkUnbookmarkRequest
+import com.example.soar.Network.archiving.BulkUnbookmarkResponse
+import com.example.soar.Network.archiving.ToggleApplyResponse
+import com.example.soar.Network.detail.CommentRequest
+import com.example.soar.Network.detail.CommentResponse
+import com.example.soar.Network.detail.PolicyStepDetail
+import com.example.soar.Network.detail.YouthPolicyDetail
+import com.example.soar.Network.explore.PolicyResponse
+import com.example.soar.Network.explore.RecentPoliciesRequest
+import com.example.soar.Network.explore.YouthPolicy
+import com.example.soar.Network.home.AgePopularPolicy
+import com.example.soar.Network.home.LatestPolicy
+import com.example.soar.Network.home.PopularPolicy
+import com.example.soar.Network.home.BannerResponse
+import com.example.soar.Network.tag.TagResponse
 import com.example.soar.Network.user.*
+import com.example.soar.Network.tag.TagIdRequest
 import okhttp3.ResponseBody
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -35,17 +55,38 @@ interface ApiService {
     @GET(ApiConfig.User.FIND_ID)
     suspend fun findId(
         @Query("userName") userName: String,
-        @Query("userBirthdate") userBirthdate: String
-    ): Response<ApiResponse<List<String>>>
+        @Query("userBirthdate") userBirthdate: String // "yyyy-MM-dd" 형식
+    ): Response<ApiResponse<FindIdResponse>> // 반환 타입 수정
 
     @POST(ApiConfig.User.FIND_PASSWORD)
     suspend fun findPassword(
         @Body request: FindPasswordRequest
-    ): Response<ApiResponse<String>>
+    ): Response<ApiResponse<Unit>> // 응답 본문에 data 필드가 없으므로 Unit 또는 Void 사용
+
 
     @GET(ApiConfig.User.USER_INFO)
     suspend fun getUserInfo(): Response<ApiResponse<UserInfoResponse>>
 
+    @GET("/api/auth/get-detailinfo")
+    suspend fun getUserDetailInfo(): Response<ApiResponse<UserDetailInfoResponse>>
+
+    // ✨ 추가: 사용자 이름 변경 API
+    @POST("/api/auth/update-name")
+    suspend fun updateUserName(
+        @Query("userName") userName: String
+    ): Response<ApiResponse<String>>
+
+    // ✨ 추가: 사용자 생년월일 변경 API
+    @POST("/api/auth/update-birth")
+    suspend fun updateUserBirth(
+        @Query("userBirth") userBirth: String // "yyyy-MM-dd" 형식
+    ): Response<ApiResponse<String>>
+
+    // ✨ 추가: 사용자 성별 변경 API
+    @POST("/api/auth/update-gender")
+    suspend fun updateUserGender(
+        @Query("userGender") userGender: Boolean?
+    ): Response<ApiResponse<String>>
 
 
     @POST(ApiConfig.User.RESET_PASSWORD)
@@ -53,6 +94,7 @@ interface ApiService {
         @Body request: Map<String, String>
     ): Response<ApiResponse<String>>
 
+    @Headers("Skip-Auth: true") // ⬅️ 이 호출에는 Authorization 붙이지 않도록
     @POST(ApiConfig.User.KAKAO_LOGIN)
     suspend fun kakaoLogin(
         @Header("Authorization") kakaoAccessToken: String
@@ -60,6 +102,179 @@ interface ApiService {
 
     @POST("/api/auth/kakao/signin")
     suspend fun kakaoSignIn(@Body request: KakaoLoginRequest): Response<ApiResponse<SignInResponse>>
+
+    @GET(ApiConfig.User.TAG)
+    suspend fun getUserTags(): Response<ApiResponse<UserTagData>>
+    /* ───────────── Alarm ───────────── */
+    @POST(ApiConfig.Alarm.APPLICATION_FCMTOKEN)
+    suspend fun registerToken(
+        @Body request: FcmTokenRequest
+    )
+
+    @POST(ApiConfig.Alarm.APPLICATION_ATTENDANCE)
+    suspend fun attendanceCheck():Response<ApiResponse<Unit>>
+
+    @POST(ApiConfig.User.TAG_MODIFY)
+    suspend fun modifyUserTags(@Body request: TagIdRequest): Response<ApiResponse<UserTagData>>
+
+    @POST(ApiConfig.User.UPDATE_PW)
+    suspend fun updatePW(@Body request: UpdatePwRequest): Response<ApiResponse<UpdatePwResponse>>
+
+    @POST("/api/auth/delete")
+    suspend fun deleteUser(@Body request: Map<String, String>): Response<ApiResponse<Unit>>
+
+    @POST("/api/auth/kakao/delete")
+    suspend fun deleteKakaoUser(): Response<ApiResponse<Unit>>
+
+    @GET("api/auth/get-term")
+    suspend fun getTermAgreement(): Response<ApiResponse<Boolean>>
+
+    @POST("/api/auth/add-term")
+    suspend fun agreeToTerm(): Response<ApiResponse<Unit>> // 응답 본문에 data가 없으므로 Unit 사용
+
+
+
+
+
+    /* ───────────── Home ───────────── */
+
+    @GET("/api/banner/{id}")
+    suspend fun getBanner(@Path("id") id: Int): Response<ApiResponse<BannerResponse>>
+
+    @GET("/api/youth-policy/latestOne")
+    suspend fun getLatestPolicy(): Response<ApiResponse<LatestPolicy?>>
+
+    @GET("/api/user-policies/popularName")
+    suspend fun getPopularPolicies(): Response<ApiResponse<List<PopularPolicy>>>
+
+    @GET("/api/user-policies/popular/age-user")
+    suspend fun getAgePopularPolicies(): Response<ApiResponse<List<AgePopularPolicy>>>
+
+
+    /* ───────────── Tag ───────────── */
+
+    @GET(ApiConfig.Tag.TAG)
+    suspend fun getTags(): Response<ApiResponse<List<TagResponse>>>
+
+    /* ───────────── CurationSequence ───────────── */
+    @GET(ApiConfig.Explore.MULTI_SEARCH)
+    suspend fun getMultiSearchPolicies(
+        @Query("keywords") keywords: String,
+        @Query("page") page: Int = 0,
+        @Query("size") size: Int = 10
+    ): Response<ApiResponse<PolicyResponse>>
+
+    @GET(ApiConfig.UserYouthPolicyTag.QS)
+    suspend fun getMultiTagSearchPolicies(
+        @Query("tags") tags: String,
+        @Query("page") page: Int = 0,
+        @Query("size") size: Int = 10
+    ): Response<ApiResponse<PolicyResponse>>
+
+
+    /* ───────────── Explore ───────────── */
+
+    @GET(ApiConfig.Explore.MAIN)
+    suspend fun getMainYouthPolicies(
+        @Query("keyword") keyword: String? = null,
+        @Query("category") category: String? = null,
+        @Query("page") page: Int,
+        @Query("size") size: Int = 10 // 기본 사이즈는 10으로 설정
+    ): Response<ApiResponse<PolicyResponse>>
+
+    @GET(ApiConfig.UserYouthPolicy.MAIN)
+    suspend fun getMainYouthPoliciesBookmark(
+        @Query("tags") tags: String? = null,
+        @Query("category") category: String? = null,
+        @Query("page") page: Int,
+        @Query("size") size: Int = 10 // 기본 사이즈는 10으로 설정
+    ): Response<ApiResponse<PolicyResponse>>
+
+    @POST(ApiConfig.UserYouthPolicy.TOGGLE_BOOKMARK)
+    suspend fun toggleBookmark(
+        @Path("policyId") policyId: String
+    ): Response<ApiResponse<Any>> // 응답 데이터가 없거나 메시지만 있을 경우 Any 사용
+
+    /* ───────────── Detail ───────────── */
+
+    @GET(ApiConfig.Details.DETAIL_BY_ID)
+    suspend fun getPolicyDetail(
+        @Path("policyId") policyId: String
+    ): Response<ApiResponse<YouthPolicyDetail>>
+
+    @GET("/api/youth-policy/step/{policyId}")
+    suspend fun getPolicyStepDetail(
+        @Path("policyId") policyId: String
+    ): Response<ApiResponse<PolicyStepDetail>>
+
+    /** ✨ 추가: 특정 정책의 북마크 상태를 조회하는 API */
+    @GET("/api/user-policies/{policyId}/bookmarks/status")
+    suspend fun getBookmarkStatus(
+        @Path("policyId") policyId: String
+    ): Response<ApiResponse<Boolean>>
+
+
+    /* ───────────── Archiving ───────────── */
+
+    @GET("/api/user-policies/bookmarks/with-meta")
+    suspend fun getBookmarkedPolicies(): Response<ApiResponse<List<BookmarkedPolicy>>>
+
+    @POST("/api/user-policies/apply/toggle/bulk")
+    suspend fun applyForPolicies(
+        @Body request: ApplyPolicyRequest
+    ): Response<ApiResponse<ApplyPolicyResponse>>
+
+    @POST("/api/user-policies/bookmarks/bulk-unbookmark")
+    suspend fun bulkUnbookmark(
+        @Body request: BulkUnbookmarkRequest
+    ): Response<ApiResponse<BulkUnbookmarkResponse>>
+
+    @POST("/api/user-policies/{policyId}/apply/toggle")
+    suspend fun togglePolicyApply(
+        @Path("policyId") policyId: String
+    ): Response<ApiResponse<ToggleApplyResponse>>
+
+    /* ───────────── Mypage ───────────── */
+
+    @GET("/api/user-policies/applied")
+    suspend fun getAppliedPolicies(): Response<ApiResponse<List<AppliedPolicy>>>
+
+    @POST("/api/youth-policy/search/by-ids")
+    suspend fun getPoliciesByIds(
+        @Body request: RecentPoliciesRequest
+    ): Response<ApiResponse<List<YouthPolicy>>>
+
+    @GET("/api/user-policies/applied/count")
+    suspend fun getAppliedPolicyCount(): Response<ApiResponse<Int>>
+
+    @GET("/api/comment/applied/count")
+    suspend fun getMyCommentCount(): Response<ApiResponse<Int>>
+
+
+
+    /* ───────────── Comment ───────────── */
+
+    @GET("/api/comment/policy/{policyId}")
+    suspend fun getCommentsByPolicy(@Path("policyId") policyId: String): Response<ApiResponse<List<CommentResponse>>>
+
+    @POST("/api/comment/")
+    suspend fun createComment(@Body request: CommentRequest): Response<ApiResponse<List<CommentResponse>>>
+
+    @PUT("/api/comment/{commentId}")
+    suspend fun updateComment(
+        @Path("commentId") commentId: Long,
+        @Body request: CommentRequest
+    ): Response<ApiResponse<CommentResponse>>
+
+    @DELETE("/api/comment/{commentId}")
+    suspend fun deleteComment(@Path("commentId") commentId: Long): Response<ApiResponse<Void>>
+
+    @GET("/api/comment/user")
+    suspend fun getMyComments(): Response<ApiResponse<List<CommentResponse>>>
+    @POST(ApiConfig.Alarm.APPLICATION_POLICY_NOTICE)
+    suspend fun applicationPolicyNotice(
+        @Body request: ApplicationPolicyNoticeRequest
+    )
 
 
 }

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- custom_toast -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="328dp"
     android:layout_height="60dp"
     android:background="@drawable/round_background2"
-    android:backgroundTint="@color/semantic_surface_normal_inverse"
+    android:backgroundTint="@color/ref_coolgray_600"
     android:paddingVertical="12dp"
     android:paddingHorizontal="16dp"
     android:gravity="center">
@@ -14,6 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="@string/sample"
+        android:textSize="14dp"
         style="@style/Font_Body_Medium"
         android:textColor="@color/semantic_text_inverse"/>
     <TextView
@@ -25,6 +27,6 @@
         android:gravity="center"
         android:text="@string/cancel"
         style="@style/Font_Label_Medium"
-        android:textColor="@color/semantic_text_tertiary"/>
+        android:textColor="@color/ref_gray_400"/>
 
 </LinearLayout>

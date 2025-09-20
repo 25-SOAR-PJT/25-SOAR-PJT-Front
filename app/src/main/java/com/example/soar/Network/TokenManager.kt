@@ -50,10 +50,25 @@ object TokenManager {
             val json = Gson().toJson(userInfo)
             prefs.edit()
                 .putString(KEY_USER_INFO, json)
-                .putBoolean(KEY_IS_KAKAO_USER, userInfo.isKakaoUser ?: false)
                 .apply()
         }
     }
+
+    // ✨ 추가: SharedPreferences에 저장된 사용자 이름 업데이트 함수
+    fun updateUserName(newName: String) {
+        // SignInInfo 업데이트
+        getSignInInfo()?.let { currentInfo ->
+            val updatedInfo = currentInfo.copy(userName = newName)
+            saveSignInInfo(updatedInfo)
+        }
+
+        // UserInfo 업데이트
+        getUserInfo()?.let { currentUserInfo ->
+            val updatedUserInfo = currentUserInfo.copy(userName = newName)
+            saveUserInfo(updatedUserInfo)
+        }
+    }
+
 
 
     fun getUserInfo(): UserInfoResponse? {
@@ -77,6 +92,10 @@ object TokenManager {
         return prefs.getBoolean(KEY_IS_KAKAO_USER, false)
     }
 
+    // ✨ 추가: isKakaoUser 상태를 직접 저장하는 함수
+    fun saveIsKakaoUser(isKakaoUser: Boolean) {
+        prefs.edit().putBoolean(KEY_IS_KAKAO_USER, isKakaoUser).apply()
+    }
 
     fun getSignInInfo(): SignInResponse? {
         val json = prefs.getString(KEY_SIGN_IN_INFO, null) ?: return null

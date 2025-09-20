@@ -1,76 +1,66 @@
+// HomePage/PersonalCardAdapter.kt
+
 package com.example.soar.HomePage
 
-import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.soar.DetailPage.DetailPageActivity
+import com.example.soar.Network.home.AgePopularPolicy
 import com.example.soar.R
 import com.example.soar.databinding.ItemHomeAd2Binding
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import java.time.temporal.ChronoUnit
-import java.util.Calendar
-import java.util.Date
 
-class PersonalCardAdapter(private val items: List<ProgramCard>) :
-    RecyclerView.Adapter<PersonalCardAdapter.CardViewHolder>() {
+class PersonalCardAdapter(
+    private val onBookmarkClick: (AgePopularPolicy) -> Unit
+) : ListAdapter<AgePopularPolicy, PersonalCardAdapter.CardViewHolder>(DiffCallback) {
 
-    inner class CardViewHolder(val binding: ItemHomeAd2Binding) :
-        RecyclerView.ViewHolder(binding.root)
+    inner class CardViewHolder(private val binding: ItemHomeAd2Binding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(policy: AgePopularPolicy) {
+            binding.location.text = policy.supervisingInstName
+            binding.title.text = policy.policyName
+            binding.dday.text = policy.dateLabel
+
+            val bookmarkRes = if (policy.bookmarked) {
+                R.drawable.icon_bookmark_checked
+            } else {
+                R.drawable.icon_bookmark
+            }
+            binding.btnBookmark.setImageResource(bookmarkRes)
+
+            binding.btnBookmark.setOnClickListener {
+                onBookmarkClick(policy)
+            }
+
+            itemView.setOnClickListener {
+                val context = it.context
+                val intent = Intent(context, DetailPageActivity::class.java).apply {
+                    putExtra("policyId", policy.policyId)
+                }
+                context.startActivity(intent)
+            }
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
-        val binding = ItemHomeAd2Binding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
-        )
+        val binding = ItemHomeAd2Binding.inflate(LayoutInflater.from(parent.context), parent, false)
         return CardViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
-        val item = items[position]
-        holder.binding.location.text = item.location
-        holder.binding.title.text = item.title
-
-        val (ddayText, color) = getDDayText(item.date, holder.itemView.context)
-        holder.binding.dday.text = ddayText
-        holder.binding.dday.setTextColor(color)
-
-        val bookmarkRes = if (item.isBookmarked) {
-            R.drawable.icon_bookmark_checked
-        } else {
-            R.drawable.icon_bookmark
-        }
-        holder.binding.btnBookmark.setImageResource(bookmarkRes)
-
-        holder.binding.btnBookmark.setOnClickListener {
-            item.isBookmarked = !item.isBookmarked
-            notifyItemChanged(position)
-        }
+        holder.bind(getItem(position))
     }
 
-    fun getDDayText(deadline: LocalDate, context: Context): Pair<String, Int> {
-        val today = LocalDate.now()
-        val diff = ChronoUnit.DAYS.between(today, deadline).toInt()
-
-        val text = when {
-            diff == 0 -> "D-DAY"
-            diff > 0  -> "D-$diff"
-            else      -> "D+${-diff}"
+    companion object {
+        private val DiffCallback = object : DiffUtil.ItemCallback<AgePopularPolicy>() {
+            override fun areItemsTheSame(oldItem: AgePopularPolicy, newItem: AgePopularPolicy): Boolean {
+                return oldItem.policyId == newItem.policyId
+            }
+            override fun areContentsTheSame(oldItem: AgePopularPolicy, newItem: AgePopularPolicy): Boolean {
+                return oldItem == newItem
+            }
         }
-
-        val colorResId = if (diff == 0)
-            R.color.semantic_accent_deadline_strong
-        else
-            R.color.semantic_accent_primary_strong
-
-        val color = ContextCompat.getColor(context, colorResId)
-
-        return Pair(text, color)
     }
-
-
-
-    override fun getItemCount(): Int = items.size
 }

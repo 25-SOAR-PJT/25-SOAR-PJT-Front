@@ -1,171 +1,446 @@
+
 package com.example.soar.ArchivingPage
 
+
+
 import android.app.Activity
+
 import android.content.Intent
+
 import android.os.Bundle
+import android.util.Log
+
+import android.util.TypedValue
+
 import androidx.fragment.app.Fragment
+
 import android.view.LayoutInflater
+
 import android.view.View
+
 import android.view.ViewGroup
+
+import android.widget.ImageView
+
+import android.widget.TextView
+
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.fragment.app.activityViewModels
+
+import androidx.core.content.ContextCompat
+
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.soar.ApiResponse
-import com.example.soar.Business
-import com.example.soar.DetailPage.DetailPageActivity
-import com.example.soar.EntryPage.Onboarding.OnBoardingActivity
-import com.example.soar.CurationSequencePage.CurationSequeceActivity
-import com.example.soar.TagResponse
+
 import com.example.soar.databinding.FragmentArchivingBinding
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import java.time.LocalDate
+
+import androidx.fragment.app.viewModels
+
+import com.example.soar.DetailPage.DetailPageActivity
+
+import com.example.soar.EntryPage.SignIn.LoginActivity
+
+import com.example.soar.MainActivity
+
+import com.example.soar.Network.TokenManager
+
+import com.example.soar.Network.archiving.BookmarkedPolicy
+
+import com.example.soar.R
+
+import com.example.soar.Network.tag.TagResponse
 
 
-// (Business, TagResponse 데이터 클래스들은 그대로 유지)
+import com.example.soar.util.showBlockingToast
+
+import com.example.soar.util.TouchBlockingToast
+import kotlin.collections.mapNotNull
+
 
 class ArchivingFragment : Fragment() {
+
     private var _binding: FragmentArchivingBinding? = null
+
     private val binding get() = _binding!!
 
-    // activityViewModels()를 사용해 액티비티 스코프의 ViewModel을 공유
-    private val tagViewModel: TagViewModel by activityViewModels()
+
+    private val viewModel: ArchivingViewModel by viewModels()
 
     private lateinit var adapter: ArchivingAdapter
 
-    private var selectedTagIds = arrayListOf<Int>()
-    private val keywordLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            val newSelectedTagIds = result.data?.getIntegerArrayListExtra("selectedTagIds") ?: arrayListOf()
-            this.selectedTagIds = newSelectedTagIds
 
-            if (this.selectedTagIds.isEmpty()) {
-                tagViewModel.resetFilteredData()
-            } else {
-                tagViewModel.filterDataByTagIds(this.selectedTagIds)
-            }
+    private val keywordLauncher = registerForActivityResult(
+
+        ActivityResultContracts.StartActivityForResult()
+
+    ) { result ->
+
+        if (result.resultCode == Activity.RESULT_OK) {
+
+            val selectedTagIds =
+
+                result.data?.getIntegerArrayListExtra("selectedTagIds") ?: arrayListOf()
+
+            viewModel.filterPoliciesByTag(selectedTagIds)
+
         }
+
     }
 
 
     override fun onCreateView(
+
         inflater: LayoutInflater, container: ViewGroup?,
+
         savedInstanceState: Bundle?
-    ): View? {
+
+    ): View {
+
         _binding = FragmentArchivingBinding.inflate(inflater, container, false)
+        Log.d("ArchivingFragment", "onCreated called")
         return binding.root
+
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         super.onViewCreated(view, savedInstanceState)
 
-        // RecyclerView & Adapter 초기화
-        adapter = ArchivingAdapter()
+        setupRecyclerView()
+
+        setupListeners()
+
+        setupObservers()
+
+
+        Log.d("ArchivingFragment", "onViewCreated called")
+        updateSelectedKeywordsUI(emptyList())
+
+    }
+
+
+    override fun onResume() {
+
+        super.onResume()
+
+// ✨ 수정: 화면에 다시 나타날 때마다 로그인 상태를 확인하여 UI를 갱신
+
+        updateUiForLoginState()
+
+    }
+
+
+// ✨ 추가: 로그인 상태에 따라 UI를 갱신하는 함수
+
+    private fun updateUiForLoginState() {
+
+        val accessToken = TokenManager.getAccessToken()
+
+
+
+        if (accessToken.isNullOrEmpty()) {
+
+// --- 로그아웃 상태 ---
+
+// 1. "편집" 버튼 숨기기
+
+            binding.btnToEdit.visibility = View.GONE
+
+// 2. 상단 문구를 "0건"으로 고정
+
+            binding.appliedPerBookmark.text = "0개"
+
+// 3. 키워드 필터, 구분선, 북마크 리스트(biz_list) 숨기기
+
+            binding.keywordScrollView.visibility = View.GONE
+
+            binding.keywordChipsContainer.visibility = View.GONE
+
+            binding.bizList.visibility = View.GONE
+
+// 4. 로그인 유도 버튼 보이기
+
+            binding.btnLoginEntry.visibility = View.VISIBLE
+
+            binding.btnZeroEntry.visibility = View.GONE // ✨ 북마크 0개 화면 숨기기
+
+        } else {
+
+// --- 로그인 상태 ---
+
+// 1. "편집" 버튼 보이기
+
+            binding.btnToEdit.visibility = View.VISIBLE
+
+
+// 3. 로그인 유도 버튼 숨기기
+
+            binding.btnLoginEntry.visibility = View.GONE
+
+// 4. ViewModel을 통해 실제 북마크 데이터 가져오기
+
+            viewModel.fetchBookmarkedPolicies()
+
+        }
+
+    }
+
+
+    private fun setupRecyclerView() {
+
+        adapter = ArchivingAdapter(
+
+            onPolicyClick = { policy ->
+
+                onPolicyItemClick(policy)
+
+            },
+
+            onApplyClick = { policy ->
+
+                viewModel.togglePolicyApplied(policy.policyId)
+
+            }
+
+        )
+
         binding.bizList.adapter = adapter
+
         binding.bizList.layoutManager = LinearLayoutManager(requireContext())
 
-        // ViewModel에 초기 데이터 로드 (Fragment의 Context가 필요하므로 여기서 호출)
-        val tagList = loadDummyTagData() // JSON에서 TagResponse 전체 로드
-        val initialBusinessData = loadDummyBusinessData(tagList)
-        tagViewModel.setInitialData(initialBusinessData)
+    }
 
-        // ViewModel의 dataList를 관찰하고 데이터 변경 시 어댑터 갱신
-        tagViewModel.dataList.observe(viewLifecycleOwner) { newList ->
-            adapter.submitList(newList)
-        }
+
+    private fun setupListeners() {
 
         binding.btnToEdit.setOnClickListener {
-            val intent = Intent(requireContext(), BookmarkEditActivity::class.java)
-            startActivity(intent)
-        }
 
-        // 버튼 클릭 리스너 설정
-        binding.btnSelectKeyword.setOnClickListener {
-            val intent = Intent(requireContext(), KeywordActivity::class.java).apply {
-                putIntegerArrayListExtra("selectedTagIds", selectedTagIds)
+            val intent = Intent(requireContext(), BookmarkEditActivity::class.java).apply {
+
+                val allPolicies = viewModel.policies.value
+
+                if (allPolicies != null) {
+
+                    putParcelableArrayListExtra("ALL_POLICIES", ArrayList(allPolicies))
+
+                }
+
             }
-            keywordLauncher.launch(intent)
+
+            startActivity(intent)
+
         }
 
-        // (기존 버튼 리스너들은 그대로 유지)
-        binding.btn1.setOnClickListener {
-            val intent = Intent(requireContext(), DetailPageActivity::class.java)
+
+// ✨ 추가: "로그인" 버튼 클릭 리스너 설정
+
+        binding.btnToLogin.setOnClickListener {
+
+            val intent = Intent(requireContext(), LoginActivity::class.java)
+
             startActivity(intent)
+
         }
-        binding.btn2.setOnClickListener {
-            val intent = Intent(requireContext(), OnBoardingActivity::class.java)
-            startActivity(intent)
+
+
+// ✨ 추가: "둘러보기" 버튼 클릭 리스너 설정
+
+        binding.btnToExplore.setOnClickListener {
+
+// 현재 프래그먼트를 호스팅하고 있는 액티비티(MainActivity)의 인스턴스를 가져옴
+
+// 'as?'를 사용하여 안전하게 형변환
+
+            val mainActivity = activity as? MainActivity
+
+// mainActivity가 null이 아닐 경우에만 goToExploreTab() 함수 호출
+
+            mainActivity?.goToExploreTab()
+
         }
-        binding.btn3.setOnClickListener {
-            val intent = Intent(requireContext(), CurationSequeceActivity::class.java)
-            startActivity(intent)
-        }
+
     }
 
-    // Fragment에서 context를 사용해 더미 데이터 로드
-    private fun loadDummyTagData(): List<TagResponse> {
-        val json = requireContext().assets.open("response_tags.json")
-            .bufferedReader().use { it.readText() }
-        val gson = Gson()
-        val type = object : TypeToken<ApiResponse>() {}.type
-        val response: ApiResponse = gson.fromJson(json, type)
-        return response.data
-    }
 
-    private fun loadDummyBusinessData(tagList: List<TagResponse>): List<Business> {
-        // (기존 loadDummyBusinessData 함수는 그대로 유지)
-        return listOf(
-            Business(
-                id = 1,
-                date = LocalDate.now(),
-                title = "창업 지원 프로그램",
-                type = 0,
-                tags = tagList.filter { it.tagId in listOf(1, 2) }
-            ),
-            Business(
-                id = 2,
-                date = LocalDate.now(),
-                title = "청년 주거 지원금",
-                type = 1,
-                tags = tagList.filter { it.tagId in listOf(7, 8) }
-            ),
-            Business(
-                id = 3,
-                date = LocalDate.now(),
-                title = "청년 창업 멘토링 프로그램",
-                type = 0,
-                tags = tagList.filter { it.tagId in listOf(3, 4) }
-            ),
-            Business(
-                id = 4,
-                date = LocalDate.now(),
-                title = "다문화 가정 주거 지원",
-                type = 1,
-                tags = tagList.filter { it.tagId in listOf(9, 10) }
-            ),
-            Business(
-                id = 5,
-                date = LocalDate.now(),
-                title = "장학금 및 교육비 지원",
-                type = 2,
-                tags = tagList.filter { it.tagId in listOf(11, 12, 13) }
-            ),
-            Business(
-                id = 6,
-                date = LocalDate.now(),
-                title = "문화 행사 티켓 무료 제공",
-                type = 2,
-                tags = tagList.filter { it.tagId in listOf(23, 24, 25) }
-            ),
-            Business(
-                id = 7,
-                date = LocalDate.now(),
-                title = "청소년 심리 상담 지원",
-                type = 3,
-                tags = tagList.filter { it.tagId in listOf(26, 27) }
-            )
+    private fun launchKeywordActivity() {
+        val intent = Intent(requireContext(), KeywordActivity::class.java)
+
+        val selectedTags: List<TagResponse> = viewModel.selectedTags.value ?: emptyList()
+        val selectedTagIds: ArrayList<Int> = ArrayList(
+            selectedTags.mapNotNull { it.tagId }
         )
+
+        intent.putIntegerArrayListExtra("selectedTagIds", selectedTagIds)
+        keywordLauncher.launch(intent)
     }
+
+
+    // ArchivingFragment.kt
+
+    private fun setupObservers() {
+        viewModel.filteredPolicies.observe(viewLifecycleOwner) { policies ->
+            adapter.submitList(policies)
+        }
+
+        viewModel.selectedTags.observe(viewLifecycleOwner) { selectedTags ->
+            updateSelectedKeywordsUI(selectedTags)
+        }
+
+        viewModel.policies.observe(viewLifecycleOwner) { allPolicies ->
+            val totalCount = allPolicies.size
+            val appliedCount = allPolicies.count { it.applied }
+            binding.appliedPerBookmark.text =
+                getString(R.string.applied_count_format, appliedCount, totalCount)
+
+            if (allPolicies.isEmpty()) {
+                binding.keywordScrollView.visibility = View.GONE
+                binding.keywordChipsContainer.visibility = View.GONE
+                binding.bizList.visibility = View.GONE
+                binding.btnZeroEntry.visibility = View.VISIBLE
+                binding.appliedPerBookmark.text = "0개"
+            } else {
+                binding.keywordScrollView.visibility = View.VISIBLE
+                binding.keywordChipsContainer.visibility = View.VISIBLE
+                binding.bizList.visibility = View.VISIBLE
+                binding.btnZeroEntry.visibility = View.GONE
+                binding.appliedPerBookmark.text =
+                    getString(R.string.applied_count_format, appliedCount, totalCount)
+            }
+        }
+
+        viewModel.isLoading.observe(viewLifecycleOwner) { /* ... */ }
+
+        viewModel.error.observe(viewLifecycleOwner) { error ->
+            requireActivity().showBlockingToast(error, hideCancel = true)
+        }
+
+        // ✨ 변경: payload 기반 + onCancel 연결
+        viewModel.toastEvent.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let { payload ->
+                val policyId = payload.policyIdForUndo
+                showBlockingToast(
+                    message = payload.message,
+                    hideCancel = policyId == null,   // 신청완료가 아닐 땐 취소 버튼 숨김
+                    cancelText = "취소",
+                    onCancel = {
+                        policyId?.let { viewModel.undoApply(it) } // ✅ 되돌리기
+                    }
+                )
+            }
+        }
+    }
+
+
+
+    private fun updateSelectedKeywordsUI(selectedTags: List<TagResponse>) {
+
+        val tagsContainer = binding.keywordChipsContainer
+
+        tagsContainer.removeAllViews()
+
+
+        val margin = TypedValue.applyDimension(
+
+            TypedValue.COMPLEX_UNIT_DIP, 6f, resources.displayMetrics
+
+        ).toInt()
+
+
+        val selectKeywordButton = LayoutInflater.from(requireContext())
+
+            .inflate(R.layout.item_keyword_add, tagsContainer, false)
+
+
+
+        selectKeywordButton.setOnClickListener {
+
+            launchKeywordActivity()
+
+        }
+
+
+        val selectBtnParams =
+
+            (selectKeywordButton.layoutParams as ViewGroup.MarginLayoutParams).apply {
+
+                setMargins(0, 0, margin, 0)
+
+            }
+
+        selectKeywordButton.layoutParams = selectBtnParams
+
+        tagsContainer.addView(selectKeywordButton)
+
+
+
+        selectedTags.forEach { tag ->
+
+            val keywordView = LayoutInflater.from(requireContext())
+
+                .inflate(R.layout.item_keyword, tagsContainer, false)
+
+
+            val textView = keywordView.findViewById<TextView>(R.id.text_keyword)
+
+            val btnClose = keywordView.findViewById<ImageView>(R.id.btn_close)
+
+
+
+            textView.text = tag.tagName
+
+            btnClose.visibility = View.GONE
+
+
+
+            keywordView.backgroundTintList =
+
+                ContextCompat.getColorStateList(requireContext(), R.color.ref_blue_150)
+
+            textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.ref_blue_600))
+
+
+            val params = (keywordView.layoutParams as ViewGroup.MarginLayoutParams).apply {
+
+                setMargins(0, 0, margin, 0)
+
+            }
+
+            keywordView.layoutParams = params
+
+            tagsContainer.addView(keywordView)
+
+        }
+
+    }
+
+
+    private fun onPolicyItemClick(policy: BookmarkedPolicy) {
+
+        val intent = Intent(requireContext(), DetailPageActivity::class.java).apply {
+
+            putExtra("policyId", policy.policyId)
+
+        }
+
+        startActivity(intent)
+
+    }
+
+
+    override fun onStop() {
+
+        super.onStop()
+
+        TouchBlockingToast.clear(requireActivity())
+
+    }
+
+
+    override fun onDestroyView() {
+
+        super.onDestroyView()
+
+        _binding = null
+
+    }
+
 }

@@ -17,7 +17,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.soar.Network.RetrofitClient
 import com.example.soar.R
 import com.example.soar.databinding.StepPwInfoBinding
-import com.example.soar.repository.AuthRepository
+import com.example.soar.Network.user.AuthRepository
 import com.google.android.material.textfield.TextInputLayout
 import com.example.soar.Utill.ErrorMessageHelper
 import com.example.soar.Utill.FocusErrorController
@@ -125,7 +125,7 @@ class Step4Fragment : Fragment(R.layout.step_pw_info) {
             when (st) {
                 UiState.Idle    -> showLoading(false)
                 UiState.Loading -> showLoading(true)
-                UiState.Success -> (requireActivity() as SignUpActivity).navigateToMainAndFinish()
+                UiState.Success -> (requireActivity() as SignUpActivity).onSignUpSuccess()
                 is UiState.Failure -> {
                     shake(b.btnNext)
                     helper.showError(b.tilPwCheck, false, true, st.msg)

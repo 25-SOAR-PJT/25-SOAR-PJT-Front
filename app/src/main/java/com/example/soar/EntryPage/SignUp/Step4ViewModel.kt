@@ -6,7 +6,7 @@ import androidx.lifecycle.*
 import androidx.savedstate.SavedStateRegistryOwner
 import com.example.soar.Network.user.SignUpRequest
 import com.example.soar.Utill.combineLatest
-import com.example.soar.repository.AuthRepository
+import com.example.soar.Network.user.AuthRepository
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import javax.inject.Inject

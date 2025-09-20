@@ -1,9 +1,10 @@
+
 package com.example.soar.EntryPage.SignUp
 
 import android.os.Bundle
 import androidx.lifecycle.*
 import androidx.savedstate.SavedStateRegistryOwner
-import com.example.soar.repository.AuthRepository
+import com.example.soar.Network.user.AuthRepository
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
@@ -15,13 +16,15 @@ enum class ErrorSource {
     EMAIL, CODE
 }
 
+enum class LoadingFor { REQUEST_EMAIL, VERIFY_CODE }
+
 /** 이메일 화면 전용 상태 */
 sealed interface EmailState {
     object Idle : EmailState
     object Loading : EmailState
     object MailSent : EmailState
     object Verified : EmailState
-// 💡 2. Error 상태가 에러 출처(source)를 갖도록 수정
+    // 💡 2. Error 상태가 에러 출처(source)를 갖도록 수정
     data class Error(val msg: String, val source: ErrorSource) : EmailState
 }
 
@@ -36,6 +39,9 @@ class Step3ViewModel @Inject constructor(
     val emailValid: LiveData<Boolean> =
         email.map { android.util.Patterns.EMAIL_ADDRESS.matcher(it).matches() }
     val codeValid: LiveData<Boolean> = code.map { it.length == 4 }
+
+    private val _loadingFor = MutableLiveData<LoadingFor?>(null)
+    val loadingFor: LiveData<LoadingFor?> = _loadingFor
 
     /* 최근 요청한 이메일 → Flow 로 변경 */
     private val _lastRequestedEmail = MutableStateFlow("")
@@ -76,18 +82,18 @@ class Step3ViewModel @Inject constructor(
     ) { st, ms ->
         // 💡 수정: 'when'을 사용해 상태별로 조건을 명확히 분리합니다.
         when (st) {
-        // 상태가 MailSent일 때 (== inputField가 활성화됐을 때)
-        // 타이머가 5초 이상 지났는지 확인합니다.
+            // 상태가 MailSent일 때 (== inputField가 활성화됐을 때)
+            // 타이머가 5초 이상 지났는지 확인합니다.
             is EmailState.MailSent -> ms <= 175_000L
 
-        // 상태가 Error일 때
+            // 상태가 Error일 때
             is EmailState.Error -> {
 
-        // "이미 존재하는 이메일입니다." 메시지가 아닐 때만 true를 반환
+                // "이미 존재하는 이메일입니다." 메시지가 아닐 때만 true를 반환
                 st.msg != "이미 존재하는 이메일입니다."
             }
 
-        // 그 외 모든 상태에서는 비활성화합니다.
+            // 그 외 모든 상태에서는 비활성화합니다.
             else -> false
         }
     }.asLiveData()
@@ -98,6 +104,7 @@ class Step3ViewModel @Inject constructor(
 
     /* ───────── 액션 ───────── */
     fun requestEmail() = viewModelScope.launch {
+        _loadingFor.value = LoadingFor.REQUEST_EMAIL
         _state.value = EmailState.Loading
         repo.requestEmailOtp(email.value!!.trim())
             .onSuccess {
@@ -109,9 +116,11 @@ class Step3ViewModel @Inject constructor(
             .onFailure {
                 _state.value = EmailState.Error(it.message ?: "발송 실패", ErrorSource.EMAIL)
             }
+        _loadingFor.value = null
     }
 
     fun verifyCode() = viewModelScope.launch {
+        _loadingFor.value = LoadingFor.VERIFY_CODE
         _state.value = EmailState.Loading
         repo.verifyEmailOtp(email.value!!.trim(), code.value!!.trim())
             .onSuccess { _state.value = EmailState.Verified }
@@ -119,6 +128,7 @@ class Step3ViewModel @Inject constructor(
             .onFailure {
                 _state.value = EmailState.Error(it.message ?: "코드를 다시 확인하세요.", ErrorSource.CODE)
             }
+        _loadingFor.value = null
     }
 
     fun reset() {

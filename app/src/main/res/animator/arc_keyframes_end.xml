@@ -1,0 +1,39 @@
+<objectAnimator xmlns:android="http://schemas.android.com/apk/res/android"
+    android:propertyName="trimPathEnd"
+    android:duration="620"
+    android:interpolator="@android:interpolator/linear"
+    android:repeatCount="infinite"
+    android:repeatMode="restart">
+
+    <propertyValuesHolder android:propertyName="trimPathEnd">
+        <!-- f0 -->
+        <keyframe android:fraction="0.000" android:value="0.00"/>
+
+        <!-- f1: 작은 호 -->
+        <keyframe android:fraction="0.065" android:value="0.18"/>
+
+        <!-- f2: 우→하(쿼터) -->
+        <keyframe android:fraction="0.161" android:value="0.50"/>
+
+        <!-- f3: 긴 구간 -->
+        <keyframe android:fraction="0.290" android:value="0.95"/>
+
+        <!-- f4: 거의 꽉 참(끝이 1.0까지) -->
+        <keyframe android:fraction="0.379" android:value="1.00"/>
+
+        <!-- f5: 상단 부근 짧게 -->
+        <keyframe android:fraction="0.492" android:value="1.00"/>
+
+        <!-- f6: 좌측~상단 긴 구간 -->
+        <keyframe android:fraction="0.637" android:value="0.85"/>
+
+        <!-- f7: 중간 길이 -->
+        <keyframe android:fraction="0.742" android:value="0.60"/>
+
+        <!-- f8: 아주 짧은 호 -->
+        <keyframe android:fraction="0.863" android:value="0.25"/>
+
+        <!-- 루프 복귀: 아주 작은 호로 마무리 -->
+        <keyframe android:fraction="1.000" android:value="0.05"/>
+    </propertyValuesHolder>
+</objectAnimator>

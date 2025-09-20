@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -20,18 +19,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <LinearLayout
                 android:id="@+id/policy1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:paddingHorizontal="17dp">
-                <!-- 서비스 이용 약관 (클릭 가능) -->
                 <LinearLayout
                     android:id="@+id/policy1_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="1dp"
                     android:paddingTop="16dp"
                     android:paddingBottom="10dp"
                     android:background="@color/ref_white"
@@ -42,10 +40,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/policy_title1"
-                        android:clickable="true"
-                        android:focusable="true"
                         style="@style/Font_Title_Medium"
-
                         android:textColor="@color/ref_black"/>
                     <Space
                         android:layout_width="0dp"
@@ -64,18 +59,17 @@
                     android:layout_height="1dp"
                     android:layout_marginTop="6dp"
                     android:background="@color/semantic_surface_normal_based"/>
-                <!-- 세부 내용-->
                 <LinearLayout
                     android:id="@+id/policy1_detail_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingVertical="16dp"
+                    android:padding="16dp"
                     android:background="@color/semantic_surface_normal_based"
                     android:visibility="gone">
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/policy_detail2"
+                        android:text="@string/policy_detail1"
                         style="@style/Font_Caption_Regular" />
                 </LinearLayout>
             </LinearLayout>
@@ -86,12 +80,10 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:paddingHorizontal="17dp">
-                <!-- 서비스 이용 약관 (클릭 가능) -->
                 <LinearLayout
                     android:id="@+id/policy2_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="1dp"
                     android:paddingTop="16dp"
                     android:paddingBottom="10dp"
                     android:background="@color/ref_white"
@@ -102,8 +94,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/policy_title2"
-                        android:clickable="true"
-                        android:focusable="true"
                         style="@style/Font_Title_Medium"
                         android:textColor="@color/ref_black"/>
                     <Space
@@ -123,18 +113,17 @@
                     android:layout_height="1dp"
                     android:layout_marginTop="6dp"
                     android:background="@color/semantic_surface_normal_based"/>
-                <!-- 세부 내용-->
                 <LinearLayout
                     android:id="@+id/policy2_detail_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingVertical="16dp"
+                    android:padding="16dp"
                     android:background="@color/semantic_surface_normal_based"
                     android:visibility="gone">
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/policy_detail1"
+                        android:text="@string/policy_detail2"
                         style="@style/Font_Caption_Regular" />
                 </LinearLayout>
             </LinearLayout>
@@ -145,12 +134,10 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:paddingHorizontal="17dp">
-                <!-- 서비스 이용 약관 (클릭 가능) -->
                 <LinearLayout
                     android:id="@+id/policy3_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="1dp"
                     android:paddingTop="16dp"
                     android:paddingBottom="10dp"
                     android:background="@color/ref_white"
@@ -161,8 +148,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/policy_title3"
-                        android:clickable="true"
-                        android:focusable="true"
                         style="@style/Font_Title_Medium"
                         android:textColor="@color/ref_black"/>
                     <Space
@@ -182,18 +167,125 @@
                     android:layout_height="1dp"
                     android:layout_marginTop="6dp"
                     android:background="@color/semantic_surface_normal_based"/>
-                <!-- 세부 내용-->
                 <LinearLayout
                     android:id="@+id/policy3_detail_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingVertical="16dp"
+                    android:padding="16dp"
                     android:background="@color/semantic_surface_normal_based"
                     android:visibility="gone">
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/policy_detail3"
+                        style="@style/Font_Caption_Regular" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/policy4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="17dp">
+                <LinearLayout
+                    android:id="@+id/policy4_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="10dp"
+                    android:background="@color/ref_white"
+                    android:orientation="horizontal"
+                    android:clickable="true"
+                    android:focusable="true">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/policy_title4"
+                        style="@style/Font_Title_Medium"
+                        android:textColor="@color/ref_black"/>
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"/>
+                    <ImageView
+                        android:id="@+id/policy4_arrow"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/icon_arrow_left"
+                        android:rotation="270"/>
+                </LinearLayout>
+                <View
+                    android:id="@+id/line4"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="6dp"
+                    android:background="@color/semantic_surface_normal_based"/>
+                <LinearLayout
+                    android:id="@+id/policy4_detail_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:background="@color/semantic_surface_normal_based"
+                    android:visibility="gone">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/policy_detail4"
+                        style="@style/Font_Caption_Regular" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/policy5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="17dp">
+                <LinearLayout
+                    android:id="@+id/policy5_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="10dp"
+                    android:background="@color/ref_white"
+                    android:orientation="horizontal"
+                    android:clickable="true"
+                    android:focusable="true">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/policy_title5"
+                        style="@style/Font_Title_Medium"
+                        android:textColor="@color/ref_black"/>
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"/>
+                    <ImageView
+                        android:id="@+id/policy5_arrow"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/icon_arrow_left"
+                        android:rotation="270"/>
+                </LinearLayout>
+                <View
+                    android:id="@+id/line5"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="6dp"
+                    android:background="@color/semantic_surface_normal_based"/>
+                <LinearLayout
+                    android:id="@+id/policy5_detail_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:background="@color/semantic_surface_normal_based"
+                    android:visibility="gone">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/policy_detail5"
                         style="@style/Font_Caption_Regular" />
                 </LinearLayout>
             </LinearLayout>

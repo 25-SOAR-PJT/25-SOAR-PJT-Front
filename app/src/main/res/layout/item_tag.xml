@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/round_background2"
+    android:paddingVertical="8dp"
+    android:paddingHorizontal="16dp"
+    android:layout_marginEnd="8dp"
+    style="@style/Font_Label_Semibold"
+    android:textColor="@color/semantic_text_secondary"
+    tools:text="Sample Tag"/>

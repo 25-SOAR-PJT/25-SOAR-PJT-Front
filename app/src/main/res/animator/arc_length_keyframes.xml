@@ -1,0 +1,24 @@
+<objectAnimator xmlns:android="http://schemas.android.com/apk/res/android"
+    android:propertyName="trimPathEnd"
+    android:duration="4500"
+    android:interpolator="@android:interpolator/linear"
+    android:repeatCount="infinite"
+    android:repeatMode="restart">
+
+    <propertyValuesHolder android:propertyName="trimPathEnd">
+        <!-- ★ 시작도 0.25로! (마지막과 동일) -->
+        <keyframe android:fraction="0.0000" android:value="0.2500"/>
+
+        <keyframe android:fraction="0.1111" android:value="0.2500"/>
+        <keyframe android:fraction="0.2222" android:value="0.2500"/>
+        <keyframe android:fraction="0.3333" android:value="0.5833"/>
+        <keyframe android:fraction="0.4444" android:value="0.7500"/>
+        <keyframe android:fraction="0.5556" android:value="0.9583"/>
+        <keyframe android:fraction="0.6667" android:value="0.6250"/>
+        <keyframe android:fraction="0.7778" android:value="0.5000"/>
+        <keyframe android:fraction="0.8889" android:value="0.0333"/>
+
+        <!-- 마지막도 0.25 -->
+        <keyframe android:fraction="1.0000" android:value="0.2500"/>
+    </propertyValuesHolder>
+</objectAnimator>

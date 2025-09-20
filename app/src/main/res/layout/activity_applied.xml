@@ -18,13 +18,73 @@
         android:paddingTop="4dp">
 
         <LinearLayout
+            android:id="@+id/btn_zero_entry"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:visibility="gone"
+            >
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/zero_entry_title"
+                    style="@style/Font_Heading400_Semibold"
+                    android:layout_marginTop="200dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/zero_applied"
+                    android:textColor="@color/ref_coolgray_600"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
+
+                <TextView
+                    android:id="@+id/zero_entry_desc"
+                    style="@style/Font_Label_Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="@string/zero_applied_desc"
+                    android:textColor="#7C7B7B"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/zero_entry_title" />
+
+
+
+                <Button
+                    android:id="@+id/btn_to_explore"
+                    style="@style/close_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_marginTop="320dp"
+                    android:text="@string/to_archiving"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/zero_entry_desc"
+                    app:layout_constraintStart_toStartOf="@id/zero_entry_desc"
+                    app:layout_constraintTop_toBottomOf="@id/zero_entry_desc" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/applied_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:background="@color/semantic_surface_primary_lightest"
             android:paddingStart="19dp"
             android:paddingVertical="5dp"
-            android:layout_marginBottom="14dp">
+            android:layout_marginBottom="14dp"
+            android:visibility="gone">
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -39,9 +99,10 @@
                     style="@style/Font_Title_Semibold"
                     android:textColor="@color/semantic_text_strongest"/>
                 <TextView
+                    android:id="@+id/applied_counts"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/sample"
+                    android:text=""
                     style="@style/Font_Heading300_Bold"
                     android:textColor="@color/ref_blue_600"/>
             </LinearLayout>
@@ -51,11 +112,16 @@
                 android:src="@drawable/image_archive"/>
         </LinearLayout>
 
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/applied_biz"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+
 
     </LinearLayout>
+
+
 
 </LinearLayout>

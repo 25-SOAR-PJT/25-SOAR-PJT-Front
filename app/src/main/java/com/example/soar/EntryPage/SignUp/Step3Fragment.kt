@@ -19,16 +19,21 @@ import com.example.soar.R
 import com.example.soar.Utill.ErrorMessageHelper
 import com.example.soar.Utill.FocusErrorController
 import com.example.soar.databinding.StepEmailInfoBinding
-import com.example.soar.repository.AuthRepository
-import com.google.android.material.snackbar.Snackbar
+import com.example.soar.Network.user.AuthRepository
+import com.example.soar.Utill.LoadingSpinnerDialog
+import com.example.soar.util.TouchBlockingToast
 import kotlinx.coroutines.flow.collectLatest
 import java.util.concurrent.TimeUnit
+import com.example.soar.util.showBlockingToast
+
 
 
 class Step3Fragment : Fragment(R.layout.step_email_info) {
 
     private var _b: StepEmailInfoBinding? = null
     private val b get() = _b!!
+
+
 
     // 💡 1. 코드 관련 API 에러 발생 여부를 저장하는 플래그
     private var isCodeApiError = false
@@ -121,7 +126,14 @@ class Step3Fragment : Fragment(R.layout.step_email_info) {
 
         vm.canResend.observe(viewLifecycleOwner) { b.buttonNewcode.isEnabled = it }
         vm.canProceed.observe(viewLifecycleOwner) { b.btnNext.isEnabled = it }
-        vm.state.observe(viewLifecycleOwner) { render(it) }
+        vm.state.observe(viewLifecycleOwner) { st ->
+            render(st)
+            if (st is EmailState.Loading) {
+                LoadingSpinnerDialog.show(childFragmentManager)
+            } else {
+                LoadingSpinnerDialog.dismiss(childFragmentManager)
+            }
+        }
     }
 
 
@@ -137,7 +149,12 @@ class Step3Fragment : Fragment(R.layout.step_email_info) {
 
             EmailState.MailSent -> {
                 isCodeApiError = false
-                Snackbar.make(root, R.string.msg_mail_sent, Snackbar.LENGTH_SHORT).show()
+                requireActivity().showBlockingToast(
+                    message = "인증메일이 발송되었어요",
+                    long = false,
+                    hideCancel = true
+                )
+
                 inputField.isEnabled = true
                 codeUnderbar.isEnabled = true // 💡 추가: 언더바도 함께 활성화
                 inputField.requestFocus()
@@ -186,6 +203,12 @@ class Step3Fragment : Fragment(R.layout.step_email_info) {
         ObjectAnimator.ofFloat(target, "translationX", 0f, 12f, -12f, 9f, -9f, 6f, -6f, 0f).apply {
             duration = 400; interpolator = CycleInterpolator(1f)
         }.start()
+
+    override fun onStop() {
+        super.onStop()
+        // ✅ 화면 떠날 때 혹시 남아있을 차단뷰/토스트 정리 (안전장치)
+        TouchBlockingToast.clear(requireActivity())
+    }
 
     override fun onDestroyView() {
         super.onDestroyView(); _b = null

@@ -1,5 +1,6 @@
 package com.example.soar
 
+import com.example.soar.Network.tag.TagResponse
 import java.time.LocalDate
 
 data class Business(
@@ -12,11 +13,12 @@ data class Business(
     var isBookmarked: Boolean = false
 )
 
+/*
 data class TagResponse(
     val tagId: Int,
     val tagName: String,
     val fieldId: Int
-)
+)*/
 
 
 data class ApiResponse(

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "49059718917",
+    "project_id": "soar-123bc",
+    "storage_bucket": "soar-123bc.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:49059718917:android:efdc5f055bc3c6c130f96c",
+        "android_client_info": {
+          "package_name": "com.example.soar"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJ6zw-BeVqN_mcnELYT9D5LpkzRXFBmPo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

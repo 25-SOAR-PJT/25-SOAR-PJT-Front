@@ -1,5 +1,6 @@
 package com.example.soar.EntryPage.SignUp
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -7,9 +8,10 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.soar.R
+import com.example.soar.Utill.TermActivity
 import com.example.soar.databinding.StepPolicyBinding
 
-class Step1Fragment : Fragment(R.layout.step_policy) {
+class Step1Fragment : Fragment(R.layout.step_policy), PolicyAdapter.OnPolicyClickListener {
 
     private var _binding: StepPolicyBinding? = null
     private val b get() = _binding!!
@@ -18,7 +20,7 @@ class Step1Fragment : Fragment(R.layout.step_policy) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         _binding = StepPolicyBinding.bind(view)
 
-        val adapter = PolicyAdapter(vm)
+        val adapter = PolicyAdapter(vm, this)
         b.rvPolicies.apply {
             layoutManager = LinearLayoutManager(requireContext()) // ★ 추가
             setHasFixedSize(true)
@@ -48,6 +50,15 @@ class Step1Fragment : Fragment(R.layout.step_policy) {
         b.btnNext.setOnClickListener {
             findNavController().navigate(R.id.action_step1_to_step2)
         }
+    }
+
+    // ✨ 3. 인터페이스의 onDetailClick 메소드 구현
+    override fun onDetailClick(policyId: Int) {
+        // PolicyActivity를 실행하고, 클릭된 아이템의 id를 'POLICY_ID'라는 키로 전달
+        val intent = Intent(requireContext(), TermActivity::class.java).apply {
+            putExtra("POLICY_ID", policyId)
+        }
+        startActivity(intent)
     }
 
     override fun onDestroyView() {
