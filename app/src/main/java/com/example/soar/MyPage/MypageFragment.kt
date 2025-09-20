@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import com.example.soar.EntryPage.Onboarding.OnBoardingActivity
 import com.example.soar.EntryPage.SignIn.LoginActivity
 import com.example.soar.MainActivity
+import com.example.soar.MyPage.Unsubscribe.UnsubscribeActivity
 import com.example.soar.Network.TokenManager
 import com.example.soar.databinding.FragmentMypageBinding
 import androidx.fragment.app.viewModels // viewModels import 추가

@@ -64,9 +64,6 @@ class ExploreRepository(
         }
     }
 
-    /**
-     * ✨추가: 다중 태그로 정책을 검색하는 함수✨
-     */
     suspend fun getMultiTagSearchPolicies(
         tagIds: String,
         page: Int = 0,
@@ -82,9 +79,7 @@ class ExploreRepository(
         }
     }
 
-    /**
-     * ✨추가: 여러 policyId로 정책 요약 목록을 조회하는 함수✨
-     */
+ 
     suspend fun getPoliciesByIds(policyIds: List<String>): Result<List<YouthPolicy>> = withContext(Dispatchers.IO) {
         runCatching {
             val request = RecentPoliciesRequest(policyIds)

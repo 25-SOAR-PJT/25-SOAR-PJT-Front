@@ -1,4 +1,3 @@
-// Unsubscribe2Activity.kt
 package com.example.soar.MyPage.Unsubscribe
 
 import android.content.Intent
