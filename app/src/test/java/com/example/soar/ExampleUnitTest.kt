@@ -1,4 +1,4 @@
-package com.example.soar
+package my_app.soar
 
 import org.junit.Test
 

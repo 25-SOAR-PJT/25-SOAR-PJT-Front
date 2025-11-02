@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:49059718917:android:efdc5f055bc3c6c130f96c",
         "android_client_info": {
-          "package_name": "com.example.soar"
+          "package_name": "my_app.soar"
         }
       },
       "oauth_client": [],

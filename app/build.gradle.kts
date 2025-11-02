@@ -6,15 +6,15 @@ plugins {
 }
 
 android {
-    namespace = "com.example.soar"
+    namespace = "my_app.soar"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.soar"
+        applicationId = "my_app.soar"
         minSdk = 31
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "2.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -37,6 +37,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        dataBinding = true
     }
 }
 

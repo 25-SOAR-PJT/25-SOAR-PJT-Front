@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/step0Fragment"
-        android:name="com.example.soar.CurationSequencePage.Step0Fragment"
+        android:name="my_app.soar.CurationSequencePage.Step0Fragment"
         android:label="Step0Fragment"
         tools:layout="@layout/step_cs_start">
         <action
@@ -21,7 +21,7 @@
 
     <fragment
         android:id="@+id/step1Fragment"
-        android:name="com.example.soar.CurationSequencePage.Step1Fragment"
+        android:name="my_app.soar.CurationSequencePage.Step1Fragment"
         android:label="Step1Fragment"
         tools:layout="@layout/step_cs_location">
         <action
@@ -42,13 +42,13 @@
 
     <fragment
         android:id="@+id/locationSelectionFragment"
-        android:name="com.example.soar.CurationSequencePage.LocationSelectionFragment"
+        android:name="my_app.soar.CurationSequencePage.LocationSelectionFragment"
         android:label="LocationSelectionFragment"
         tools:layout="@layout/dialog_location_selection" />
 
     <fragment
         android:id="@+id/step2Fragment"
-        android:name="com.example.soar.CurationSequencePage.Step2Fragment" >
+        android:name="my_app.soar.CurationSequencePage.Step2Fragment" >
         <action
             android:id="@+id/action_step2_to_step3"
             app:destination="@id/step3Fragment"
@@ -59,7 +59,7 @@
     </fragment>
     <fragment
         android:id="@+id/step3Fragment"
-        android:name="com.example.soar.CurationSequencePage.Step3Fragment" >
+        android:name="my_app.soar.CurationSequencePage.Step3Fragment" >
         <action
             android:id="@+id/action_step3_to_step4"
             app:destination="@id/step4Fragment"
@@ -70,7 +70,7 @@
     </fragment>
     <fragment
         android:id="@+id/step4Fragment"
-        android:name="com.example.soar.CurationSequencePage.Step4Fragment" >
+        android:name="my_app.soar.CurationSequencePage.Step4Fragment" >
         <action
             android:id="@+id/action_step4_to_step5"
             app:destination="@id/step5Fragment"
@@ -81,7 +81,7 @@
     </fragment>
     <fragment
         android:id="@+id/step5Fragment"
-        android:name="com.example.soar.CurationSequencePage.Step5Fragment" >
+        android:name="my_app.soar.CurationSequencePage.Step5Fragment" >
         <action
             android:id="@+id/action_step5_to_step6"
             app:destination="@id/step6Fragment"
@@ -93,7 +93,7 @@
 
     <fragment
         android:id="@+id/step6Fragment"
-        android:name="com.example.soar.CurationSequencePage.Step6Fragment" >
+        android:name="my_app.soar.CurationSequencePage.Step6Fragment" >
         <action
             android:id="@+id/action_step6_to_step1"
             app:destination="@id/step1Fragment"
@@ -144,7 +144,7 @@
 
     <fragment
         android:id="@+id/step7Fragment"
-        android:name="com.example.soar.CurationSequencePage.Step7Fragment"
+        android:name="my_app.soar.CurationSequencePage.Step7Fragment"
         android:label="Step7Fragment"
         tools:layout="@layout/step_cs_loading_suggestion">
         <action
@@ -158,7 +158,7 @@
 
     <fragment
         android:id="@+id/step8Fragment"
-        android:name="com.example.soar.CurationSequencePage.Step8Fragment"
+        android:name="my_app.soar.CurationSequencePage.Step8Fragment"
         android:label="Step8Fragment"
         tools:layout="@layout/step_cs_suggestion">
 

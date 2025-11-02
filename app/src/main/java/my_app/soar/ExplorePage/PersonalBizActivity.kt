@@ -1,0 +1,204 @@
+package my_app.soar.ExplorePage
+
+import android.app.Activity
+import android.content.Intent
+import android.os.Bundle
+import android.util.TypedValue
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import my_app.soar.CurationSequencePage.CurationSequenceActivity
+import my_app.soar.Network.TokenManager
+import my_app.soar.Network.explore.YouthPolicy
+import my_app.soar.Network.tag.TagResponse
+import my_app.soar.R
+import my_app.soar.Utill.SwipeToDismissUtil
+import my_app.soar.databinding.ActivityPersonalBizBinding
+import my_app.soar.util.showBlockingToast
+import androidx.activity.result.contract.ActivityResultContracts // ✨ 1. ActivityResultLauncher import
+import my_app.soar.Utill.TermAgreeActivity // ✨ 2. TermActivity import
+
+
+class PersonalBizActivity : AppCompatActivity(), ExploreAdapter.OnItemClickListener {
+    private lateinit var binding: ActivityPersonalBizBinding
+
+    private val viewModel: PersonalBizViewModel by viewModels()
+    private lateinit var bizAdapter: ExploreAdapter
+
+    private val changedBookmarks = mutableMapOf<String, Boolean>()
+
+    // ✨ 3. TermActivity 결과를 받기 위한 ActivityResultLauncher 선언
+    private val termAgreementLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            // 사용자가 약관에 동의했으므로, 큐레이션을 시작
+            startCurationActivity()
+        } else {
+            // 동의하지 않고 뒤로가기 등을 누른 경우
+            showBlockingToast("민감정보 처리 약관에 동의해야 맞춤 추천을 받을 수 있습니다.", hideCancel = true)
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityPersonalBizBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        // 스와이프 종료 시 결과를 반환하는 람다를 SwipeToDismissUtil에 전달
+        SwipeToDismissUtil(this) {
+            dismissWithResult()
+        }
+
+        binding.modifyTags.setOnClickListener {
+            val intent = Intent(this, CurationSequenceActivity::class.java)
+            startActivity(intent)
+        }
+
+
+
+        setupUI()
+        setupRecyclerView()
+        setupListeners()
+        setupObservers()
+
+        viewModel.fetchPersonalPolicies()
+    }
+
+    private fun setupUI() {
+        val userName = TokenManager.getUserInfo()?.userName ?: "사용자"
+        binding.textUsername.text = userName
+
+        val displayMetrics = resources.displayMetrics
+        val width = (displayMetrics.widthPixels * 1.0).toInt()
+        val height = (displayMetrics.heightPixels * 0.8).toInt()
+        window.setLayout(width, height)
+        window.setGravity(android.view.Gravity.BOTTOM)
+    }
+
+    private fun setupRecyclerView() {
+        bizAdapter = ExploreAdapter(this)
+        binding.bizList.apply {
+            adapter = bizAdapter
+            layoutManager = LinearLayoutManager(this@PersonalBizActivity)
+            itemAnimator = null
+        }
+    }
+
+    private fun setupListeners() {
+        binding.modifyTags.setOnClickListener {
+            viewModel.onModifyTagsClicked()
+        }
+    }
+
+    private fun setupObservers() {
+        viewModel.policies.observe(this) { policies ->
+            binding.policyCount.text = getString(R.string.pb_suggestion_count, policies.size)
+            bizAdapter.submitList(policies)
+        }
+
+        viewModel.userTags.observe(this) { tags ->
+            updateSelectedTagsUI(tags)
+        }
+
+        viewModel.isLoading.observe(this) { isLoading ->
+            binding.bizList.visibility = if (isLoading) View.GONE else View.VISIBLE
+        }
+
+        viewModel.error.observe(this) { errorMsg ->
+            if (errorMsg.isNotBlank()) {
+                showBlockingToast(errorMsg, hideCancel = true)
+            }
+        }
+
+        // ✨ 5. ViewModel의 내비게이션 이벤트를 관찰하여 화면 이동 처리
+        viewModel.navigationEvent.observe(this) { event ->
+            event.getContentIfNotHandled()?.let { navEvent ->
+                when (navEvent) {
+                    is CurationNavigationEvent.ProceedToCuration -> {
+                        startCurationActivity()
+                    }
+                    is CurationNavigationEvent.ShowTermsAgreement -> {
+                        startTermActivityForAgreement()
+                    }
+                }
+            }
+        }
+    }
+    // ✨ 6. 큐레이션 액티비티를 시작하는 로직을 별도 함수로 분리
+    private fun startCurationActivity() {
+        val intent = Intent(this, CurationSequenceActivity::class.java)
+        startActivity(intent)
+    }
+
+    // ✨ 7. 약관 동의 액티비티를 시작하는 로직을 별도 함수로 분리
+    private fun startTermActivityForAgreement() {
+        val intent = Intent(this, TermAgreeActivity::class.java).apply {
+            // [선택] 민감정보 처리 동의의 ID는 3
+            putExtra("POLICY_ID", 3)
+        }
+        termAgreementLauncher.launch(intent)
+    }
+
+
+    private fun updateSelectedTagsUI(selectedTags: List<TagResponse>) {
+        val tagsContainer = binding.tagLauncher.findViewById<LinearLayout>(R.id.tag_launcher_container)
+        tagsContainer.removeAllViews()
+
+        val margin = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP, 8f, resources.displayMetrics
+        ).toInt()
+
+        if (selectedTags.isEmpty()) {
+            val emptyTextView = LayoutInflater.from(this).inflate(R.layout.item_tag, tagsContainer, false) as TextView
+            emptyTextView.text = "설정된 태그가 없습니다."
+            (emptyTextView.layoutParams as? ViewGroup.MarginLayoutParams)?.setMargins(0, 0, margin, 0)
+            tagsContainer.addView(emptyTextView)
+        } else {
+            selectedTags.forEach { tag ->
+                val tagView = LayoutInflater.from(this).inflate(R.layout.item_tag, tagsContainer, false) as TextView
+                tagView.text = tag.tagName
+                (tagView.layoutParams as? ViewGroup.MarginLayoutParams)?.setMargins(0, 0, margin, 0)
+                tagsContainer.addView(tagView)
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.fetchPersonalPolicies()
+    }
+
+    // 뒤로가기 버튼 클릭 시 호출
+    override fun onBackPressed() {
+        dismissWithResult()
+        super.onBackPressed()
+    }
+
+    // Activity를 종료하면서 결과를 반환하는 공통 함수
+    private fun dismissWithResult() {
+        val resultIntent = Intent()
+        resultIntent.putExtra("changedBookmarks", HashMap(changedBookmarks))
+        setResult(Activity.RESULT_OK, resultIntent)
+        finish()
+        overridePendingTransition(0, R.anim.slide_out_down)
+    }
+
+    override fun onPolicyItemClick(policy: YouthPolicy) {
+        val intent = Intent(this, my_app.soar.DetailPage.DetailPageActivity::class.java).apply {
+            putExtra("policyId", policy.policyId)
+        }
+        startActivity(intent)
+    }
+
+    override fun onBookmarkClick(policy: YouthPolicy) {
+        val newBookmarkState = !(policy.bookmarked ?: false)
+        changedBookmarks[policy.policyId] = newBookmarkState
+        viewModel.toggleBookmark(policy)
+    }
+}
