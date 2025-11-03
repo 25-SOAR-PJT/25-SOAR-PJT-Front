@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:background="@color/ref_white"
-    android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar">
+    android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
+    android:fitsSystemWindows="true">
 
 
     <include

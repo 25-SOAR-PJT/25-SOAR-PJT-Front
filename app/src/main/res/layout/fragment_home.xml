@@ -115,12 +115,13 @@
                 </LinearLayout>
 
                 <FrameLayout
+                    android:id="@+id/section_2"
                     android:layout_width="match_parent"
                     android:layout_height="195dp"
                     android:layout_marginVertical="16dp">
 
                     <androidx.viewpager2.widget.ViewPager2
-                        android:id="@+id/section_2"
+                        android:id="@+id/section_2_back"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/round_background2"
@@ -590,7 +591,7 @@
                             android:layout_width="98dp"
                             android:layout_height="match_parent"
                             android:layout_gravity="end"
-                            android:src="@drawable/img_home_advertise_small2" />
+                            android:src="@drawable/image_home_advertise_small" />
                     </LinearLayout>
 
                     <LinearLayout

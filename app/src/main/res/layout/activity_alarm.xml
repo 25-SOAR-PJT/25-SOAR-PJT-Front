@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".AlarmPage.AlarmActivity"
     android:orientation="vertical"
-    android:background="@color/ref_white">
+    android:background="@color/ref_white"
+    android:fitsSystemWindows="true">
 
     <FrameLayout
         android:layout_width="match_parent"

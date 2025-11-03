@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/ref_white">
+    android:background="@color/ref_white"
+    android:fitsSystemWindows="true">
 
     <!-- 상단 앱바 -->
     <include

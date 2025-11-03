@@ -234,9 +234,9 @@ class HomeFragment : Fragment() {
         )
 
         swipeAdapter = SwipeCardAdapter(mutableListOf())
-        binding.section2.adapter = swipeAdapter
-        binding.section2.orientation = ViewPager2.ORIENTATION_HORIZONTAL
-        binding.dotsIndicator.attachTo(binding.section2)
+        binding.section2Back.adapter = swipeAdapter
+        binding.section2Back.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+        binding.dotsIndicator.attachTo(binding.section2Back)
 
         val randomItem = adList.random()
         val randomList = listOf(randomItem)
@@ -420,12 +420,12 @@ class HomeFragment : Fragment() {
             }
 
             if (banners.isNotEmpty()) {
-                binding.section2.visibility = View.VISIBLE
+                binding.section2Back.visibility = View.VISIBLE
                 // 새로운 데이터로 어댑터를 다시 생성하여 설정
                 swipeAdapter.updateData(banners)
             } else {
                 // 배너가 없을 경우 ViewPager 숨김
-                binding.section2.visibility = View.GONE
+                binding.section2Back.visibility = View.GONE
             }
         }
 

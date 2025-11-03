@@ -10,8 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.motion.widget.MotionLayout
 import my_app.soar.EntryPage.Onboarding.OnBoardingActivity
 import my_app.soar.MainActivity
-import my_app.soar.R
 import my_app.soar.Network.TokenManager
+import my_app.soar.R
 
 class SplashPageActivity : AppCompatActivity() {
 

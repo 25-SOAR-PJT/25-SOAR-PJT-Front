@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <style name="Base.Theme.SOAR" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowIsTranslucent">false</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
@@ -8,6 +8,7 @@
         <item name="android:textColorPrimary">@color/semantic_text_primary</item>
         <item name="preferenceTheme">@style/Soar.PreferenceTheme</item>
         <item name="switchPreferenceCompatStyle">@style/Soar.SwitchPreferenceStyle</item>
+        <item name="android:statusBarColor">@color/ref_white</item>
     </style>
 
     <style name="Theme.SOAR" parent="Base.Theme.SOAR" />

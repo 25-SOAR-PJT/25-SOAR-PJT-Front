@@ -75,10 +75,10 @@ class KeywordActivity : AppCompatActivity() {
             binding.btnTagSubmit.isEnabled = selectedIds.isNotEmpty()
         }
 
-        // ✨ 2. Toast 메시지 이벤트 관찰 로직 수정
+        // 2. Toast 메시지 이벤트 관찰 로직 수정
         viewModel.showToast.observe(this) { event ->
             event.getContentIfNotHandled()?.let { message ->
-                // ✨ 3. 기존 Toast.makeText 대신 커스텀 토스트를 호출합니다.
+                // 3. 기존 Toast.makeText 대신 커스텀 토스트를 호출합니다.
                 // 여기서는 단순 알림이므로 취소 버튼을 숨깁니다.
                 showBlockingToast(message, hideCancel = true)
             }
