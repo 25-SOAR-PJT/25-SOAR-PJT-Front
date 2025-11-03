@@ -32,7 +32,7 @@ class HomeRepository(
                 if (response.isSuccessful) {
                     response.body()?.data
                 } else {
-                    Log.e("HomeRepository", "배너 로딩 실패: ${response.errorBody()?.string()}")
+                    Log.e("HomeRepository", "배너 로딩 실패(${response.code()}): ${response.errorBody()?.string()}")
                     null
                 }
             }

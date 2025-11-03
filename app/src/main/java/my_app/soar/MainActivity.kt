@@ -1,9 +1,11 @@
 package my_app.soar
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import my_app.soar.ArchivingPage.ArchivingFragment
@@ -23,6 +25,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            window.setDecorFitsSystemWindows(true)
+        }
 
         val openFragment = intent.getStringExtra("openFragment")
         Log.d("MainActivity", "openFragment value: $openFragment")
