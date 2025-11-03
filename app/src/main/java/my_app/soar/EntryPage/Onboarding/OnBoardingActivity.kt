@@ -21,9 +21,9 @@ class OnBoardingActivity : AppCompatActivity() {
 
     private val pages by lazy {
         listOf(
-            OnBoard(R.drawable.icon_onboarding_01, R.string.ob_title1, R.string.ob_sub1),
-            OnBoard(R.drawable.icon_onboarding_02, R.string.ob_title2, R.string.ob_sub2),
-            OnBoard(R.drawable.icon_onboarding_03, R.string.ob_title3, R.string.ob_sub3),
+            OnBoard(R.drawable.image_onboarding_curation, R.string.ob_title1, R.string.ob_sub1),
+            OnBoard(R.drawable.image_onboarding_detail, R.string.ob_title2, R.string.ob_sub2),
+            OnBoard(R.drawable.image_onboarding_chatbot, R.string.ob_title3, R.string.ob_sub3),
         )
     }
 
